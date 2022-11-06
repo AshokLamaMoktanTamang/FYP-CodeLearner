@@ -1,10 +1,9 @@
+// importing dependencies
 import React from 'react';
-import { Outlet } from "react-router-dom"
+import { Outlet } from 'react-router-dom';
 
-export default function error() {
+export default function Error() {
   return (
-	<div>
-    <Outlet/>
-  </div>
+	<Outlet></Outlet>
   )
 }

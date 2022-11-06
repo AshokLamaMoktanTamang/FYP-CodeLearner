@@ -85,6 +85,11 @@ export default function SideBar() {
     sethamBackground(hamDisplay===null ? `` : `none`)
   }
 
+  const closeSideBar = ()=>{
+    sethamDisplay(null)
+    sethamBackground('none')
+  }
+
   return (
     <>
       {/* making the ham menu for responsiveness */}
@@ -106,7 +111,7 @@ export default function SideBar() {
 
 
         {/* make a navigation links */}
-        <NavConfig handleClick={handleSideBar} />
+        <NavConfig handleClick={closeSideBar} />
       </Sidebar>
     </>
   )
