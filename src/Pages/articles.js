@@ -4,10 +4,10 @@ import React from "react";
 // importing the react components
 import Page from "../components/page"
 
-export default function Home() {
+export default function Article() {
   return (
-      <Page title="Home">
-        <h2>This is a Home</h2>
+      <Page title="Articles">
+        <h2>This is a article</h2>
       </Page>
   );
 }
