@@ -7,6 +7,7 @@ const globalStyle = createGlobalStyle`
 		--text-black: #212B36;
 		--text-light-black: #637381;
 		--text-blue: #2065D1;
+		--hover-404-blue: #14438d;
 		--hover-white: rgb(70 83 96 / 8%);
 		--hover-light-white: rgba(145, 158, 171, 0.08);
 		--light-border-color: rgba(145, 158, 171, 0.24); 
