@@ -5,7 +5,7 @@ const Page = forwardRef(({children, title=''}, ref)=>(
 	<>
 		<Helmet>
 			<title>
-				{`CodeLearner | ${title}`}
+				{`${title} | CodeLearner`}
 			</title>
 		</Helmet>
 

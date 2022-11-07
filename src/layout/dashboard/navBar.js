@@ -50,6 +50,7 @@ display: none;
 		font-size: 1.125rem;
 		padding: 0 0.5rem;
 		letter-spacing: 1px;
+		color: var(--text-black);
 	}
 
 	@media (max-width: 800px) {
