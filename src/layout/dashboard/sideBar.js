@@ -10,10 +10,9 @@ import NavConfig from './navConfig'
 // styled component
 const Sidebar = styled.section`
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  color: #212B36;
-  border-right: 1px solid rgba(145, 158, 171, 0.24);
+  color: var(--text-black);
+  border-right: 1px dashed var(--light-border-color);
   background-color: var(--background-white);
-  border-right-style: dashed;
   padding: 2rem 1.7rem;
   transition: 0.15s ease-in-out;
   
@@ -43,6 +42,8 @@ const Sidebar = styled.section`
     visibility: hidden;
     left: -280px;
     position: absolute;
+    max-width: 300px;
+    width: 100%;
     height: 100vh
 	}
 `
@@ -57,6 +58,7 @@ const Sidebar = styled.section`
   background-color: transparent;
   border: none;
   outline: none;
+  cursor: pointer;
 	
 	@media (max-width: 800px) {
 		display: block;

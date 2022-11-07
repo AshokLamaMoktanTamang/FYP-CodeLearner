@@ -3,7 +3,7 @@ import { Navigate, useRoutes } from 'react-router-dom'
 
 // layouts
 import DashboardLayout from './layout/dashboard'
-import RegistrationLayout from './layout/registration'
+import RegistrationLayout from './layout/registration/index.js'
 import ErrorLayout from './layout/error'
 
 // page contents
@@ -31,7 +31,7 @@ export default function Router() {
       path: '/registration',
       element: <RegistrationLayout />,
       children: [
-        { path: 'login', element: <Login /> },
+        { path: '', element: <Login /> },
         { path: 'signUp', element: <SignUp /> },
       ],
     },
@@ -39,14 +39,14 @@ export default function Router() {
       path: '/',
       element: <ErrorLayout />,
       children: [
-        { path: '/', element: <Navigate to='/app' /> },
+        { path: '/', element: <Navigate to="/app" /> },
         { path: '404', element: <Page404 /> },
-        { path: '*', element: <Navigate to='/404' /> },
+        { path: '*', element: <Navigate to="/404" /> },
       ],
     },
     {
       path: '*',
-      element: <Navigate to='/404' replace />,
+      element: <Navigate to="/404" />,
     },
   ])
 }

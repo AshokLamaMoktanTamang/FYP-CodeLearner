@@ -11,6 +11,7 @@ const globalStyle = createGlobalStyle`
 		--hover-white: rgb(70 83 96 / 8%);
 		--hover-light-white: rgba(145, 158, 171, 0.08);
 		--light-border-color: rgba(145, 158, 171, 0.24); 
+		--dark-border-color: rgb(58 64 70 / 63%); 
 		--hover-background-blue: rgba(32, 101, 209, 0.08);
 		--transparent-background: rgba(249, 250, 251, 0.72)
 	}
