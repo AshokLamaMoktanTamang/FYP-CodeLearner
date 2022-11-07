@@ -13,7 +13,6 @@ import LogoIcon from "../../Images/favicon.png"
 // styled components
 const Header = styled.header`
 	display: flex;
-	background-color: var(--transparent-background);
 	justify-content: flex-end;
 	align-items: center;
 	padding: 0.5rem 1rem;
@@ -24,6 +23,7 @@ const Header = styled.header`
 	}
 
 	@media (max-width: 800px) {
+		background-color: var(--transparent-background);
 		justify-content: space-between;	
 		border-bottom: 1px solid var(--light-border-color);
 	}

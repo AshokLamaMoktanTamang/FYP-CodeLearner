@@ -13,13 +13,24 @@ const Wrapper = styled.section`
   grid-template-columns: 280px auto;
   min-height: 100vh;
   
-  & > div{
+  .content-container{
     display: grid;
     grid-template-rows: 4.3rem auto;
+
+    & > div{
+      padding: 1rem;
+      margin-top: -3.5rem;
+    }
   }
   
   @media (max-width: 800px) {
     grid-template-columns: auto;
+
+    .content-container{
+      & > div{
+        margin-top: 0;
+      }
+    }
 	}
 `
 
@@ -27,7 +38,7 @@ export default function index() {
   return (
 	<Wrapper>
     <SideBar/>
-    <div>
+    <div className='content-container'>
       <NavBar/>
       <Outlet/>
     </div>
