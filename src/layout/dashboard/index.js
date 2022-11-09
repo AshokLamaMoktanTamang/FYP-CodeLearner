@@ -19,7 +19,7 @@ const Wrapper = styled.section`
 
     & > div{
       padding: 1rem;
-      margin-top: -3.5rem;
+      margin-top: -2.5rem;
     }
   }
   
