@@ -1,5 +1,5 @@
 // dependencies
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components'
 
 const globalStyle = createGlobalStyle`
 	:root{
@@ -10,6 +10,7 @@ const globalStyle = createGlobalStyle`
 		--rating-gold: #ffa534;
 		--text-gold: #a66412;
 		--hover-404-blue: #14438d;
+		--scrollbar-color: #0000004d;
 		--hover-white: rgb(70 83 96 / 8%);
 		--hover-light-white: rgba(145, 158, 171, 0.08);
 		--light-border-color: rgba(145, 158, 171, 0.24); 
@@ -27,6 +28,15 @@ const globalStyle = createGlobalStyle`
 	body{
 		font-family: Public Sans,sans-serif;
 		overflow-x: hidden;
+	}
+
+	::-webkit-scrollbar{
+		width: 5px;
+	}
+	
+	::-webkit-scrollbar-thumb{
+		background-color: var(--scrollbar-color);
+		border-radius: 1rem;
 	}
 `
 export default globalStyle

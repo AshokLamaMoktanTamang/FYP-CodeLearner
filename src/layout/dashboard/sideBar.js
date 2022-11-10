@@ -19,20 +19,20 @@ const Sidebar = styled.section`
   top: 0px;
   height: 100vh;
   overflow-y: auto;
-
+  
   .logo-container {
     width: 100%;
     overflow: hidden;
     display: flex;
     align-items: center;
-    padding-bottom: 2.7rem;
+    margin-bottom: 1.7rem;
   }
-
+  
   .logo {
     width: 2.3rem;
     height: 2.3rem;
   }
-
+  
   .logo-text {
     font-weight: 700;
     line-height: 1.5;
@@ -40,6 +40,32 @@ const Sidebar = styled.section`
     font-family: Public Sans, sans-serif;
     padding: 0 0.5rem;
     letter-spacing: 1px;
+  }
+  
+  .search-bar {
+    background: white;
+    border: 0.13rem solid var(--dark-border-color);
+    border-radius: 0.3rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    margin: 0 -0.87rem;
+    margin-bottom: 1.7rem;
+
+    input , button{
+      border: none;
+      outline: none;
+      padding: 0.5rem 0.7rem;
+    }
+
+    input{
+      padding-right: 0.3rem;
+      width: 100%;
+    }
+
+    button{
+      cursor: pointer;
+    }
   }
 
   @media (max-width: 800px) {
@@ -112,6 +138,10 @@ export default function SideBar() {
         </div>
 
         {/* make a search bar */}
+        <form className="search-bar">
+          <input type="search" placeholder="Search..." />
+          <button>Submit</button>
+        </form>
 
         {/* make a navigation links */}
         <NavConfig handleClick={closeSideBar} />
