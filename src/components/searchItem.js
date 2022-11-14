@@ -288,7 +288,7 @@ export default function SearchItem(props) {
 
       <ul className={`option-list ${display}`}>
         <li>
-          <Link to="/report">
+          <Link to="/app/report">
             <i>
               <Icon icon="bi:flag" />
             </i>
