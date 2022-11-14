@@ -218,6 +218,10 @@ const Wrapper = styled.section`
   @media (max-width: 520px) {
     .save {
       left: calc(100% - 5.3rem);
+      width: 75px;
+      justify-content: center;
+      padding-left: 0;
+      padding-right: 0;
     }
   }
 `
