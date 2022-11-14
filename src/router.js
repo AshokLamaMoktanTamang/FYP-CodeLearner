@@ -27,6 +27,7 @@ export default function Router() {
         { path: 'myCourse', element: <MyCourse /> },
         { path: 'setting', element: <MyCourse /> },
         { path: 'profile', element: <MyCourse /> },
+        { path: 'report', element: <MyCourse /> },
       ],
     },
     {
