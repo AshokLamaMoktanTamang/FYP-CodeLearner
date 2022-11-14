@@ -1,24 +1,25 @@
 // importing dependencies
 import React from 'react'
 import styled from 'styled-components'
-import { Icon } from '@iconify/react'
 import PropTypes from 'prop-types'
 
 // testing component
 import CourseImage from '../Images/registration.jpg'
+import RatingCounter from './ratingCounter'
+import { Link } from 'react-router-dom'
 
 // styled components
-const Course = styled.section`
+const Course = styled(Link)`
   overflow: hidden;
-  border: 1px dashed var(--light-border-color);
+  border: 0.1rem solid var(--light-border-color);
   background-color: var(--background-white);
   border-radius: 0.3rem;
-  box-shadow: 0px 5px 5px -3px rgb(145 158 171 / 20%), 0px 8px 10px 1px rgb(145 158 171 / 14%),
-    0px 3px 14px 2px rgb(145 158 171 / 12%);
-  cursor: pointer;
   transition: 0.1s ease-in-out;
+  text-decoration: none;
 
   :hover {
+    box-shadow: 0px 5px 5px -3px rgb(145 158 171 / 20%), 0px 8px 10px 1px rgb(145 158 171 / 14%),
+      0px 3px 14px 2px rgb(145 158 171 / 12%);
     filter: brightness(0.95);
   }
 
@@ -68,17 +69,7 @@ const Course = styled.section`
       .rank {
         font-weight: bold;
         color: var(--text-gold);
-      }
-
-      .stars {
-        display: flex;
-        align-items: center;
-        margin: 0 0.5rem;
-
-        i {
-          color: var(--rating-gold);
-          font-size: 1.1rem;
-        }
+        margin-right: 0.5rem;
       }
     }
   }
@@ -86,40 +77,20 @@ const Course = styled.section`
 
 export default function CourseItem(props) {
   return (
-    <Course>
-      <div className="course-image-container">
-        <img src={props.courseImage} alt="course name" />
-      </div>
-      <div className="course-brief">
-        <h2>{props.courseName}</h2>
-        <p className="author">{props.authorName}</p>
-        <div className="rank-container">
-          <span className="rank">{props.rating}</span>
-          <div className="stars">
-            {[...Array(Math.floor(props.rating))].map((data, index) => {
-              return (
-                <i key={index}>
-                  <Icon icon="fluent:star-20-filled" />
-                </i>
-              )
-            })}
-            {parseInt(props.rating.toString().split('.')[1]) > 0 && (
-              <i>
-                <Icon icon="fluent:star-half-16-regular" />
-              </i>
-            )}
-            {[...Array(5 - Math.ceil(props.rating))].map((data, index) => {
-              return (
-                <i key={index}>
-                  <Icon icon="eva:star-outline" />
-                </i>
-              )
-            })}
-          </div>
-          <p>({props.totalStudent})</p>
+    <Course to='ll'>
+        <div className="course-image-container">
+          <img src={props.courseImage} alt="course name" />
         </div>
-        <h2>${props.price}</h2>
-      </div>
+        <div className="course-brief">
+          <h2>{props.courseName}</h2>
+          <p className="author">{props.authorName}</p>
+          <div className="rank-container">
+            <span className="rank">{props.rating}</span>
+            <RatingCounter rating={props.rating} />
+            <p>({props.totalStudent})</p>
+          </div>
+          <h2>${props.price}</h2>
+        </div>
     </Course>
   )
 }

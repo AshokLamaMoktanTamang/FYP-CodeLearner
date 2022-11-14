@@ -25,6 +25,10 @@ const globalStyle = createGlobalStyle`
 		box-sizing: border-box;
 	}
 	
+	.none{
+		display: none;
+	}
+
 	body{
 		font-family: Public Sans,sans-serif;
 		overflow-x: hidden;

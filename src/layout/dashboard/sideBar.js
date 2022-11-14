@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
+import { Link, useNavigate } from 'react-router-dom'
 
 // components imported
 import Logo from '../../Images/favicon.png'
@@ -19,20 +20,22 @@ const Sidebar = styled.section`
   top: 0px;
   height: 100vh;
   overflow-y: auto;
-  
+
   .logo-container {
     width: 100%;
     overflow: hidden;
     display: flex;
     align-items: center;
     margin-bottom: 1.7rem;
+    text-decoration: none;
+    color: var(--text-black);
   }
-  
+
   .logo {
     width: 2.3rem;
     height: 2.3rem;
   }
-  
+
   .logo-text {
     font-weight: 700;
     line-height: 1.5;
@@ -41,30 +44,43 @@ const Sidebar = styled.section`
     padding: 0 0.5rem;
     letter-spacing: 1px;
   }
-  
+
   .search-bar {
     background: white;
     border: 0.13rem solid var(--dark-border-color);
     border-radius: 0.3rem;
     overflow: hidden;
     display: flex;
-    align-items: center;
     margin: 0 -0.87rem;
     margin-bottom: 1.7rem;
 
-    input , button{
+    input,
+    button {
       border: none;
       outline: none;
-      padding: 0.5rem 0.7rem;
     }
 
-    input{
-      padding-right: 0.3rem;
+    input {
+      padding: 0.5rem 0.1rem 0.5rem 0.7rem;
       width: 100%;
     }
 
-    button{
+    button {
       cursor: pointer;
+      padding: 0.3rem 0.5rem;
+      font-size: 1.1rem;
+      display: block;
+      color: var(--text-blue);
+      background-color: transparent;
+
+      :hover {
+        color: var(--hover-404-blue);
+      }
+
+      i {
+        position: relative;
+        top: 0.13rem;
+      }
     }
   }
 
@@ -75,6 +91,7 @@ const Sidebar = styled.section`
     max-width: 300px;
     width: 100%;
     height: 100vh;
+    z-index: 12;
   }
 `
 
@@ -110,15 +127,23 @@ const HamBackground = styled.section`
 export default function SideBar() {
   const [hamDisplay, sethamDisplay] = useState(null)
   const [hamBackground, sethamBackground] = useState('none')
+  const [searchQuery, setsearchQuery] = useState('')
+  const navigate = useNavigate()
 
   const handleSideBar = () => {
-    sethamDisplay(hamDisplay === null ? { visibility: `initial`, left: `0`, zIndex: `12` } : null)
+    sethamDisplay(hamDisplay === null ? { visibility: `initial`, left: `0` } : null)
     sethamBackground(hamDisplay === null ? `` : `none`)
   }
 
   const closeSideBar = () => {
     sethamDisplay(null)
     sethamBackground('none')
+  }
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+
+    searchQuery.trim().length !== 0 && navigate(`search/${searchQuery}`) 
   }
 
   return (
@@ -132,15 +157,22 @@ export default function SideBar() {
 
       <Sidebar style={hamDisplay}>
         {/* make a logo */}
-        <div className="logo-container">
+        <Link to={'/app'} className="logo-container" onClick={handleSideBar}>
           <img src={Logo} alt="Code Learner" className="logo" />
           <span className="logo-text">CodeLearner</span>
-        </div>
+        </Link>
 
         {/* make a search bar */}
-        <form className="search-bar">
-          <input type="search" placeholder="Search..." />
-          <button>Submit</button>
+        <form className="search-bar" onSubmit={(e)=> {
+          handleSearch(e)
+          closeSideBar()
+        }}>
+          <input type="search" placeholder="Search..." onChange={(e) => setsearchQuery(e.target.value)} />
+          <button>
+            <i>
+              <Icon icon="fa-solid:search" />
+            </i>
+          </button>
         </form>
 
         {/* make a navigation links */}
