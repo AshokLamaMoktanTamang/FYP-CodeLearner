@@ -7,12 +7,13 @@ import RegistrationLayout from './layout/registration/index.js'
 import ErrorLayout from './layout/error'
 
 // page contents
-import Home from './Pages/home'
-import Login from './Pages/login'
-import SignUp from './Pages/signup'
-import MyCourse from './Pages/myCourse'
-import Page404 from './Pages/page404'
-import Article from './Pages/articles'
+import Home from './Pages/Home'
+import Login from './Pages/Login'
+import SignUp from './Pages/Signup'
+import MyCourse from './Pages/MyCourse'
+import Page404 from './Pages/Page404'
+import Article from './Pages/Articles'
+import Search from './Pages/Search'
 
 export default function Router() {
   return useRoutes([
@@ -21,10 +22,12 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { path: '', element: <Home /> },
+        { path: 'search/:query', element: <Search /> },
         { path: 'article', element: <Article /> },
         { path: 'myCourse', element: <MyCourse /> },
         { path: 'setting', element: <MyCourse /> },
         { path: 'profile', element: <MyCourse /> },
+        { path: 'report', element: <MyCourse /> },
       ],
     },
     {

@@ -16,7 +16,6 @@ const ContentWrapper = styled.section`
 
   .category {
     border-bottom: 1px dashed var(--light-border-color);
-    padding-bottom: 1.5rem;
 
     .category-heading {
       color: var(--text-black);
@@ -44,39 +43,7 @@ export default function Home() {
               courseImage={CourseImage}
               courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
               authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
+              rating={4.1}
               totalStudent={100}
               price={16.99}
             />
@@ -95,38 +62,6 @@ export default function Home() {
               totalStudent={100}
               price={16.99}
             />
-            <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
           </Course>
         </div>
 
@@ -134,62 +69,6 @@ export default function Home() {
           <h2 className="category-heading">Latest</h2>
 
           <Course>
-            <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
             <CourseItem
               courseImage={CourseImage}
               courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
