@@ -3,6 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 // importing the components
 
@@ -115,17 +116,14 @@ export default function EnrolledCourse(props) {
   return (
     <MyCourse>
       <section>
-        <img src={courseImage} alt="courseName" />
+        <img src={props.courseImage} alt={props.courseName} />
       </section>
 
       <div>
         <div>
-          <Link to={`/app/course/${props.courseId}`}>
-            Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours
-            of video!
-          </Link>
+          <Link to={`/app/course/${props.courseId}`}>{props.courseName}</Link>
 
-          <span>Ashok Lama</span>
+          <span>{props.authorName}</span>
         </div>
 
         <section>
@@ -143,4 +141,17 @@ export default function EnrolledCourse(props) {
       </div>
     </MyCourse>
   )
+}
+
+EnrolledCourse.defaultProps = {
+  courseImage: courseImage,
+  courseId: '/404',
+  courseName: 'Unknwon',
+  authorName: 'N / A',
+}
+
+EnrolledCourse.propTypes = {
+  courseName: PropTypes.string,
+  authorName: PropTypes.string,
+  courseId: PropTypes.string,
 }

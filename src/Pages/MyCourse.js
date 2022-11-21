@@ -6,6 +6,9 @@ import EnrolledCourse from '../components/EnrolledCourse'
 // importing the react components
 import Page from '../components/page'
 
+// importing the testing components
+import courseImage from '../Images/registration.jpg'
+
 // styled components
 const ContentWrapper = styled.section`
   & > h2 {
@@ -16,7 +19,7 @@ const ContentWrapper = styled.section`
     text-transform: capitalize;
   }
 
-  & > div{
+  & > div {
     display: grid;
     grid-gap: 1rem;
   }
@@ -29,8 +32,22 @@ export default function MyCourse() {
         <h2>My course</h2>
 
         <div>
-          <EnrolledCourse />
-          <EnrolledCourse />
+          <EnrolledCourse
+            courseName={
+              'Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!'
+            }
+            authorName={'Ashok Lama'}
+            courseImage={courseImage}
+            courseId={'11'}
+          />
+          <EnrolledCourse
+            courseName={
+              'Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!'
+            }
+            authorName={'Ashok Lama'}
+            courseImage={courseImage}
+            courseId={'11'}
+          />
         </div>
       </ContentWrapper>
     </Page>
