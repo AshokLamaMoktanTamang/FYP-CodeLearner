@@ -157,7 +157,7 @@ export default function SideBar() {
 
       <Sidebar style={hamDisplay}>
         {/* make a logo */}
-        <Link to={'/app'} className="logo-container" onClick={handleSideBar}>
+        <Link to={'/app'} className="logo-container" onClick={closeSideBar}>
           <img src={Logo} alt="Code Learner" className="logo" />
           <span className="logo-text">CodeLearner</span>
         </Link>

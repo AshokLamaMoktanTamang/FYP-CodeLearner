@@ -20,7 +20,6 @@ const Course = styled(Link)`
   :hover {
     box-shadow: 0px 5px 5px -3px rgb(145 158 171 / 20%), 0px 8px 10px 1px rgb(145 158 171 / 14%),
       0px 3px 14px 2px rgb(145 158 171 / 12%);
-    filter: brightness(0.95);
   }
 
   .course-image-container {
@@ -40,9 +39,11 @@ const Course = styled(Link)`
 
   .course-brief {
     padding: 0.7rem;
+    border: none !important;
+    display: block !important;
 
-    h2 {
-      font-size: 0.97rem;
+    & > h2 {
+      font-size: 0.97rem !important;
       line-height: 1.3;
       color: var(--text-black);
       display: -webkit-box;
@@ -77,20 +78,20 @@ const Course = styled(Link)`
 
 export default function CourseItem(props) {
   return (
-    <Course to='ll'>
-        <div className="course-image-container">
-          <img src={props.courseImage} alt="course name" />
+    <Course to={`/app/course/${props.courseId}`}>
+      <div className="course-image-container">
+        <img src={props.courseImage} alt={props.courseName} />
+      </div>
+      <div className="course-brief">
+        <h2>{props.courseName}</h2>
+        <p className="author">{props.authorName}</p>
+        <div className="rank-container">
+          <span className="rank">{props.rating}</span>
+          <RatingCounter rating={props.rating} />
+          <p>({props.totalStudent})</p>
         </div>
-        <div className="course-brief">
-          <h2>{props.courseName}</h2>
-          <p className="author">{props.authorName}</p>
-          <div className="rank-container">
-            <span className="rank">{props.rating}</span>
-            <RatingCounter rating={props.rating} />
-            <p>({props.totalStudent})</p>
-          </div>
-          <h2>${props.price}</h2>
-        </div>
+        <h2>${props.price}</h2>
+      </div>
     </Course>
   )
 }

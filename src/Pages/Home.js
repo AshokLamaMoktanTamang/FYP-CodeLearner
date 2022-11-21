@@ -40,6 +40,7 @@ export default function Home() {
 
           <Course>
             <CourseItem
+              courseId={12}
               courseImage={CourseImage}
               courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
               authorName="Ashok Lama, The Codex"
@@ -55,6 +56,7 @@ export default function Home() {
 
           <Course>
             <CourseItem
+              courseId={12}
               courseImage={CourseImage}
               courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
               authorName="Ashok Lama, The Codex"
@@ -70,6 +72,7 @@ export default function Home() {
 
           <Course>
             <CourseItem
+              courseId={12}
               courseImage={CourseImage}
               courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
               authorName="Ashok Lama, The Codex"
@@ -78,22 +81,7 @@ export default function Home() {
               price={16.99}
             />
             <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
+              courseId={12}
               courseImage={CourseImage}
               courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
               authorName="Ashok Lama, The Codex"

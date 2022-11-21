@@ -2,8 +2,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
+import PropTypes from 'prop-types'
 
-// test components
+// importing components
 import CourseImage from '../Images/registration.jpg'
 import RatingCounter from './ratingCounter'
 import { Link } from 'react-router-dom'
@@ -20,6 +21,7 @@ const Search = styled(Link)`
   max-width: 900px;
   align-items: flex-start;
   text-decoration: none;
+  background-color: var(--background-white);
 
   :hover {
     box-shadow: 0px 5px 5px -3px rgb(145 158 171 / 20%), 0px 8px 10px 1px rgb(145 158 171 / 14%),
@@ -53,7 +55,7 @@ const Search = styled(Link)`
     }
 
     .course-name {
-      font-size: 1.1rem;
+      font-size: 0.97rem;
       color: var(--text-black);
       padding-right: 1.5rem;
       margin-bottom: 0.3rem;
@@ -209,7 +211,7 @@ const Wrapper = styled.section`
         color: var(--text-black);
       }
 
-      i{
+      i {
         margin-right: 0.5rem;
       }
     }
@@ -227,8 +229,10 @@ const Wrapper = styled.section`
 `
 
 export default function SearchItem(props) {
+  const rating = props.rating
   const [saved, setsaved] = useState(props.saved)
   const [display, setdisplay] = useState('none')
+
   const handleSave = () => {
     saved ? setsaved(false) : setsaved(true)
   }
@@ -239,28 +243,26 @@ export default function SearchItem(props) {
 
   return (
     <Wrapper>
-      <Search to="ka">
+      <Search to={`/app/course/${props.courseId}`}>
         <div className="image-container">
-          <img src={CourseImage} alt="coursename" />
+          <img src={props.courseImage} alt={props.courseName} />
         </div>
 
         <div className="search-description">
-          <h2 className="course-name">Pre-Programming: Everything you need to know before you code</h2>
-          <p className="course-description">
-            Increase your chance of success learning to code and communicating with other developers
-          </p>
+          <h2 className="course-name">{props.courseName}</h2>
+          <p className="course-description">{props.courseBrief}</p>
 
           <section className="rating">
-            <span className="rating-number">2.7</span>
-            <RatingCounter rating={2.7} />
-            <span>(1000)</span>
+            <span className="rating-number">{rating}</span>
+            <RatingCounter rating={rating} />
+            <span>({props.totalStudent})</span>
           </section>
 
-          <span className="author-name">Creator - Ashok Lama</span>
+          <span className="author-name">Creator - {props.authorName}</span>
 
-          <span className="last-updated">Last Updated : 19th December 2022</span>
+          <span className="last-updated">Last Updated : {props.lastUpdated}</span>
 
-          <span className="price">$ 16</span>
+          <span className="price">$ {props.price}</span>
         </div>
       </Search>
 
@@ -268,14 +270,14 @@ export default function SearchItem(props) {
         {saved ? (
           <>
             <i>
-              <Icon icon="bi:bookmark-fill" />
+              <Icon icon="ic:round-bookmark-borders" />
             </i>
             Saved
           </>
         ) : (
           <>
             <i>
-              <Icon icon="bi:bookmark" />
+              <Icon icon="material-symbols:bookmark" />
             </i>
             Save
           </>
@@ -302,4 +304,25 @@ export default function SearchItem(props) {
       </ul>
     </Wrapper>
   )
+}
+
+SearchItem.propsType = {
+  courseName: PropTypes.string,
+  courseBrief: PropTypes.string,
+  totalStudent: PropTypes.number,
+  rating: PropTypes.number,
+  authorName: PropTypes.string,
+  lastUpdated: PropTypes.string,
+  price: PropTypes.number,
+}
+
+SearchItem.defaultProps = {
+  courseImage: CourseImage,
+  courseName: 'Unknown',
+  courseBrief: 'Unknown',
+  totalStudent: 0,
+  rating: 0,
+  authorName: 'Unknown',
+  lastUpdated: 'N/A',
+  price: 0,
 }

@@ -13,6 +13,8 @@ const globalStyle = createGlobalStyle`
 		--scrollbar-color: #0000004d;
 		--hover-white: rgb(70 83 96 / 8%);
 		--hover-light-white: rgba(145, 158, 171, 0.08);
+		--btn-color: #d7e6ff6e;
+		--btn-hover-color: #d7e6ff;
 		--light-border-color: rgba(145, 158, 171, 0.24); 
 		--dark-border-color: rgb(58 64 70 / 63%); 
 		--hover-background-blue: rgba(32, 101, 209, 0.08);
