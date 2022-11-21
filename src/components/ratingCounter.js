@@ -2,6 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
+import PropTypes from 'prop-types'
 
 // styled components
 const Rank = styled.section`
@@ -40,4 +41,12 @@ export default function RatingCounter(props) {
       })}
     </Rank>
   )
+}
+
+RatingCounter.defaultProps = {
+  rating: 0
+}
+
+RatingCounter.propTypes = {
+  rating: PropTypes.number
 }

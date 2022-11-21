@@ -8,7 +8,7 @@ import Page from '../components/page'
 import SearchItem from '../components/searchItem'
 
 // test components
-// import CourseImage from '../Images/registration.jpg'
+import CourseImage from '../Images/registration.jpg'
 
 // styled components
 const SearchWrapper = styled.section`
@@ -35,9 +35,18 @@ export default function Article() {
         <h2 className="search-heading">Search - {query} (6 results)</h2>
 
         <div className="search-results-container">
-          <SearchItem saved={false} />
-          <SearchItem saved={false} />
-          <SearchItem saved={false} />
+          <SearchItem
+            saved={false}
+            courseId={17}
+            courseImage={CourseImage}
+            courseName="Pre-Programming: Everything you need to know before you code"
+            courseBrief="Increase your chance of success learning to code and communicating with other developers"
+            totalStudent={100}
+            rating={1.8}
+            authorName="Ashok Lama"
+            lastUpdated="19th December 2022"
+            price={10}
+          />
         </div>
       </SearchWrapper>
     </Page>

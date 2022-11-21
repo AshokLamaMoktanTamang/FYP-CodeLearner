@@ -14,6 +14,7 @@ import MyCourse from './Pages/MyCourse'
 import Page404 from './Pages/Page404'
 import Article from './Pages/Articles'
 import Search from './Pages/Search'
+import CourseDetail from './Pages/CourseDetail'
 
 export default function Router() {
   return useRoutes([
@@ -24,6 +25,7 @@ export default function Router() {
         { path: '', element: <Home /> },
         { path: 'search/:query', element: <Search /> },
         { path: 'article', element: <Article /> },
+        { path: 'course/:courseId', element: <CourseDetail /> },
         { path: 'myCourse', element: <MyCourse /> },
         { path: 'setting', element: <MyCourse /> },
         { path: 'profile', element: <MyCourse /> },
