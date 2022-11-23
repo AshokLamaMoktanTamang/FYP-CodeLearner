@@ -2,11 +2,14 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 // components imported
-import Logo from '../../Images/favicon.png'
 import NavConfig from './navConfig'
+import Logo from '../../components/logo'
+
+// importing images
+import LogoIcon from '../../Images/favicon.png'
 
 // styled component
 const Sidebar = styled.section`
@@ -21,38 +24,13 @@ const Sidebar = styled.section`
   height: 100vh;
   overflow-y: auto;
 
-  .logo-container {
-    width: 100%;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    margin-bottom: 1.7rem;
-    text-decoration: none;
-    color: var(--text-black);
-  }
-
-  .logo {
-    width: 2.3rem;
-    height: 2.3rem;
-  }
-
-  .logo-text {
-    font-weight: 700;
-    line-height: 1.5;
-    font-size: 1.125rem;
-    font-family: Public Sans, sans-serif;
-    padding: 0 0.5rem;
-    letter-spacing: 1px;
-  }
-
   .search-bar {
     background: white;
     border: 0.13rem solid var(--dark-border-color);
     border-radius: 0.3rem;
     overflow: hidden;
     display: flex;
-    margin: 0 -0.87rem;
-    margin-bottom: 1.7rem;
+    margin: 1.7rem -0.87rem;
 
     input,
     button {
@@ -100,7 +78,7 @@ const HamMenu = styled.button`
   height: 2.1rem;
   width: 2.1rem;
   font-size: 1.315rem;
-  color: var(--hover-purple);
+  color: var(--text-black);
   display: none;
   background-color: transparent;
   border: none;
@@ -143,7 +121,7 @@ export default function SideBar() {
   const handleSearch = (e) => {
     e.preventDefault()
 
-    searchQuery.trim().length !== 0 && navigate(`search/${searchQuery}`) 
+    searchQuery.trim().length !== 0 && navigate(`search/${searchQuery}`)
   }
 
   return (
@@ -157,16 +135,16 @@ export default function SideBar() {
 
       <Sidebar style={hamDisplay}>
         {/* make a logo */}
-        <Link to={'/app'} className="logo-container" onClick={closeSideBar}>
-          <img src={Logo} alt="Code Learner" className="logo" />
-          <span className="logo-text">CodeLearner</span>
-        </Link>
+        <Logo location="/app" OnClick={closeSideBar} logoIcon={LogoIcon} target="Learner" />
 
         {/* make a search bar */}
-        <form className="search-bar" onSubmit={(e)=> {
-          handleSearch(e)
-          closeSideBar()
-        }}>
+        <form
+          className="search-bar"
+          onSubmit={(e) => {
+            handleSearch(e)
+            closeSideBar()
+          }}
+        >
           <input type="search" placeholder="Search..." onChange={(e) => setsearchQuery(e.target.value)} />
           <button>
             <i>
