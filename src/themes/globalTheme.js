@@ -18,7 +18,14 @@ const globalStyle = createGlobalStyle`
 		--light-border-color: rgba(145, 158, 171, 0.24); 
 		--dark-border-color: rgb(58 64 70 / 63%); 
 		--hover-background-blue: rgba(32, 101, 209, 0.08);
-		--transparent-background: rgba(249, 250, 251, 0.72)
+		--transparent-background: rgba(249, 250, 251, 0.72);
+
+		// teacher color
+		--background-black: #161b22;
+		--teacher-dark-border: #30363d;
+		--teacher-background: #0d1117;
+		--teacher-white: #d2dce7;
+		--hover-purple: #3f71ff;
 	}
 
 	*{

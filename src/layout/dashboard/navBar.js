@@ -1,84 +1,73 @@
 // dependencies
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom';
 
 // components and theme
-import AccountPopOver from './accountPopOver';
+import AccountPopOver from '../../components/accountPopOver'
+import Logo from '../../components/logo'
 
 // importing the logo image
-import LogoIcon from "../../Images/favicon.png" 
-
+import LogoIcon from '../../Images/favicon.png'
 
 // styled components
 const Header = styled.header`
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.5rem 1rem;
 
-	.hw48{
-		width: 48px;
-		height: 48px;
-	}
+  .hw48 {
+    width: 48px;
+    height: 48px;
+  }
 
-	@media (max-width: 800px) {
-		background-color: var(--transparent-background);
-		justify-content: space-between;	
-		border-bottom: 1px solid var(--light-border-color);
-	}
-`
+  & > span {
+    display: none;
 
-const Logo = styled.section`
-display: none;
+    @media (max-width: 305px) {
+      display: none;
+    }
+  }
 
-	a{
-		text-decoration: none;
-		color: black;
-		display: flex;
-		align-items: center;
-	}
+  @media (max-width: 800px) {
+    background-color: var(--transparent-background);
+    justify-content: space-between;
+    border-bottom: 1px solid var(--light-border-color);
 
-	img{
-		width: 2.3rem;
-		height: 2.3rem;
-	}
-	
-	p{
-		font-weight: 700;
-		line-height: 1.5;
-		font-size: 1.125rem;
-		padding: 0 0.5rem;
-		letter-spacing: 1px;
-		color: var(--text-black);
-	}
-
-	@media (max-width: 800px) {
-		display: block;
-	}
-
-	@media (max-width: 305px) {
-		display: none;
-	}
+    & > span {
+      display: block;
+    }
+  }
 `
 
 export default function NavBar() {
   return (
-	<Header>
-		<div className='hw48'></div>
+    <Header>
+      <div className="hw48"></div>
 
-		{/* making the logo of the company */}
-		<Logo>
-			<Link to='/app'>
-				<img src={LogoIcon} alt="logo"></img>
-				<p>
-					CodeLearner
-				</p>
-			</Link>
-		</Logo>
+      {/* making the logo of the company */}
+      <span>
+        <Logo location="/app" target="Learner" logoIcon={LogoIcon} />
+      </span>
 
-		{/* making the account popover */}
-		<AccountPopOver/>
-	</Header>
+      {/* making the account popover */}
+      <AccountPopOver
+        theme='light'
+        menuOptions={[
+          {
+            label: 'Home',
+            linkTo: '/app',
+          },
+          {
+            label: 'Profile',
+            linkTo: 'profile',
+          },
+          {
+            label: 'Setting',
+            linkTo: 'setting',
+          },
+        ]}
+      />
+    </Header>
   )
 }

@@ -94,7 +94,7 @@ const Search = styled(Link)`
     }
 
     .price {
-      padding-bottom: 2rem;
+      padding-bottom: 2.57rem;
       font-weight: bold;
       color: var(--text-black);
     }
@@ -106,7 +106,7 @@ const Search = styled(Link)`
     }
 
     .author-name {
-      padding-bottom: 0.5rem;
+      padding-bottom: 1.4rem;
     }
 
     .rating {
@@ -120,6 +120,7 @@ const Search = styled(Link)`
 
     .price {
       padding-bottom: 0 !important;
+      margin-top: -0.7rem !important;
     }
   }
 `
@@ -133,13 +134,8 @@ const Wrapper = styled.section`
     position: absolute;
     cursor: pointer;
 
-    :hover {
-      background-color: var(--hover-white);
-    }
-
     i {
       display: flex;
-      color: var(--text-black);
     }
   }
 
@@ -152,21 +148,36 @@ const Wrapper = styled.section`
     font-size: 1.1rem;
     background-color: transparent;
     z-index: 1;
-  }
 
+    :hover {
+      background-color: var(--hover-white);
+    }
+  }
+  
   .save {
     left: calc(40% + 1.15rem);
     bottom: 0.7rem;
-    padding: 0.3rem 0.7rem;
+    padding: 0.7rem;
     font-size: 0.875rem;
-    color: var(--text-light-black);
+    color: white;
     display: flex;
-    background-color: transparent;
-    border: 1px solid var(--dark-border-color);
+    background-color: var(--text-blue);
+    border: none;
     border-radius: 0.3rem;
+    width: 83px;
+    text-align: center;
+
+    :hover {
+      background-color: var(--hover-404-blue);
+    }
 
     i {
       margin-right: 0.3rem;
+      color: white;
+
+      svg {
+        font-size: 1rem;
+      }
     }
   }
 
@@ -219,8 +230,7 @@ const Wrapper = styled.section`
 
   @media (max-width: 520px) {
     .save {
-      left: calc(100% - 5.3rem);
-      width: 75px;
+      left: calc(100% - 6rem);
       justify-content: center;
       padding-left: 0;
       padding-right: 0;
@@ -270,14 +280,14 @@ export default function SearchItem(props) {
         {saved ? (
           <>
             <i>
-              <Icon icon="ic:round-bookmark-borders" />
+              <Icon icon="material-symbols:bookmark" />
             </i>
             Saved
           </>
         ) : (
           <>
             <i>
-              <Icon icon="material-symbols:bookmark" />
+              <Icon icon="ic:round-bookmark-border" />
             </i>
             Save
           </>

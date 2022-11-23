@@ -56,6 +56,10 @@ const MyCourse = styled.section`
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        
+        :hover{
+          color: var(--text-light-black);
+        }
       }
 
       & > span {

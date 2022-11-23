@@ -3,8 +3,9 @@ import { Navigate, useRoutes } from 'react-router-dom'
 
 // layouts
 import DashboardLayout from './layout/dashboard'
-import RegistrationLayout from './layout/registration/index.js'
+import RegistrationLayout from './layout/registration'
 import ErrorLayout from './layout/error'
+import TeacherLayout from './layout/teacherDashboard'
 
 // page contents
 import Home from './Pages/Home'
@@ -15,6 +16,8 @@ import Page404 from './Pages/Page404'
 import Article from './Pages/Articles'
 import Search from './Pages/Search'
 import CourseDetail from './Pages/CourseDetail'
+import Profile from './Pages/Profile'
+import TeacherDashboard from './Pages/TeacherDashboard'
 
 export default function Router() {
   return useRoutes([
@@ -28,8 +31,19 @@ export default function Router() {
         { path: 'course/:courseId', element: <CourseDetail /> },
         { path: 'myCourse', element: <MyCourse /> },
         { path: 'setting', element: <MyCourse /> },
-        { path: 'profile', element: <MyCourse /> },
+        { path: 'profile', element: <Profile /> },
         { path: 'report', element: <MyCourse /> },
+      ],
+    },
+    {
+      path: '/app/teacher',
+      element: <TeacherLayout />,
+      children: [
+        { path: '', element: <TeacherDashboard /> },
+        { path: 'myCourse', element: <TeacherDashboard /> },
+        { path: 'setting', element: <TeacherDashboard /> },
+        { path: 'tests', element: <TeacherDashboard /> },
+        { path: 'profile', element: <TeacherDashboard /> },
       ],
     },
     {
