@@ -23,10 +23,6 @@ const Header = styled.header`
 
   & > span {
     display: none;
-
-    @media (max-width: 305px) {
-      display: none;
-    }
   }
 
   @media (max-width: 800px) {
@@ -36,6 +32,12 @@ const Header = styled.header`
 
     & > span {
       display: block;
+    }
+
+    @media (max-width: 305px) {
+      & > span {
+        display: none;
+      }
     }
   }
 `
@@ -52,7 +54,7 @@ export default function NavBar() {
 
       {/* making the account popover */}
       <AccountPopOver
-        theme='light'
+        theme="light"
         menuOptions={[
           {
             label: 'Home',
