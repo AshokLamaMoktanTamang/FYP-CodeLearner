@@ -4,6 +4,7 @@ import { createGlobalStyle } from 'styled-components'
 const globalStyle = createGlobalStyle`
 	:root{
 		--background-white: #F9FAFB;
+		--footer-background: #f3f3f3;
 		--text-black: #212B36;
 		--text-light-black: #637381;
 		--text-blue: #2065D1;
@@ -26,6 +27,7 @@ const globalStyle = createGlobalStyle`
 		--teacher-background: #0d1117;
 		--teacher-white: #d2dce7;
 		--hover-purple: #3f71ff;
+		--dark-scroll-bar: #052424b0;
 	}
 
 	*{
@@ -45,6 +47,7 @@ const globalStyle = createGlobalStyle`
 
 	::-webkit-scrollbar{
 		width: 5px;
+		height: 5px;
 	}
 	
 	::-webkit-scrollbar-thumb{

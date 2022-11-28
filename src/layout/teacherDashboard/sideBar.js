@@ -14,6 +14,8 @@ const SideNav = styled.section`
   background-color: var(--teacher-background);
   border-right: 1px solid var(--teacher-dark-border);
   color: var(--teacher-white);
+  position: sticky;
+  top: 64px;
 
   & > ul {
     list-style: none;

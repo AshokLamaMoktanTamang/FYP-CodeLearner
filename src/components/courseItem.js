@@ -16,6 +16,7 @@ const Course = styled(Link)`
   border-radius: 0.3rem;
   transition: 0.1s ease-in-out;
   text-decoration: none;
+  display: block;
 
   :hover {
     box-shadow: 0px 5px 5px -3px rgb(145 158 171 / 20%), 0px 8px 10px 1px rgb(145 158 171 / 14%),
