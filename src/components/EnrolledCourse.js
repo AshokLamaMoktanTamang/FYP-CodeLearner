@@ -112,7 +112,6 @@ const MyCourse = styled.section`
   @media (max-width: 500px) {
     grid-template-columns: none;
     grid-template-rows: auto auto;
-    max-width: 300px;
   }
 `
 

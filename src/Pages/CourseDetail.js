@@ -7,25 +7,29 @@ import { Icon } from '@iconify/react'
 
 // importing the react components
 import Page from '../components/page'
+import { responsive } from '../service/responsive'
 
 // testing components
 import Thumbnail from '../Images/registration.jpg'
 import CourseImage from '../Images/registration.jpg'
 import CourseItem from '../components/courseItem'
+import Carousel from 'react-multi-carousel'
 
 // styled components
 const CourseWrapper = styled.section`
   display: grid;
   grid-gap: 1rem;
+  margin-right: -1rem;
 
-  & > h2{
+  & > h2 {
     font-size: 1.1rem;
     color: var(--text-black);
     line-height: 1.35;
-    margin-right: 3.35rem;
+    margin-right: 4.35rem;
   }
-
-  .course-brief {
+  
+  & > .course-brief {
+    margin-right: 1rem;
     align-items: center;
     max-width: 1000px;
     overflow: hidden;
@@ -35,9 +39,9 @@ const CourseWrapper = styled.section`
     border-radius: 0.3rem;
     box-shadow: 0px 5px 5px -3px rgb(145 158 171 / 20%), 0px 8px 10px 1px rgb(145 158 171 / 14%),
       0px 3px 14px 2px rgb(145 158 171 / 12%);
-      background-color: var(--background-white);
-      
-      & > section {
+    background-color: var(--background-white);
+
+    & > section {
       position: relative;
       width: 100%;
       padding-top: 56.25%;
@@ -145,6 +149,7 @@ const CourseWrapper = styled.section`
     max-width: 670px;
     border-radius: 0.5rem;
     padding: 0.7rem;
+    margin-right: 1rem;
 
     & > h2 {
       font-size: 1.1rem;
@@ -169,24 +174,30 @@ const CourseWrapper = styled.section`
 
   .more-from-user,
   .suggestion {
+    width: 100%;
+    overflow-x: auto;
+
     h2 {
       font-size: 1.1rem;
       color: var(--text-black);
       margin-bottom: 0.5rem;
     }
 
-    & > div {
-      display: grid;
-      grid-gap: 1.5rem 1rem;
-      grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
-      margin-bottom: 1rem;
+    .carouselItem{
+      padding-right: 1rem;
     }
   }
 
   @media (max-width: 600px) {
-    .course-brief {
+    & > .course-brief {
       grid-template-columns: none;
       grid-template-rows: auto auto;
+    }
+  }
+
+  @media (max-width: 800px) {
+    & > h2 {
+      margin-right: 1rem;
     }
   }
 `
@@ -280,7 +291,14 @@ export default function CourseDetail() {
         <div className="more-from-user">
           <h2>More from Ashok Lama</h2>
 
-          <div>
+          <Carousel
+            containerClass="carousel-container"
+            responsive={responsive}
+            swipeable={true}
+            draggable={true}
+            itemClass="carouselItem"
+            partialVisible={false}
+          >
             <CourseItem
               courseId={13}
               courseImage={CourseImage}
@@ -308,13 +326,20 @@ export default function CourseDetail() {
               totalStudent={100}
               price={16.99}
             />
-          </div>
+          </Carousel>
         </div>
 
         <div className="suggestion">
           <h2>Similar Content</h2>
 
-          <div>
+          <Carousel
+            containerClass="carousel-container"
+            responsive={responsive}
+            swipeable={true}
+            draggable={true}
+            itemClass="carouselItem"
+            partialVisible={false}
+          >
             <CourseItem
               courseId={12}
               courseImage={CourseImage}
@@ -342,7 +367,7 @@ export default function CourseDetail() {
               totalStudent={100}
               price={16.99}
             />
-          </div>
+          </Carousel>
         </div>
       </CourseWrapper>
     </Page>

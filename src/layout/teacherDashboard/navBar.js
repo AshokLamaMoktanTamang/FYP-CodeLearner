@@ -10,6 +10,8 @@ import AccountPopOver from '../../components/accountPopOver'
 
 // styled components
 const Nav = styled.header`
+  position: sticky;
+  top: 0;
   background-color: var(--background-black);
   display: flex;
   padding: 0.5rem 1rem;
@@ -30,7 +32,7 @@ const Nav = styled.header`
     }
   }
 
-  @media (max-width: 600px){
+  @media (max-width: 600px) {
     & > button {
       display: flex;
     }
@@ -44,7 +46,7 @@ export default function NavBar(props) {
         <Icon icon="fa6-solid:bars" />
       </button>
 
-      <Logo logoIcon={logoIcon} location='/app/teacher' target="Studio" textTheme="light" />
+      <Logo logoIcon={logoIcon} location="/app/teacher" target="Studio" textTheme="light" />
 
       <AccountPopOver
         theme="dark"

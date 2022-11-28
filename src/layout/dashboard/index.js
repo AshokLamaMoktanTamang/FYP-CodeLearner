@@ -5,43 +5,48 @@ import styled from 'styled-components'
 
 // componets imported
 import NavBar from './navBar'
+import Footer from './footer'
 import SideBar from './sideBar'
 
 // styled component
 const Wrapper = styled.section`
   display: grid;
-  grid-template-columns: 280px auto;
+  grid-template-columns: 280px calc(100% - 280px);
   min-height: 100vh;
-  
-  .content-container{
-    display: grid;
-    grid-template-rows: 4.3rem auto;
+  width: 100vw;
 
-    & > div{
+  .content-container {
+    display: grid;
+    grid-template-rows: 4.3rem auto auto;
+    width: 100%;
+    overflow: hidden;
+
+    & > div {
       padding: 1rem;
       margin-top: -2.5rem;
     }
   }
-  
+
   @media (max-width: 800px) {
     grid-template-columns: auto;
 
-    .content-container{
-      & > div{
+    .content-container {
+      & > div {
         margin-top: 0;
       }
     }
-	}
+  }
 `
 
 export default function index() {
   return (
-	<Wrapper>
-    <SideBar/>
-    <div className='content-container'>
-      <NavBar/>
-      <Outlet/>
-    </div>
-  </Wrapper>
+    <Wrapper>
+      <SideBar />
+      <div className="content-container">
+        <NavBar />
+        <Outlet />
+        <Footer />
+      </div>
+    </Wrapper>
   )
 }

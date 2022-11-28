@@ -14,8 +14,13 @@ const TeacherDashboard = styled.section`
     display: grid;
     grid-template-columns: 70px auto;
 
-    & > div {
-      background-color: var(--teacher-background);
+    & > section {
+      & > div {
+        background-color: var(--teacher-background);
+        color: var(--teacher-white);
+        padding: 0.7rem;
+        min-height: calc(100vh - 64px);
+      }
     }
   }
 
@@ -33,8 +38,10 @@ const TeacherDashboard = styled.section`
     & > div {
       display: initial;
 
-      & > div{
-        min-height: calc(100vh - 64px);
+      & > section {
+        & > div {
+          padding: 0.5rem;
+        }
       }
 
       .side-bar {
@@ -94,7 +101,10 @@ export default function Index() {
           <div className="ham-background" style={showHamBackground} onClick={closeHam}></div>
           <SideBar handleLinkClick={closeHam} />
         </div>
-        <Outlet />
+
+        <section>
+          <Outlet />
+        </section>
       </div>
     </TeacherDashboard>
   )
