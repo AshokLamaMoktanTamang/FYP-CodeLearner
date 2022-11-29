@@ -2,7 +2,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import Logo from '../../components/logo'
+import Logo from './logo'
 
 // importing components
 
@@ -11,7 +11,6 @@ const FooterWrapper = styled.footer`
   padding: 1rem;
   background-color: var(--footer-background);
   border-top: 1px dashed var(--light-border-color);
-  margin-top: 2.5rem;
 
   & > div {
     display: flex;
@@ -91,23 +90,23 @@ export default function Footer() {
         <section>
           <h2>About Us</h2>
           <Link to={'/app/teacher'}>Teach on CodeLearner</Link>
-          <Link to={'/app/about'}>About CodeLearner</Link>
-          <Link to={'/app/contact'}>Contact Us</Link>
+          <Link to={'/about'}>About CodeLearner</Link>
+          <Link to={'/contact'}>Contact Us</Link>
         </section>
         <section>
           <h2>Information</h2>
-          <Link to={'/app/privacy-policy'}>Privacy Policy</Link>
-          <Link to={'/app/terms-and-conditions'}>Terms and Condition</Link>
-          <Link to={'/app/career'}>Career</Link>
+          <Link to={'/privacy-policy'}>Privacy Policy</Link>
+          <Link to={'/terms-and-conditions'}>Terms and Condition</Link>
+          <Link to={'/career'}>Career</Link>
         </section>
         <section>
           <h2>Customer Support</h2>
-          <a href='/' target='_blank'>Help</a>
+          <a href="/" target="_blank">
+            Help
+          </a>
           <p>
-            You can also mail us at{' '}
-            <a href="mailto:support.CodeLearner@gmail.com">
-              support.CodeLearner@gmail.com
-            </a>
+            You can also mail us at 
+            <a href={`mailto:${process.env.REACT_APP_CONTACT_EMAIL}`}> {process.env.REACT_APP_CONTACT_EMAIL}</a>
           </p>
         </section>
       </div>
