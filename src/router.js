@@ -6,6 +6,7 @@ import DashboardLayout from './layout/dashboard'
 import RegistrationLayout from './layout/registration'
 import ErrorLayout from './layout/error'
 import TeacherLayout from './layout/teacherDashboard'
+import ExtraLayout from './layout/extra'
 
 // page contents
 import Home from './Pages/Home'
@@ -18,6 +19,7 @@ import Search from './Pages/Search'
 import CourseDetail from './Pages/CourseDetail'
 import Profile from './Pages/Profile'
 import TeacherDashboard from './Pages/TeacherDashboard'
+import Contact from './Pages/Contact'
 
 export default function Router() {
   return useRoutes([
@@ -32,12 +34,7 @@ export default function Router() {
         { path: 'myCourse', element: <MyCourse /> },
         { path: 'setting', element: <MyCourse /> },
         { path: 'profile', element: <Profile /> },
-        { path: 'report', element: <MyCourse /> }, 
-        { path: 'about', element: <MyCourse /> }, 
-        { path: 'contact', element: <MyCourse /> }, 
-        { path: 'privacy-policy', element: <MyCourse /> }, 
-        { path: 'terms-and-conditions', element: <MyCourse /> }, 
-        { path: 'career', element: <MyCourse /> }, 
+        { path: 'report', element: <MyCourse /> },
       ],
     },
     {
@@ -66,6 +63,17 @@ export default function Router() {
         { path: '/', element: <Navigate to="/app" /> },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
+      ],
+    },
+    {
+      path: '/',
+      element: <ExtraLayout />,
+      children: [
+        { path: 'about', element: <MyCourse /> },
+        { path: 'contact', element: <Contact /> },
+        { path: 'privacy-policy', element: <MyCourse /> },
+        { path: 'terms-and-conditions', element: <MyCourse /> },
+        { path: 'career', element: <MyCourse /> },
       ],
     },
     {

@@ -3,13 +3,16 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import styled from 'styled-components'
 
+// importing components
+import Footer from '../../components/footer'
+
 // importing images
 import Background from '../../Images/registration.jpg'
 import LogoIcon from '../../Images/favicon.png'
 
 // styled components
 const RegistrationWrapper = styled.section`
-  min-height: 100vh;
+  min-height: calc(100vh - 272px);
   background-color: var(--background-white);
   display: flex;
   align-items: center;
@@ -23,7 +26,7 @@ const RegistrationWrapper = styled.section`
     grid-template-columns: 50% 50%;
     width: 80vw;
     max-width: 900px;
-    margin: 1rem;
+    margin: 3rem 1rem;
     align-items: center;
   }
 
@@ -67,7 +70,8 @@ const RegistrationWrapper = styled.section`
         margin-bottom: 1.7rem;
         border-bottom: 1px solid var(--dark-border-color);
 
-        input, select {
+        input,
+        select {
           width: 100%;
           outline: none;
           padding: 0.5rem 0.7rem;
@@ -159,9 +163,13 @@ const RegistrationWrapper = styled.section`
   @media (max-width: 850px) {
     .container {
       width: 100vw;
-      min-height: 100vh;
+      min-height: inherit;
       margin: 0;
     }
+  }
+
+  @media (max-width: 560px) {
+    min-height: calc(100vh - 448px);
   }
 
   @media (max-width: 650px) {
@@ -206,21 +214,24 @@ const Logo = styled.section`
 
 export default function Registration() {
   return (
-    <RegistrationWrapper>
-      <div className="container">
-        {/* making the description of the web */}
-        <div className="left">
-          <img src={Background} alt="Logo" />
-        </div>
+    <>
+      <RegistrationWrapper>
+        <div className="container">
+          {/* making the description of the web */}
+          <div className="left">
+            <img src={Background} alt="Logo" />
+          </div>
 
-        <div className="right">
-          <Logo>
-            <img src={LogoIcon} alt="logo"></img>
-            <p>CodeLearner</p>
-          </Logo>
-          <Outlet />
+          <div className="right">
+            <Logo>
+              <img src={LogoIcon} alt="logo"></img>
+              <p>CodeLearner</p>
+            </Logo>
+            <Outlet />
+          </div>
         </div>
-      </div>
-    </RegistrationWrapper>
+      </RegistrationWrapper>
+      <Footer />
+    </>
   )
 }

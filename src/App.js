@@ -1,16 +1,16 @@
 // importing the router
-import Router from "./router"
+import Router from './router'
 
 // importing global style
-import GlobalStyle from "./themes/globalTheme"
+import GlobalStyle from './themes/globalTheme'
 
 function App() {
   return (
     <>
-      <GlobalStyle/>
-      <Router/>
+      <GlobalStyle />
+      <Router />
     </>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 // componets imported
 import NavBar from './navBar'
-import Footer from './footer'
+import Footer from '../../components/footer'
 import SideBar from './sideBar'
 
 // styled component
