@@ -32,7 +32,7 @@ export default function Extra() {
   return (
     <Wrapper>
       <header>
-        <Logo />
+        <Logo location='/registration' />
       </header>
       <Outlet></Outlet>
       <Footer />
