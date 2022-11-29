@@ -32,7 +32,12 @@ export default function Router() {
         { path: 'myCourse', element: <MyCourse /> },
         { path: 'setting', element: <MyCourse /> },
         { path: 'profile', element: <Profile /> },
-        { path: 'report', element: <MyCourse /> },
+        { path: 'report', element: <MyCourse /> }, 
+        { path: 'about', element: <MyCourse /> }, 
+        { path: 'contact', element: <MyCourse /> }, 
+        { path: 'privacy-policy', element: <MyCourse /> }, 
+        { path: 'terms-and-conditions', element: <MyCourse /> }, 
+        { path: 'career', element: <MyCourse /> }, 
       ],
     },
     {
