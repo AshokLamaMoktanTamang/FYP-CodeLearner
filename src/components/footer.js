@@ -55,9 +55,9 @@ const FooterWrapper = styled.footer`
 
   & > section {
     display: flex;
-    flex-wrap: wrap-reverse;
+    flex-wrap: wrap;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     padding: 1rem;
 
     & > span {
