@@ -21,6 +21,7 @@ import Profile from './Pages/Profile'
 import TeacherDashboard from './Pages/TeacherDashboard'
 import Contact from './Pages/Contact'
 import About from './Pages/About'
+import PrivacyPoliicy from './Pages/PrivacyPoliicy'
 
 export default function Router() {
   return useRoutes([
@@ -72,7 +73,7 @@ export default function Router() {
       children: [
         { path: 'about', element: <About /> },
         { path: 'contact', element: <Contact /> },
-        { path: 'privacy-policy', element: <MyCourse /> },
+        { path: 'privacy-policy', element: <PrivacyPoliicy /> },
         { path: 'terms-and-conditions', element: <MyCourse /> },
         { path: 'career', element: <MyCourse /> },
       ],
