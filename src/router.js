@@ -20,6 +20,7 @@ import CourseDetail from './Pages/CourseDetail'
 import Profile from './Pages/Profile'
 import TeacherDashboard from './Pages/TeacherDashboard'
 import Contact from './Pages/Contact'
+import About from './Pages/About'
 
 export default function Router() {
   return useRoutes([
@@ -69,7 +70,7 @@ export default function Router() {
       path: '/',
       element: <ExtraLayout />,
       children: [
-        { path: 'about', element: <MyCourse /> },
+        { path: 'about', element: <About /> },
         { path: 'contact', element: <Contact /> },
         { path: 'privacy-policy', element: <MyCourse /> },
         { path: 'terms-and-conditions', element: <MyCourse /> },
