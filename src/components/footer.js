@@ -101,11 +101,9 @@ export default function Footer() {
         </section>
         <section>
           <h2>Customer Support</h2>
-          <a href="/" target="_blank">
-            Help
-          </a>
+          <Link to={'/faq'}>FAQ</Link>
           <p>
-            You can also mail us at 
+            You can also mail us at
             <a href={`mailto:${process.env.REACT_APP_CONTACT_EMAIL}`}> {process.env.REACT_APP_CONTACT_EMAIL}</a>
           </p>
         </section>
