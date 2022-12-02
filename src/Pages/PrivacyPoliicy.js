@@ -36,7 +36,7 @@ const Container = styled.section`
 
     & > h3 {
       margin-bottom: 0.7rem;
-      font-size: 0.97rem;
+      font-size: 0.9rem;
       color: var(--hover-404-blue);
       text-transform: Uppercase;
 
