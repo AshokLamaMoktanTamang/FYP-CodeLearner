@@ -24,6 +24,8 @@ import About from './Pages/About'
 import PrivacyPoliicy from './Pages/PrivacyPoliicy'
 import TermsAndCondition from './Pages/TermsAndCondition'
 import Faq from './Pages/Faq'
+import Career from './Pages/Career'
+import DetailCareer from './Pages/DetailCareer'
 
 export default function Router() {
   return useRoutes([
@@ -78,7 +80,8 @@ export default function Router() {
         { path: 'privacy-policy', element: <PrivacyPoliicy /> },
         { path: 'terms-and-conditions', element: <TermsAndCondition /> },
         { path: 'faq', element: <Faq /> },
-        { path: 'career', element: <MyCourse /> },
+        { path: 'career', element: <Career /> },
+        { path: 'career/:jobId', element: <DetailCareer /> },
       ],
     },
     {
