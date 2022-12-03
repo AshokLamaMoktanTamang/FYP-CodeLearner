@@ -24,6 +24,8 @@ const Wrapper = styled.section`
     & > div {
       padding: 1rem;
       margin-top: -2.5rem;
+      width: 100%;
+      overflow-x: hidden;
     }
   }
 

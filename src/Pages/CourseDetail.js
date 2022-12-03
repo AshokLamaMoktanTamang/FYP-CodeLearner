@@ -1,6 +1,6 @@
 // importing dependencies
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import RatingCounter from '../components/ratingCounter'
 import { Icon } from '@iconify/react'
@@ -27,7 +27,7 @@ const CourseWrapper = styled.section`
     line-height: 1.35;
     margin-right: 4.35rem;
   }
-  
+
   & > .course-brief {
     margin-right: 1rem;
     align-items: center;
@@ -177,13 +177,59 @@ const CourseWrapper = styled.section`
     width: 100%;
     overflow-x: auto;
 
-    h2 {
-      font-size: 1.1rem;
-      color: var(--text-black);
-      margin-bottom: 0.5rem;
+    & > section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h2 {
+        font-size: 1.1rem;
+        color: var(--text-black);
+        margin-bottom: 1.3rem;
+        width: fit-content;
+        position: relative;
+        cursor: pointer;
+
+        ::before {
+          position: absolute;
+          content: '';
+          width: 40%;
+          height: 5px;
+          border-radius: 10px;
+          background-color: var(--text-blue);
+          top: 100%;
+          left: 0;
+          transition: 0.19s ease-in-out;
+        }
+
+        :hover {
+          ::before {
+            width: 90%;
+          }
+        }
+      }
+
+      & > a {
+        display: flex;
+        text-decoration: none;
+        color: var(--text-light-black);
+        align-items: center;
+        margin-right: 3.5rem;
+        font-weight: bold;
+        font-size: 0.9rem;
+
+        :hover {
+          color: var(--text-blue);
+        }
+
+        & > svg {
+          font-size: 1.3rem;
+          margin-left: 0.1rem;
+        }
+      }
     }
 
-    .carouselItem{
+    .carouselItem {
       padding-right: 1rem;
     }
   }
@@ -289,7 +335,12 @@ export default function CourseDetail() {
         </div>
 
         <div className="more-from-user">
-          <h2>More from Ashok Lama</h2>
+          <section>
+            <h2>More from Ashok Lama</h2>
+            <Link to={'userId'}>
+              See All <Icon icon="material-symbols:arrow-right-alt-rounded" />
+            </Link>
+          </section>
 
           <Carousel
             containerClass="carousel-container"
@@ -298,6 +349,7 @@ export default function CourseDetail() {
             draggable={true}
             itemClass="carouselItem"
             partialVisible={false}
+            minimumTouchDrag={20}
           >
             <CourseItem
               courseId={13}
@@ -330,7 +382,12 @@ export default function CourseDetail() {
         </div>
 
         <div className="suggestion">
-          <h2>Similar Content</h2>
+          <section>
+            <h2>Similar Content</h2>
+            <Link to={'similar'}>
+              See All <Icon icon="material-symbols:arrow-right-alt-rounded" />
+            </Link>
+          </section>
 
           <Carousel
             containerClass="carousel-container"
@@ -339,6 +396,7 @@ export default function CourseDetail() {
             draggable={true}
             itemClass="carouselItem"
             partialVisible={false}
+            minimumTouchDrag={20}
           >
             <CourseItem
               courseId={12}

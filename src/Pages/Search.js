@@ -16,8 +16,21 @@ const SearchWrapper = styled.section`
     font-size: 1.1rem;
     color: var(--text-black);
     line-height: 1.5;
-    padding-bottom: 0.7rem;
+    margin-bottom: 1.3rem;
     text-transform: capitalize;
+    width: fit-content;
+    position: relative;
+
+    ::before {
+      position: absolute;
+      content: '';
+      width: 1.8rem;
+      height: 5px;
+      border-radius: 10px;
+      background-color: var(--text-blue);
+      top: 100%;
+      left: 0;
+    }
   }
 
   .search-results-container {

@@ -14,9 +14,22 @@ const ContentWrapper = styled.section`
   & > h2 {
     font-size: 1.1rem;
     color: var(--text-black);
-    line-height: 1.4;
-    margin-bottom: 0.5rem;
+    line-height: 1.65;
+    margin-bottom: 1.3rem;
     text-transform: capitalize;
+    width: fit-content;
+    position: relative;
+
+    ::before {
+      position: absolute;
+      content: '';
+      width: 40%;
+      height: 5px;
+      border-radius: 10px;
+      background-color: var(--text-blue);
+      top: 100%;
+      left: 0;
+    }
   }
 
   & > div {
