@@ -17,7 +17,7 @@ const globalStyle = createGlobalStyle`
 		--btn-color: #d7e6ff6e;
 		--btn-hover-color: #d7e6ff;
 		--light-border-color: rgba(145, 158, 171, 0.24); 
-		--dark-border-color: rgb(58 64 70 / 63%); 
+		--dark-border-color: rgb(137 142 147); 
 		--hover-background-blue: rgba(32, 101, 209, 0.08);
 		--transparent-background: rgba(249, 250, 251, 0.72);
 
@@ -54,6 +54,10 @@ const globalStyle = createGlobalStyle`
 	::-webkit-scrollbar-thumb{
 		background-color: var(--scrollbar-color);
 		border-radius: 1rem;
+	}
+
+	.react-multiple-carousel__arrow--right{
+		z-index: 9;
 	}
 `
 export default globalStyle

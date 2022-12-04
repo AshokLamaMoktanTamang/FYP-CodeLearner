@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import ArticleItem from '../components/articleItem'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
+import { Link } from 'react-router-dom'
 import { Icon } from '@iconify/react'
 
 // importing the react components
@@ -12,7 +13,6 @@ import { responsive } from '../service/responsive'
 
 // importing testing component
 import ArtcileThumbnail from '../Images/registration.jpg'
-import { Link } from 'react-router-dom'
 
 // styled components
 const ArticleWrapper = styled.div`
@@ -90,7 +90,7 @@ export default function Article() {
         <div>
           <section>
             <h2>Popular</h2>
-            <Link to={'popular'}>
+            <Link to={'popular?page=1'}>
               See All <Icon icon="material-symbols:arrow-right-alt-rounded" />
             </Link>
           </section>
@@ -175,7 +175,7 @@ export default function Article() {
         <div>
           <section>
             <h2>Latest</h2>
-            <Link to={'latest'}>
+            <Link to={'latest?page=1'}>
               See All <Icon icon="material-symbols:arrow-right-alt-rounded" />
             </Link>
           </section>
