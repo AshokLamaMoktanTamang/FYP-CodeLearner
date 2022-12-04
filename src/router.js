@@ -26,6 +26,11 @@ import TermsAndCondition from './Pages/TermsAndCondition'
 import Faq from './Pages/Faq'
 import Career from './Pages/Career'
 import DetailCareer from './Pages/DetailCareer'
+import TopRatedCourse from './Pages/TopRatedCourse'
+import BestSellerCourse from './Pages/BestSellerCourse'
+import LatestCourse from './Pages/LatestCourse'
+import PopularArticle from './Pages/PopularArticle'
+import LatestArticle from './Pages/LatestArticle'
 
 export default function Router() {
   return useRoutes([
@@ -34,13 +39,13 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { path: '', element: <Home /> },
-        { path: 'top-rated', element: <Home /> },
-        { path: 'best-seller', element: <Home /> },
-        { path: 'latest', element: <Home /> },
+        { path: 'top-rated', element: <TopRatedCourse /> },
+        { path: 'best-seller', element: <BestSellerCourse /> },
+        { path: 'latest', element: <LatestCourse /> },
         { path: 'search/:query', element: <Search /> },
         { path: 'article', element: <Article /> },
-        { path: 'article/popular', element: <Article /> },
-        { path: 'article/latest', element: <Article /> },
+        { path: 'article/popular', element: <PopularArticle /> },
+        { path: 'article/latest', element: <LatestArticle /> },
         { path: 'course/:courseId', element: <CourseDetail /> },
         { path: 'course/:courseId/similar', element: <CourseDetail /> },
         { path: 'course/:courseId/:userId', element: <CourseDetail /> },

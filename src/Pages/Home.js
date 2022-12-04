@@ -90,7 +90,7 @@ export default function Home() {
         <div className="category">
           <section>
             <h2 className="category-heading">Top Rated</h2>
-            <Link to={'top-rated'}>
+            <Link to={'top-rated?page=1'}>
               See All <Icon icon="material-symbols:arrow-right-alt-rounded" />
             </Link>
           </section>
@@ -173,7 +173,7 @@ export default function Home() {
         <div className="category">
           <section>
             <h2 className="category-heading">Best Seller</h2>
-            <Link to={'best-seller'}>
+            <Link to={'best-seller?page=1'}>
               See All <Icon icon="material-symbols:arrow-right-alt-rounded" />
             </Link>
           </section>
@@ -247,7 +247,7 @@ export default function Home() {
         <div className="category">
           <section>
             <h2 className="category-heading">Latest</h2>
-            <Link to={'latest'}>
+            <Link to={'latest?page=1'}>
               See All <Icon icon="material-symbols:arrow-right-alt-rounded" />
             </Link>
           </section>
