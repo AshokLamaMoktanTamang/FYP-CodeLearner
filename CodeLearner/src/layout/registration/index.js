@@ -70,8 +70,7 @@ const RegistrationWrapper = styled.section`
         margin-bottom: 1.7rem;
         border-bottom: 1px solid var(--dark-border-color);
 
-        input,
-        select {
+        input {
           width: 100%;
           outline: none;
           padding: 0.5rem 0.7rem;

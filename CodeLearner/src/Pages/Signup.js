@@ -39,15 +39,6 @@ export default function Signup() {
           </i>
           <input type="email" placeholder="Email" id="userName" />
         </label>
-        <label htmlFor="accountType">
-          <i>
-            <Icon icon="bxs:briefcase" />
-          </i>
-          <select id="accountType">
-            <option value="student">Student</option>
-            <option value="teacher">Teacher</option>
-          </select>
-        </label>
         <label htmlFor="password">
           <i>
             <Icon icon="bi:lock-fill" />
