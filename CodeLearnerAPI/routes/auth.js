@@ -5,7 +5,7 @@ const Router = express.Router();
 // importing the controllers
 const authController = require("../controllers/authController");
 
-// making the end		 points for user
+// making the endpoints for user
 Router.post("/", authController.userLogin);
 
 module.exports = Router;
