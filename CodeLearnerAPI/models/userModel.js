@@ -14,20 +14,27 @@ const userSchema = new Schema(
     email: {
       type: String,
       required: true,
-      lowercase: true
+      lowercase: true,
+      unique: true,
     },
     password: {
       type: String,
       required: true,
+      select: false,
     },
     profilePic: {
       type: String,
     },
+    isTeacher: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     isDeleted: {
       type: Boolean,
       required: true,
-      default: false
-    }
+      default: false,
+    },
   },
   { timestamps: true }
 );
