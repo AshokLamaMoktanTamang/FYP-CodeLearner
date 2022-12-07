@@ -25,6 +25,11 @@ const userSchema = new Schema(
     profilePic: {
       type: String,
     },
+    emailVerified: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     isTeacher: {
       type: Boolean,
       required: true,

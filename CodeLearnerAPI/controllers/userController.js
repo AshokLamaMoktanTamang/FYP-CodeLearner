@@ -1,5 +1,9 @@
 // initializing the user model
 const User = require("../models/userModel"),
+  Token = require("../models/tokenVerification"),
+  nodemailer = require("../utils/email"),
+  emailVerificationTemplate = require("../utils/verificationTemplate"),
+  { v4: uuidv4 } = require("uuid"),
   bcrypt = require("bcryptjs");
 
 // for adding user
@@ -23,11 +27,47 @@ const addUser = async (req, res) => {
         password: hashedPassword,
       });
 
-    if (user) {
-      return res.status(200).send({ msg: `Registration Sucessful!` });
+    if (!user) {
+      return res.status(400).send({ msg: "Failed to add user!" });
     }
 
-    return res.status(400).send({ msg: "Failed to add user!" });
+    const userId = user._id.toString(),
+      uniqueString = uuidv4() + userId,
+      tokenSalt = await bcrypt.genSalt(10),
+      tokenHash = await bcrypt.hash(uniqueString, tokenSalt);
+
+    const token = await Token.create({
+      userId,
+      token: tokenHash,
+      expireAt: Date.now() + 21600000,
+    });
+
+    if (!token) {
+      await User.findByIdAndDelete(userId);
+      return res.status(400).send({ msg: "Failed to pass token!" });
+    }
+
+    const mail = nodemailer(
+      email,
+      "Verify your Email",
+      emailVerificationTemplate(
+        firstName,
+        lastName,
+        `${process.env.BASE_URL}/api/auth/v1/${uniqueString}/${userId}`
+      )
+    ).catch((error) => {
+      return res.status(500).send({ msg: "Server failure!", error });
+    });
+
+    if (!mail) {
+      await Token.findById(token._id);
+      await User.findByIdAndDelete(userId);
+      return res.status(500).send({ msg: `Unable to send verification code!` });
+    }
+
+    return res
+      .status(200)
+      .send({ msg: `Registration Sucessful, Verify your email address!` });
   } catch (error) {
     return res.status(500).send({ msg: "Internal Server Error!", error });
   }

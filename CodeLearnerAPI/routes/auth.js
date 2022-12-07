@@ -3,9 +3,10 @@ const express = require("express");
 const Router = express.Router();
 
 // importing the controllers
-const authController = require("../controllers/authController");
+const {userLogin, handleUserValidation} = require("../controllers/authController");
 
-// making the end		 points for user
-Router.post("/", authController.userLogin);
+// making the endpoints for user
+Router.post("/", userLogin);
+Router.get("/:token/:userId", handleUserValidation);
 
 module.exports = Router;

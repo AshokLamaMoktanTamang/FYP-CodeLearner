@@ -2,9 +2,11 @@
 import React, { useState } from 'react'
 import { Icon } from '@iconify/react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 // importing components and images
 import Page from '../components/page'
+import AlertMessage from '../components/alertMessage'
 
 export default function Login() {
   const [passwordType, setpasswordType] = useState('password')
@@ -16,22 +18,72 @@ export default function Login() {
       : (setpasswordType('password'), seteyeBtnIcon('ant-design:eye-invisible-filled'))
   }
 
+  // initializing the states for input fields and alerts
+  const [email, setemail] = useState('')
+  const [password, setpassword] = useState('')
+  const [open, setopen] = useState(false)
+  const [message, setmessage] = useState(null)
+  const [status, setstatus] = useState(null)
+
+  const handleLogin = async (e) => {
+    e.preventDefault()
+
+    await axios({
+      method: 'post',
+      url: `${process.env.REACT_APP_SERVER_BASE_URL}/api/auth/v1`,
+      headers: {
+        'content-type': 'application/Json',
+      },
+      data: {
+        email,
+        password,
+      },
+    })
+      .then((response) => {
+        setmessage(response.data.msg)
+        setstatus('sucess')
+        setopen(true)
+      })
+      .catch((error) => {
+        setmessage(error.response.data.msg)
+        setstatus('error')
+        setopen(true)
+      })
+  }
+
   return (
     <Page title="Log In">
       <h2>Log In</h2>
+      <AlertMessage display={open} setdisplay={setopen} message={message} status={status} />
 
-      <form>
+      <form onSubmit={handleLogin}>
         <label htmlFor="userName">
           <i>
             <Icon icon="carbon:user-filled" />
           </i>
-          <input type="text" placeholder="Username or Email" id="userName" />
+          <input
+            type="email"
+            placeholder="Username or Email"
+            id="userName"
+            value={email}
+            onChange={(e) => {
+              setemail(e.target.value)
+            }}
+          />
         </label>
         <label htmlFor="password">
           <i>
             <Icon icon="bi:lock-fill" />
           </i>
-          <input type={passwordType} placeholder="Password" id="password" />
+          <input
+            type={passwordType}
+            placeholder="Password"
+            id="password"
+            value={password}
+            onChange={(e) => {
+              setpassword(e.target.value)
+            }}
+          />
           <i onClick={handleDisplayPassword}>
             <Icon icon={eyeBtnIcon} />
           </i>
