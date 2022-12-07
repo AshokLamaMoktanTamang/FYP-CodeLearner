@@ -1,6 +1,7 @@
 // importing dependencies
 const express = require("express"),
-  app = express();
+  app = express(),
+  cors = require("cors");
 
 // for using environmental variable
 const dotenv = require("dotenv");
@@ -10,8 +11,11 @@ dotenv.config();
 const db = require("./dbConnect");
 db();
 
+// cors policy for other server
+app.use(cors());
+
 // using the json for expres
-app.use(express.json())
+app.use(express.json());
 
 // making routes
 const routesSetup = require("./routes/index");

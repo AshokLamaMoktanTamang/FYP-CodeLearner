@@ -7,13 +7,13 @@ const userValidation = joi.object({
   password: joi.string().required().min(8).alphanum(),
 });
 
-const updateUserDetail = joi.object({
+const updateUserDetailValidation = joi.object({
   firstName: joi.string().required().min(3).max(50),
   lastName: joi.string().required().min(3).max(50),
 });
 
-const updateUserPassword = joi.object({
+const updateUserPasswordValidation = joi.object({
   password: joi.string().required().min(8).alphanum(),
 });
 
-module.exports = {userValidation, updateUserDetail, updateUserPassword};
+module.exports = {userValidation, updateUserDetailValidation, updateUserPasswordValidation};

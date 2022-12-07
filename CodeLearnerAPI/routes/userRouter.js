@@ -2,18 +2,38 @@
 const express = require("express");
 const Router = express.Router();
 const validateRequestBody = require("../middleware/validateRequestBody");
-const {userValidation, updateUserDetail, updateUserPassword} = require("../requestValidations/userValidation");
+const {
+  userValidation,
+  updateUserDetailValidation,
+  updateUserPasswordValidation,
+} = require("../requestValidations/userValidation");
 
 // importing the controllers
-const userController = require("../controllers/userController");
+const {
+  addUser,
+  fetchUser,
+  fetchUserById,
+  updateUserDetail,
+  updateUserPassword,
+  deleteUserPermanently,
+  deleteUserTemporarily,
+} = require("../controllers/userController");
 
 // making the end points for user
-Router.get("/", userController.fetchUser);
-Router.post("/", validateRequestBody(userValidation), userController.addUser);
-Router.get("/:id", userController.fetchUserById);
-Router.patch("/:id", validateRequestBody(updateUserDetail), userController.updateUserDetail);
-Router.patch("/update/:id", validateRequestBody(updateUserPassword), userController.updateUserPassword);
-Router.delete("/:id", userController.deleteUserTemporarily);
-Router.delete("/delete/:id", userController.deleteUserPermanently);
+Router.get("/", fetchUser);
+Router.post("/", validateRequestBody(userValidation), addUser);
+Router.get("/:id", fetchUserById);
+Router.patch(
+  "/:id",
+  validateRequestBody(updateUserDetailValidation),
+  updateUserDetail
+);
+Router.patch(
+  "/update/:id",
+  validateRequestBody(updateUserPasswordValidation),
+  updateUserPassword
+);
+Router.delete("/:id", deleteUserTemporarily);
+Router.delete("/delete/:id", deleteUserPermanently);
 
 module.exports = Router;

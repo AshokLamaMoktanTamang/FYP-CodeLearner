@@ -1,10 +1,12 @@
 // importing dependencies
 import React, { useState } from 'react'
 import { Icon } from '@iconify/react'
+import axios from 'axios'
 
 // importing components and images
 import Page from '../components/page'
 import { Link } from 'react-router-dom'
+import AlertMessage from '../components/alertMessage'
 
 export default function Signup() {
   const [passwordType, setpasswordType] = useState('password')
@@ -17,20 +19,61 @@ export default function Signup() {
   }
 
   // initializing states for data inputs
-  const [firstName, setfirstName] = useState(null)
-  const [lastName, setlastName] = useState(null)
-  const [email, setemail] = useState(null)
-  const [password, setpassword] = useState(null)
-  const [confirmPassword, setconfirmPassword] = useState(null)
+  const [firstName, setfirstName] = useState('')
+  const [lastName, setlastName] = useState('')
+  const [email, setemail] = useState('')
+  const [password, setpassword] = useState('')
+  const [confirmPassword, setconfirmPassword] = useState('')
+
+  // initializing state for the alertMessage
+  const [open, setopen] = useState(false)
+  const [message, setmessage] = useState(null)
+  const [status, setstatus] = useState(null)
 
   const handleSignup = async (e) => {
     e.preventDefault()
 
-    const signUp = await fetch
+    if (password !== confirmPassword || password === '') {
+      setmessage('Password confirmation doesnot match')
+      setstatus('error')
+      return setopen(true)
+    }
+
+    await axios({
+      method: 'post',
+      url: `${process.env.REACT_APP_SERVER_BASE_URL}/api/user/v1`,
+      headers: {
+        'content-type': 'application/Json',
+      },
+      data: {
+        firstName,
+        lastName,
+        email,
+        password,
+      },
+    })
+      .then((response) => {
+        setmessage(response.data.msg)
+        setstatus('sucess')
+        setopen(true)
+
+        setconfirmPassword('')
+        setpassword('')
+        setfirstName('')
+        setlastName('')
+        setemail('')
+      })
+      .catch((error) => {
+        setmessage(error.response.data.msg)
+        setstatus('error')
+        setopen(true)
+      })
   }
 
   return (
     <Page title="Sign Up">
+      <AlertMessage display={open} setdisplay={setopen} message={message} status={status} />
+
       <h2>Sign Up</h2>
 
       <form onSubmit={handleSignup}>
@@ -42,6 +85,7 @@ export default function Signup() {
             type="text"
             placeholder="First Name"
             id="fName"
+            value={firstName}
             onChange={(e) => {
               setfirstName(e.target.value)
             }}
@@ -55,6 +99,7 @@ export default function Signup() {
             type="text"
             placeholder="Last Name"
             id="LName"
+            value={lastName}
             onChange={(e) => {
               setlastName(e.target.value)
             }}
@@ -68,6 +113,7 @@ export default function Signup() {
             type="email"
             placeholder="Email"
             id="userName"
+            value={email}
             onChange={(e) => {
               setemail(e.target.value)
             }}
@@ -81,6 +127,7 @@ export default function Signup() {
             type={passwordType}
             placeholder="Password"
             id="password"
+            value={password}
             onChange={(e) => {
               setpassword(e.target.value)
             }}
@@ -97,6 +144,7 @@ export default function Signup() {
             type={passwordType}
             placeholder="Confirm Password"
             id="Cpassword"
+            value={confirmPassword}
             onChange={(e) => {
               setconfirmPassword(e.target.value)
             }}

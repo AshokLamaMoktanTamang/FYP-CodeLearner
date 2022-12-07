@@ -1,5 +1,6 @@
 // initializing the user model
 const User = require("../models/userModel"),
+  Token = require("../models/tokenVerification"),
   bcrypt = require("bcryptjs"),
   jwt = require("jsonwebtoken");
 
@@ -22,6 +23,11 @@ const userLogin = async (req, res) => {
       return res.status(400).send({ msg: "Wrong password!" });
     }
 
+    if (!emailExistence.emailVerified) {
+      console.log(emailExistence.emailVerified);
+      return res.status(400).send({ msg: "Verify your email first!" });
+    }
+
     const tokenData = {
         user: {
           id: emailExistence._id,
@@ -35,4 +41,47 @@ const userLogin = async (req, res) => {
   }
 };
 
-module.exports = { userLogin };
+const handleUserValidation = async (req, res) => {
+  const { userId, token } = req.params,
+    userExistence = await User.findById(userId);
+
+  if (!userExistence) {
+    return res
+      .status(400)
+      .send({ msg: "Sorry no user with this email was found!" });
+  }
+
+  const tokenExistence = await Token.findOne({
+    userId,
+  });
+
+  if (!tokenExistence) {
+    return res
+      .status(400)
+      .send({ msg: "Sorry the token is not found or already activated!" });
+  }
+
+  const checkToken = await bcrypt.compare(token, tokenExistence.token);
+  if (!checkToken) {
+    return res.status(400).send({ msg: "Sorry the token is not valid!" });
+  }
+
+  if (tokenExistence.expireAt < Date.now()) {
+    await User.findByIdAndDelete(userId);
+    await Token.findByIdAndDelete(tokenExistence._id);
+    return res.status(400).send({ msg: "Sorry the token is already expired!" });
+  }
+
+  const user = await User.findByIdAndUpdate(userId, {
+    emailVerified: true,
+  });
+
+  if (!user) {
+    return res.status(400).send({ msg: "Unable to verify this email!" });
+  }
+
+  await Token.findByIdAndDelete(tokenExistence._id);
+  return res.status(200).send({ msg: "Email verified sucessfully!" });
+};
+
+module.exports = { userLogin, handleUserValidation };
