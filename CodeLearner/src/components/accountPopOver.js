@@ -1,7 +1,7 @@
 // dependencies imported
 import React, { useState } from 'react'
 import Styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Icon } from '@iconify/react'
 
 // declaring styles
@@ -184,6 +184,7 @@ const AccountPopWrapper = Styled.section`
 `
 
 export default function AccountPopOver(props) {
+  const navigate = useNavigate()
   const menuOptions = props.menuOptions
   const [popOverDisplay, setpopOverDisplay] = useState('none')
   const [accountHeadShade, setaccountHeadShade] = useState('')
@@ -191,6 +192,11 @@ export default function AccountPopOver(props) {
   const handlePopUp = () => {
     setpopOverDisplay(popOverDisplay === `none` ? `grid` : `none`)
     setaccountHeadShade(popOverDisplay === `none` ? `shade` : ``)
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    navigate('/registration')
   }
 
   return (
@@ -220,7 +226,7 @@ export default function AccountPopOver(props) {
 
           <hr className="upHr" />
 
-          <button className="logout" onClick={handlePopUp}>
+          <button className="logout" onClick={handleLogout}>
             Logout
           </button>
         </div>

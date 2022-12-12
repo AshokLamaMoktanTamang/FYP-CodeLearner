@@ -24,7 +24,6 @@ const userLogin = async (req, res) => {
     }
 
     if (!emailExistence.emailVerified) {
-      console.log(emailExistence.emailVerified);
       return res.status(400).send({ msg: "Verify your email first!" });
     }
 
@@ -81,7 +80,7 @@ const handleUserValidation = async (req, res) => {
   }
 
   await Token.findByIdAndDelete(tokenExistence._id);
-  return res.status(200).send({ msg: "Email verified sucessfully!" });
+  return res.redirect(`${process.env.FRONTEND_BASE_URL}/registration`);
 };
 
 module.exports = { userLogin, handleUserValidation };

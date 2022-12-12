@@ -12,7 +12,10 @@ const db = require("./dbConnect");
 db();
 
 // cors policy for other server
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  credentials: true,
+}));
 
 // using the json for expres
 app.use(express.json());

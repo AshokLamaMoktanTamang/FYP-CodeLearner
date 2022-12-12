@@ -1,6 +1,6 @@
 // importing libraries
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Outlet, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 // importing components
@@ -212,25 +212,40 @@ const Logo = styled.section`
 `
 
 export default function Registration() {
-  return (
-    <>
-      <RegistrationWrapper>
-        <div className="container">
-          {/* making the description of the web */}
-          <div className="left">
-            <img src={Background} alt="Logo" />
-          </div>
+  const navigate = useNavigate()
+  const token = JSON.parse(localStorage.getItem('token'))
+  const [registered, setregistered] = useState(null)
 
-          <div className="right">
-            <Logo>
-              <img src={LogoIcon} alt="logo"></img>
-              <p>CodeLearner</p>
-            </Logo>
-            <Outlet />
+  useEffect(() => {
+    if (token) {
+      console.log(token)
+      token.type === 'student' ? navigate('/app') : navigate('/app/teacher')
+    } else {
+      setregistered(false)
+    }
+  }, [token, navigate])
+
+  return (
+    registered === false && (
+      <>
+        <RegistrationWrapper>
+          <div className="container">
+            {/* making the description of the web */}
+            <div className="left">
+              <img src={Background} alt="Logo" />
+            </div>
+
+            <div className="right">
+              <Logo>
+                <img src={LogoIcon} alt="logo"></img>
+                <p>CodeLearner</p>
+              </Logo>
+              <Outlet />
+            </div>
           </div>
-        </div>
-      </RegistrationWrapper>
-      <Footer />
-    </>
+        </RegistrationWrapper>
+        <Footer />
+      </>
+    )
   )
 }
