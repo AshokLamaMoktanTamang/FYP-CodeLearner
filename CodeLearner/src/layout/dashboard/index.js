@@ -1,6 +1,6 @@
 // dependencies imported
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Outlet, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 // componets imported
@@ -40,15 +40,30 @@ const Wrapper = styled.section`
   }
 `
 
-export default function index() {
+export default function Index() {
+  const navigate = useNavigate()
+  const token = JSON.parse(localStorage.getItem('token'))
+  const [registered, setregistered] = useState(false)
+
+  useEffect(() => {
+    if (token) {
+      token.type === 'student' && setregistered('true')
+      token.type === 'teacher' && navigate('/app/teacher')
+    } else {
+      navigate('/registration')
+    }
+  }, [token, navigate])
+
   return (
-    <Wrapper>
-      <SideBar />
-      <div className="content-container">
-        <NavBar />
-        <Outlet />
-        <Footer />
-      </div>
-    </Wrapper>
+    registered && (
+      <Wrapper>
+        <SideBar />
+        <div className="content-container">
+          <NavBar />
+          <Outlet />
+          <Footer />
+        </div>
+      </Wrapper>
+    )
   )
 }

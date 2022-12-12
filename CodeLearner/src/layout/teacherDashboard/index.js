@@ -1,7 +1,7 @@
 // importing dependencies
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 // importing components
@@ -92,20 +92,35 @@ export default function Index() {
     }
   })
 
+  const navigate = useNavigate()
+  const token = JSON.parse(localStorage.getItem('token'))
+  const [registered, setregistered] = useState(false)
+
+  useEffect(() => {
+    if (token) {
+      token.type === 'teacher' && setregistered('true')
+      token.type === 'student' && navigate('/app')
+    } else {
+      navigate('/registration')
+    }
+  }, [token, navigate])
+
   return (
-    <TeacherDashboard>
-      <NavBar handleHamClick={openHam} />
+    registered && (
+      <TeacherDashboard>
+        <NavBar handleHamClick={openHam} />
 
-      <div>
-        <div className="side-bar" style={displayHam}>
-          <div className="ham-background" style={showHamBackground} onClick={closeHam}></div>
-          <SideBar handleLinkClick={closeHam} />
+        <div>
+          <div className="side-bar" style={displayHam}>
+            <div className="ham-background" style={showHamBackground} onClick={closeHam}></div>
+            <SideBar handleLinkClick={closeHam} />
+          </div>
+
+          <section>
+            <Outlet />
+          </section>
         </div>
-
-        <section>
-          <Outlet />
-        </section>
-      </div>
-    </TeacherDashboard>
+      </TeacherDashboard>
+    )
   )
 }

@@ -1,7 +1,7 @@
 // importing dependencies
 import React, { useState } from 'react'
 import { Icon } from '@iconify/react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 // importing components and images
@@ -11,6 +11,7 @@ import AlertMessage from '../components/alertMessage'
 export default function Login() {
   const [passwordType, setpasswordType] = useState('password')
   const [eyeBtnIcon, seteyeBtnIcon] = useState('ant-design:eye-invisible-filled')
+  const navigate = useNavigate()
 
   const handleDisplayPassword = () => {
     return passwordType === 'password'
@@ -40,9 +41,14 @@ export default function Login() {
       },
     })
       .then((response) => {
-        setmessage(response.data.msg)
-        setstatus('sucess')
-        setopen(true)
+        localStorage.setItem(
+          'token',
+          JSON.stringify({
+            token: response.data.token,
+            type: 'student',
+          }),
+        )
+        navigate('/app')
       })
       .catch((error) => {
         setmessage(error.response.data.msg)
