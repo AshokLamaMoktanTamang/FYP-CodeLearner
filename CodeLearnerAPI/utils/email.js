@@ -1,5 +1,4 @@
 const nodemailer = require("nodemailer"),
-  hbs = require("nodemailer-express-handlebars"),
   { google } = require("googleapis");
 
 // initializung the google oauth2 configuration
@@ -48,7 +47,7 @@ const sendMail = async (email, subject, html) => {
     });
     return mail;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 

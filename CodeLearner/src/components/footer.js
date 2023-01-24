@@ -22,6 +22,10 @@ const FooterWrapper = styled.footer`
       width: 175px;
       padding: 1rem;
 
+      :first-child {
+        grid-template-rows: 25% 25% 25% 25%;
+      }
+
       & > h2 {
         font-size: 0.9rem;
         color: var(--text-black);
@@ -89,7 +93,7 @@ export default function Footer() {
       <div>
         <section>
           <h2>About Us</h2>
-          <Link to={'/app/teacher'}>Teach on CodeLearner</Link>
+          {localStorage.getItem('token') && <Link to={'/app/teachOnCodeLearner'}>Teach on CodeLearner</Link>}
           <Link to={'/about'}>About CodeLearner</Link>
           <Link to={'/contact'}>Contact Us</Link>
         </section>

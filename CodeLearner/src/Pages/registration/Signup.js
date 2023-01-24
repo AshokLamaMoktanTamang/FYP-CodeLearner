@@ -4,9 +4,10 @@ import { Icon } from '@iconify/react'
 import axios from 'axios'
 
 // importing components and images
-import Page from '../components/page'
+import Page from '../../components/page'
 import { Link } from 'react-router-dom'
-import AlertMessage from '../components/alertMessage'
+import AlertMessage from '../../components/alertMessage'
+import Loader from '../../components/loading'
 
 export default function Signup() {
   const [passwordType, setpasswordType] = useState('password')
@@ -25,17 +26,20 @@ export default function Signup() {
   const [password, setpassword] = useState('')
   const [confirmPassword, setconfirmPassword] = useState('')
 
-  // initializing state for the alertMessage
+  // initializing state for the alertMessage and loader
   const [open, setopen] = useState(false)
   const [message, setmessage] = useState(null)
   const [status, setstatus] = useState(null)
+  const [showLoadng, setshowLoadng] = useState(false)
 
   const handleSignup = async (e) => {
     e.preventDefault()
 
+    setshowLoadng(true)
     if (password !== confirmPassword || password === '') {
       setmessage('Password confirmation doesnot match')
       setstatus('error')
+      setshowLoadng(false)
       return setopen(true)
     }
 
@@ -62,17 +66,20 @@ export default function Signup() {
         setfirstName('')
         setlastName('')
         setemail('')
+        setshowLoadng(false)
       })
       .catch((error) => {
-        setmessage(error.response.data.msg)
+        setmessage(error.response.data.error)
         setstatus('error')
         setopen(true)
+        setshowLoadng(false)
       })
   }
 
   return (
     <Page title="Sign Up">
       <AlertMessage display={open} setdisplay={setopen} message={message} status={status} />
+      {showLoadng && <Loader />}
 
       <h2>Sign Up</h2>
 

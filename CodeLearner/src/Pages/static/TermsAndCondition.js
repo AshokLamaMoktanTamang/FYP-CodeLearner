@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 // importing components
-import Page from '../components/page'
+import Page from '../../components/page'
 
 // stylde components
 const Container = styled.section`

@@ -1,18 +1,18 @@
 // importing the react and external libraries
 import React from 'react'
 import styled from 'styled-components'
-import ArticleItem from '../components/articleItem'
+import ArticleItem from '../../components/articleItem'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { Link } from 'react-router-dom'
 import { Icon } from '@iconify/react'
 
 // importing the react components
-import Page from '../components/page'
-import { responsive } from '../service/responsive'
+import Page from '../../components/page'
+import { responsive } from '../../services/responsive'
 
 // importing testing component
-import ArtcileThumbnail from '../Images/registration.jpg'
+import ArtcileThumbnail from '../../Images/registration.jpg'
 
 // styled components
 const ArticleWrapper = styled.div`
@@ -115,61 +115,6 @@ export default function Article() {
               author="Ashok Lama"
               date="20th August 2022"
             />
-            <ArticleItem
-              thumbnail={ArtcileThumbnail}
-              articleName="Article Name"
-              articleDescription=" Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illo pariatur quod error sint, soluta non, nostrum
-  eos, ipsam nam numquam facilis atque? Accusamus placeat inventore nemo eum sunt temporibus ipsam ab, fuga
-  error voluptates fugit recusandae enim consequuntur quasi deserunt quo laboriosam odio excepturi tenetur
-  nostrum sequi! Expedita, alias."
-              destination="/404"
-              author="Ashok Lama"
-              date="20th August 2022"
-            />
-            <ArticleItem
-              thumbnail={ArtcileThumbnail}
-              articleName="Article Name"
-              articleDescription=" Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illo pariatur quod error sint, soluta non, nostrum
-  eos, ipsam nam numquam facilis atque? Accusamus placeat inventore nemo eum sunt temporibus ipsam ab, fuga
-  error voluptates fugit recusandae enim consequuntur quasi deserunt quo laboriosam odio excepturi tenetur
-  nostrum sequi! Expedita, alias."
-              destination="/404"
-              author="Ashok Lama"
-              date="20th August 2022"
-            />
-            <ArticleItem
-              thumbnail={ArtcileThumbnail}
-              articleName="Article Name"
-              articleDescription=" Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illo pariatur quod error sint, soluta non, nostrum
-  eos, ipsam nam numquam facilis atque? Accusamus placeat inventore nemo eum sunt temporibus ipsam ab, fuga
-  error voluptates fugit recusandae enim consequuntur quasi deserunt quo laboriosam odio excepturi tenetur
-  nostrum sequi! Expedita, alias."
-              destination="/404"
-              author="Ashok Lama"
-              date="20th August 2022"
-            />
-            <ArticleItem
-              thumbnail={ArtcileThumbnail}
-              articleName="Article Name"
-              articleDescription=" Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illo pariatur quod error sint, soluta non, nostrum
-  eos, ipsam nam numquam facilis atque? Accusamus placeat inventore nemo eum sunt temporibus ipsam ab, fuga
-  error voluptates fugit recusandae enim consequuntur quasi deserunt quo laboriosam odio excepturi tenetur
-  nostrum sequi! Expedita, alias."
-              destination="/404"
-              author="Ashok Lama"
-              date="20th August 2022"
-            />
-            <ArticleItem
-              thumbnail={ArtcileThumbnail}
-              articleName="Article Name"
-              articleDescription=" Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illo pariatur quod error sint, soluta non, nostrum
-  eos, ipsam nam numquam facilis atque? Accusamus placeat inventore nemo eum sunt temporibus ipsam ab, fuga
-  error voluptates fugit recusandae enim consequuntur quasi deserunt quo laboriosam odio excepturi tenetur
-  nostrum sequi! Expedita, alias."
-              destination="/404"
-              author="Ashok Lama"
-              date="20th August 2022"
-            />
           </Carousel>
         </div>
         <div>
@@ -189,12 +134,17 @@ export default function Article() {
             partialVisible={false}
             minimumTouchDrag={20}
           >
-            <ArticleItem />
-            <ArticleItem />
-            <ArticleItem />
-            <ArticleItem />
-            <ArticleItem />
-            <ArticleItem />
+            <ArticleItem
+              thumbnail={ArtcileThumbnail}
+              articleName="Article Name"
+              articleDescription=" Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illo pariatur quod error sint, soluta non, nostrum
+  eos, ipsam nam numquam facilis atque? Accusamus placeat inventore nemo eum sunt temporibus ipsam ab, fuga
+  error voluptates fugit recusandae enim consequuntur quasi deserunt quo laboriosam odio excepturi tenetur
+  nostrum sequi! Expedita, alias."
+              destination="/404"
+              author="Ashok Lama"
+              date="20th August 2022"
+            />
           </Carousel>
         </div>
       </ArticleWrapper>

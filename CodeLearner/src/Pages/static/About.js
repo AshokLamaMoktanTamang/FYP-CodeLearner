@@ -6,10 +6,10 @@ import { Carousel } from 'react-responsive-carousel'
 import { Icon } from '@iconify/react'
 
 // importing components
-import Page from '../components/page'
-import { Sliders } from '../service/Sliders'
-import Info from '../Images/info.png'
-import Logo from '../components/logo'
+import Page from '../../components/page'
+import { Sliders } from '../../services/Sliders'
+import Info from '../../Images/info.png'
+import Logo from '../../components/logo'
 
 // styled components
 const AboutWrapper = styled.section`

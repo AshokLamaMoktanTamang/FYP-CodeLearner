@@ -7,6 +7,7 @@ import { Icon } from '@iconify/react'
 import Logo from '../../components/logo'
 import logoIcon from '../../Images/teacherFav.png'
 import AccountPopOver from '../../components/accountPopOver'
+import { useSelector } from 'react-redux'
 
 // styled components
 const Nav = styled.header`
@@ -39,7 +40,25 @@ const Nav = styled.header`
   }
 `
 
+const menu = [
+  {
+    label: 'Dashboard',
+    linkTo: '/app/teacher',
+  },
+  {
+    label: 'Profile',
+    linkTo: 'profile',
+  },
+  {
+    label: 'Setting',
+    linkTo: 'setting',
+  },
+]
+
 export default function NavBar(props) {
+  const user = useSelector((state) => state.user.user)
+  console.log(user)
+
   return (
     <Nav>
       <button onClick={props.handleHamClick}>
@@ -48,23 +67,16 @@ export default function NavBar(props) {
 
       <Logo logoIcon={logoIcon} location="/app/teacher" target="Studio" textTheme="light" />
 
-      <AccountPopOver
-        theme="dark"
-        menuOptions={[
-          {
-            label: 'Dashboard',
-            linkTo: '/app/teacher',
-          },
-          {
-            label: 'Profile',
-            linkTo: 'profile',
-          },
-          {
-            label: 'Setting',
-            linkTo: 'setting',
-          },
-        ]}
-      />
+      {user && (
+        <AccountPopOver
+          theme="dark"
+          menuOptions={menu}
+          userFName={user.data.firstName}
+          userLName={user.data.lastName}
+          email={user.data.email}
+          showTeacherButton={user.data.isTeacher}
+        />
+      )}
     </Nav>
   )
 }

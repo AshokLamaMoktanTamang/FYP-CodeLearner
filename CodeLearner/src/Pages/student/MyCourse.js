@@ -1,13 +1,13 @@
 // importing the react and external libraries
 import React from 'react'
 import styled from 'styled-components'
-import EnrolledCourse from '../components/EnrolledCourse'
+import EnrolledCourse from '../../components/EnrolledCourse'
 
 // importing the react components
-import Page from '../components/page'
+import Page from '../../components/page'
 
 // importing the testing components
-import courseImage from '../Images/registration.jpg'
+import courseImage from '../../Images/registration.jpg'
 
 // styled components
 const ContentWrapper = styled.section`

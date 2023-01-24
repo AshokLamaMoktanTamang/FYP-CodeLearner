@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import { Icon } from '@iconify/react'
 
 // importing components
-import BarChart from '../components/barChart'
-import Page from '../components/page'
+import BarChart from '../../components/barChart'
+import Page from '../../components/page'
 
 // styled component
 const Dashboard = styled.section`

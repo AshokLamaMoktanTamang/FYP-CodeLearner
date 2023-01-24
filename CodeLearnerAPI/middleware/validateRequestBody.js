@@ -5,7 +5,7 @@ const validateRequestBody = (requestValidations) => (req, res, next) => {
 
   if (error) {
     return res.status(422).json({
-      msg: "The request body validation failed.",
+      msg: "Please pass the valid data.",
       error: error.details,
     });
   }

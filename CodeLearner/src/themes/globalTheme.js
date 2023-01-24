@@ -20,6 +20,7 @@ const globalStyle = createGlobalStyle`
 		--dark-border-color: rgb(137 142 147); 
 		--hover-background-blue: rgba(32, 101, 209, 0.08);
 		--transparent-background: rgba(249, 250, 251, 0.72);
+		--pdf-red: #f40f02;
 
 		// teacher color
 		--background-black: #161b22;

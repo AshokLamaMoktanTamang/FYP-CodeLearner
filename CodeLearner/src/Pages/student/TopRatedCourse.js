@@ -3,13 +3,13 @@ import React from 'react'
 import styled from 'styled-components'
 
 // importing the react components
-import Page from '../components/page'
-import CourseItem from '../components/courseItem'
+import Page from '../../components/page'
+import CourseItem from '../../components/courseItem'
 
 // importing testing component
-import CourseImage from '../Images/registration.jpg'
+import CourseImage from '../../Images/registration.jpg'
 import { useSearchParams } from 'react-router-dom'
-import Pagination from '../components/pagination'
+import Pagination from '../../components/pagination'
 
 // styled components
 const Container = styled.section`
@@ -48,14 +48,14 @@ const Container = styled.section`
   }
 `
 
-export default function LatestCourse() {
+export default function TopRatedCourse() {
   const [query] = useSearchParams()
   console.log(query.get('page'))
 
   return (
-    <Page title="Latest Course">
+    <Page title="Top Rated Course">
       <Container>
-        <h2>Latest - Course</h2>
+        <h2>Top Rated - Course</h2>
 
         <div>
           <CourseItem

@@ -1,10 +1,9 @@
 // importing denepdencies
 import React from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 // importing components
-import Page from '../components/page'
+import Page from '../../components/page'
 
 // stylde components
 const Container = styled.section`
@@ -31,13 +30,8 @@ const Container = styled.section`
       left: 0;
     }
   }
-  & > a {
+  & > section {
     margin-bottom: 2rem;
-    text-decoration: none;
-    background-color: var(--hover-white);
-    padding: 1rem;
-    display: block;
-	border-radius: 0.15rem;
 
     & > h3 {
       margin-bottom: 0.7rem;
@@ -50,10 +44,6 @@ const Container = styled.section`
       }
     }
 
-	& > p{
-		margin-top: 1rem;
-	}
-
     & > p,
     & ul li {
       font-size: 0.835rem;
@@ -63,28 +53,40 @@ const Container = styled.section`
     }
 
     & > ul {
-      margin: 0.35rem 0;
+      margin-top: 0.35rem;
       list-style: inside;
     }
   }
 `
 
-export default function Career() {
+export default function FAQ() {
   return (
-    <Page title="Career">
+    <Page title="FAQ">
       <Container>
-        <h2>Career</h2>
+        <h2>Frequently Asked Question (FAQ)</h2>
 
-        <Link to={'senior-qa'}>
-          <h3>Senior QA</h3>
+        <section>
+          <h3>How can I post course?</h3>
+          <p>Post course using the CodeStudio</p>
           <ul>
-            <li>Job Location:Kathmandu</li>
-            <li>Job level: Senior level</li>
-            <li>Job level: Senior level</li>
-            <li>Education: Minimum Bachelor Degree</li>
+            <li>Go to CodeStudio</li>
+            <li>Click add button on top right corner</li>
+            <li>Select the video</li>
+            <li>Click submit button</li>
+            <li>Your course will appear after the upload is complete</li>
           </ul>
-          <p>Click to read more...</p>
-        </Link>
+        </section>
+        <section>
+          <h3>How can I post course?</h3>
+          <p>Post course using the CodeStudio</p>
+          <ul>
+            <li>Go to CodeStudio</li>
+            <li>Click add button on top right corner</li>
+            <li>Select the video</li>
+            <li>Click submit button</li>
+            <li>Your course will appear after the upload is complete</li>
+          </ul>
+        </section>
       </Container>
     </Page>
   )

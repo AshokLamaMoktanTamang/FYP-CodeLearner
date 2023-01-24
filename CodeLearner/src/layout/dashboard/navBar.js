@@ -1,5 +1,6 @@
 // dependencies
 import React from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 // components and theme
@@ -42,7 +43,24 @@ const Header = styled.header`
   }
 `
 
+const menu = [
+  {
+    label: 'Home',
+    linkTo: '/app',
+  },
+  {
+    label: 'Profile',
+    linkTo: 'profile',
+  },
+  {
+    label: 'Setting',
+    linkTo: 'setting',
+  },
+]
+
 export default function NavBar() {
+  const user = useSelector((state) => state.user.user)
+
   return (
     <Header>
       <div className="hw48"></div>
@@ -53,23 +71,16 @@ export default function NavBar() {
       </span>
 
       {/* making the account popover */}
-      <AccountPopOver
-        theme="light"
-        menuOptions={[
-          {
-            label: 'Home',
-            linkTo: '/app',
-          },
-          {
-            label: 'Profile',
-            linkTo: 'profile',
-          },
-          {
-            label: 'Setting',
-            linkTo: 'setting',
-          },
-        ]}
-      />
+      {user && (
+        <AccountPopOver
+          userFName={user.data.firstName}
+          userLName={user.data.lastName}
+          email={user.data.email}
+          theme="light"
+          menuOptions={menu}
+          showTeacherButton={user.data.isTeacher}
+        />
+      )}
     </Header>
   )
 }
