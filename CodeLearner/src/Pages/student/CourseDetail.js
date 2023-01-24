@@ -2,17 +2,17 @@
 import React, { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import RatingCounter from '../components/ratingCounter'
+import RatingCounter from '../../components/ratingCounter'
 import { Icon } from '@iconify/react'
 
 // importing the react components
-import Page from '../components/page'
-import { responsive } from '../service/responsive'
+import Page from '../../components/page'
+import { responsive } from '../../services/responsive'
 
 // testing components
-import Thumbnail from '../Images/registration.jpg'
-import CourseImage from '../Images/registration.jpg'
-import CourseItem from '../components/courseItem'
+import Thumbnail from '../../Images/registration.jpg'
+import CourseImage from '../../Images/registration.jpg'
+import CourseItem from '../../components/courseItem'
 import Carousel from 'react-multi-carousel'
 
 // styled components

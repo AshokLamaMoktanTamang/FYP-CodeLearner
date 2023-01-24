@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Icon } from '@iconify/react'
 
 // importing components
-import Page from '../components/page'
+import Page from '../../components/page'
 
 // styled components
 const ContactWrapper = styled.section`

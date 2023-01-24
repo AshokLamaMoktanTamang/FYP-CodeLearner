@@ -3,13 +3,13 @@ import React from 'react'
 import styled from 'styled-components'
 
 // importing the react components
-import Page from '../components/page'
-import ArticleItem from '../components/articleItem'
+import Page from '../../components/page'
+import ArticleItem from '../../components/articleItem'
 
 // importing testing component
-import ArtcileThumbnail from '../Images/registration.jpg'
+import ArtcileThumbnail from '../../Images/registration.jpg'
 import { useSearchParams } from 'react-router-dom'
-import Pagination from '../components/pagination'
+import Pagination from '../../components/pagination'
 
 // styled components
 const Container = styled.section`
@@ -48,14 +48,14 @@ const Container = styled.section`
   }
 `
 
-export default function PopularArticle() {
+export default function LatestArticle() {
   const [query] = useSearchParams()
   console.log(query.get('page'))
 
   return (
-    <Page title="Popular Article">
+    <Page title="Latest Article">
       <Container>
-        <h2>Popular - Article</h2>
+        <h2>Latest - Article</h2>
 
         <div>
           <ArticleItem

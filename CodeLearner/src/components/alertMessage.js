@@ -44,7 +44,7 @@ const Message = styled.section`
   }
 
   .error {
-    color: #cf3030;
+    color: #ff6700;
   }
 
   & > i {
@@ -84,7 +84,8 @@ const AlertMessage = ({ display, setdisplay, status, message }) => {
           {status === 'sucess' ? (
             <Icon icon="icon-park-outline:link-cloud-sucess" />
           ) : (
-            <Icon icon="material-symbols:error" />
+            // <Icon icon="material-symbols:error" />
+            <Icon icon="ph:warning-duotone" />
           )}
         </i>
         <p>{message}</p>

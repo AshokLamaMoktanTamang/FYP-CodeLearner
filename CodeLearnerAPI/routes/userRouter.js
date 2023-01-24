@@ -12,28 +12,17 @@ const {
 const {
   addUser,
   fetchUser,
-  fetchUserById,
   updateUserDetail,
   updateUserPassword,
   deleteUserPermanently,
   deleteUserTemporarily,
 } = require("../controllers/userController");
 
+// importing middleware for validating header token
+const verifyUserToken = require("../middleware/verifyUserToken");
+
 // making the end points for user
-Router.get("/", fetchUser);
+Router.get("/", verifyUserToken, fetchUser);
 Router.post("/", validateRequestBody(userValidation), addUser);
-Router.get("/:id", fetchUserById);
-Router.patch(
-  "/:id",
-  validateRequestBody(updateUserDetailValidation),
-  updateUserDetail
-);
-Router.patch(
-  "/update/:id",
-  validateRequestBody(updateUserPasswordValidation),
-  updateUserPassword
-);
-Router.delete("/:id", deleteUserTemporarily);
-Router.delete("/delete/:id", deleteUserPermanently);
 
 module.exports = Router;

@@ -1,9 +1,10 @@
 // importing denepdencies
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 // importing components
-import Page from '../components/page'
+import Page from '../../components/page'
 
 // stylde components
 const Container = styled.section`
@@ -30,8 +31,13 @@ const Container = styled.section`
       left: 0;
     }
   }
-  & > section {
+  & > a {
     margin-bottom: 2rem;
+    text-decoration: none;
+    background-color: var(--hover-white);
+    padding: 1rem;
+    display: block;
+	border-radius: 0.15rem;
 
     & > h3 {
       margin-bottom: 0.7rem;
@@ -44,6 +50,10 @@ const Container = styled.section`
       }
     }
 
+	& > p{
+		margin-top: 1rem;
+	}
+
     & > p,
     & ul li {
       font-size: 0.835rem;
@@ -53,40 +63,28 @@ const Container = styled.section`
     }
 
     & > ul {
-      margin-top: 0.35rem;
+      margin: 0.35rem 0;
       list-style: inside;
     }
   }
 `
 
-export default function FAQ() {
+export default function Career() {
   return (
-    <Page title="FAQ">
+    <Page title="Career">
       <Container>
-        <h2>Frequently Asked Question (FAQ)</h2>
+        <h2>Career</h2>
 
-        <section>
-          <h3>How can I post course?</h3>
-          <p>Post course using the CodeStudio</p>
+        <Link to={'senior-qa'}>
+          <h3>Senior QA</h3>
           <ul>
-            <li>Go to CodeStudio</li>
-            <li>Click add button on top right corner</li>
-            <li>Select the video</li>
-            <li>Click submit button</li>
-            <li>Your course will appear after the upload is complete</li>
+            <li>Job Location:Kathmandu</li>
+            <li>Job level: Senior level</li>
+            <li>Job level: Senior level</li>
+            <li>Education: Minimum Bachelor Degree</li>
           </ul>
-        </section>
-        <section>
-          <h3>How can I post course?</h3>
-          <p>Post course using the CodeStudio</p>
-          <ul>
-            <li>Go to CodeStudio</li>
-            <li>Click add button on top right corner</li>
-            <li>Select the video</li>
-            <li>Click submit button</li>
-            <li>Your course will appear after the upload is complete</li>
-          </ul>
-        </section>
+          <p>Click to read more...</p>
+        </Link>
       </Container>
     </Page>
   )

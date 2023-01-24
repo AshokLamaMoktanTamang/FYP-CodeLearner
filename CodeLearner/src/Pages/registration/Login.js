@@ -5,8 +5,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 // importing components and images
-import Page from '../components/page'
-import AlertMessage from '../components/alertMessage'
+import Page from '../../components/page'
+import AlertMessage from '../../components/alertMessage'
+import Loader from '../../components/loading'
 
 export default function Login() {
   const [passwordType, setpasswordType] = useState('password')
@@ -19,16 +20,18 @@ export default function Login() {
       : (setpasswordType('password'), seteyeBtnIcon('ant-design:eye-invisible-filled'))
   }
 
-  // initializing the states for input fields and alerts
+  // initializing the states for input fields,loading and alerts
   const [email, setemail] = useState('')
   const [password, setpassword] = useState('')
   const [open, setopen] = useState(false)
   const [message, setmessage] = useState(null)
   const [status, setstatus] = useState(null)
+  const [showLoadng, setshowLoadng] = useState(false)
 
   const handleLogin = async (e) => {
     e.preventDefault()
 
+    setshowLoadng(true)
     await axios({
       method: 'post',
       url: `${process.env.REACT_APP_SERVER_BASE_URL}/api/auth/v1`,
@@ -48,12 +51,14 @@ export default function Login() {
             type: 'student',
           }),
         )
+        setshowLoadng(false)
         navigate('/app')
       })
       .catch((error) => {
         setmessage(error.response.data.msg)
         setstatus('error')
         setopen(true)
+        setshowLoadng(false)
       })
   }
 
@@ -61,6 +66,7 @@ export default function Login() {
     <Page title="Log In">
       <h2>Log In</h2>
       <AlertMessage display={open} setdisplay={setopen} message={message} status={status} />
+      {showLoadng && <Loader />}
 
       <form onSubmit={handleLogin}>
         <label htmlFor="userName">

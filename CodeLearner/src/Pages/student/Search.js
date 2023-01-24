@@ -4,11 +4,11 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 // importing the react components
-import Page from '../components/page'
-import SearchItem from '../components/searchItem'
+import Page from '../../components/page'
+import SearchItem from '../../components/searchItem'
 
 // test components
-import CourseImage from '../Images/registration.jpg'
+import CourseImage from '../../Images/registration.jpg'
 
 // styled components
 const SearchWrapper = styled.section`

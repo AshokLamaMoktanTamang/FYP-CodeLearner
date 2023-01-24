@@ -1,8 +1,10 @@
 // importing dependencies
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { Outlet, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { fetchUser } from '../../slice/userSlice'
 
 // importing components
 import NavBar from './navBar'
@@ -104,6 +106,12 @@ export default function Index() {
       navigate('/registration')
     }
   }, [token, navigate])
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchUser())
+  })
 
   return (
     registered && (

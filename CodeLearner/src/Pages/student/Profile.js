@@ -3,9 +3,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 // importing the react components
-import Page from '../components/page'
-import ProfileBox from '../components/profileBox'
-import SearchItem from '../components/searchItem'
+import Page from '../../components/page'
+import ProfileBox from '../../components/profileBox'
+import SearchItem from '../../components/searchItem'
 
 // styled components
 const ProfileWrapper = styled.section`

@@ -45,7 +45,7 @@ const AccountPopWrapper = Styled.section`
       }
     }
 
-    .logout{
+    .logout, .mode{
       color: var(--text-light-black);
     }
   }
@@ -86,7 +86,7 @@ const AccountPopWrapper = Styled.section`
       }
     }
 
-    .logout{
+    .logout, .mode{
       color: var(--teacher-white);
     }
   }
@@ -166,7 +166,7 @@ const AccountPopWrapper = Styled.section`
       margin-top: 8px
     }
     
-    .logout{
+    .logout, .mode{
       background-color: transparent;
       border: none;
       border-radius: 0.3rem;
@@ -188,6 +188,7 @@ export default function AccountPopOver(props) {
   const menuOptions = props.menuOptions
   const [popOverDisplay, setpopOverDisplay] = useState('none')
   const [accountHeadShade, setaccountHeadShade] = useState('')
+  const token = JSON.parse(localStorage.getItem('token'))
 
   const handlePopUp = () => {
     setpopOverDisplay(popOverDisplay === `none` ? `grid` : `none`)
@@ -197,6 +198,17 @@ export default function AccountPopOver(props) {
   const handleLogout = () => {
     localStorage.removeItem('token')
     navigate('/registration')
+  }
+
+  const handleChangeMode = () => {
+    localStorage.setItem(
+      'token',
+      JSON.stringify({
+        token: token.token,
+        type: (token.type = token.type === 'student' ? 'teacher' : 'student'),
+      }),
+    )
+    navigate('/app')
   }
 
   return (
@@ -210,8 +222,10 @@ export default function AccountPopOver(props) {
 
         <div className="account-box" style={{ display: popOverDisplay }}>
           <Link to="profile" className="account-user" onClick={handlePopUp}>
-            <h2>Username</h2>
-            <p>username@gmail.com</p>
+            <h2>
+              {props.userFName} {props.userLName}
+            </h2>
+            <p>{props.email}</p>
           </Link>
 
           <hr />
@@ -226,6 +240,12 @@ export default function AccountPopOver(props) {
 
           <hr className="upHr" />
 
+          {props.showTeacherButton && (
+            <button className="mode" onClick={handleChangeMode}>
+              {token.type === 'student' ? 'teacher' : 'student'}
+            </button>
+          )}
+
           <button className="logout" onClick={handleLogout}>
             Logout
           </button>
@@ -237,6 +257,10 @@ export default function AccountPopOver(props) {
 
 AccountPopOver.defaultProps = {
   theme: 'light',
+  userFName: 'Unknown',
+  userLname: '',
+  email: 'noemail@gmail.com',
+  showTeacherButton: false,
   menuOptions: [
     {
       label: 'Home',

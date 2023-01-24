@@ -7,6 +7,8 @@ import styled from 'styled-components'
 import NavBar from './navBar'
 import Footer from '../../components/footer'
 import SideBar from './sideBar'
+import { useDispatch } from 'react-redux'
+import { fetchUser } from '../../slice/userSlice'
 
 // styled component
 const Wrapper = styled.section`
@@ -53,6 +55,12 @@ export default function Index() {
       navigate('/registration')
     }
   }, [token, navigate])
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchUser())
+  })
 
   return (
     registered && (

@@ -9,28 +9,29 @@ import TeacherLayout from './layout/teacherDashboard'
 import ExtraLayout from './layout/extra'
 
 // page contents
-import Home from './Pages/Home'
-import Login from './Pages/Login'
-import SignUp from './Pages/Signup'
-import MyCourse from './Pages/MyCourse'
-import Page404 from './Pages/Page404'
-import Article from './Pages/Articles'
-import Search from './Pages/Search'
-import CourseDetail from './Pages/CourseDetail'
-import Profile from './Pages/Profile'
-import TeacherDashboard from './Pages/TeacherDashboard'
-import Contact from './Pages/Contact'
-import About from './Pages/About'
-import PrivacyPoliicy from './Pages/PrivacyPoliicy'
-import TermsAndCondition from './Pages/TermsAndCondition'
-import Faq from './Pages/Faq'
-import Career from './Pages/Career'
-import DetailCareer from './Pages/DetailCareer'
-import TopRatedCourse from './Pages/TopRatedCourse'
-import BestSellerCourse from './Pages/BestSellerCourse'
-import LatestCourse from './Pages/LatestCourse'
-import PopularArticle from './Pages/PopularArticle'
-import LatestArticle from './Pages/LatestArticle'
+import Home from './Pages/student/Home'
+import CourseDetail from './Pages/student/CourseDetail'
+import Login from './Pages/registration/Login'
+import SignUp from './Pages/registration/Signup'
+import MyCourse from './Pages/student/MyCourse'
+import Page404 from './Pages/static/Page404'
+import Article from './Pages/student/Articles'
+import Search from './Pages/student/Search'
+import Profile from './Pages/student/Profile'
+import TeacherDashboard from './Pages/teacher/TeacherDashboard'
+import Contact from './Pages/utils/Contact'
+import About from './Pages/static/About'
+import PrivacyPoliicy from './Pages/static/PrivacyPoliicy'
+import TermsAndCondition from './Pages/static/TermsAndCondition'
+import Faq from './Pages/utils/Faq'
+import Career from './Pages/utils/Career'
+import DetailCareer from './Pages/utils/DetailCareer'
+import TopRatedCourse from './Pages/student/TopRatedCourse'
+import BestSellerCourse from './Pages/student/BestSellerCourse'
+import LatestCourse from './Pages/student/LatestCourse'
+import PopularArticle from './Pages/student/PopularArticle'
+import LatestArticle from './Pages/student/LatestArticle'
+import TeachonCodeLearner from './Pages/utils/TeachonCodeLearner'
 
 export default function Router() {
   return useRoutes([
@@ -53,6 +54,7 @@ export default function Router() {
         { path: 'setting', element: <MyCourse /> },
         { path: 'profile', element: <Profile /> },
         { path: 'report', element: <MyCourse /> },
+        { path: 'teachOnCodeLearner', element: <TeachonCodeLearner /> },
       ],
     },
     {
