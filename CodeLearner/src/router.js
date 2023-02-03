@@ -32,6 +32,7 @@ import LatestCourse from './Pages/student/LatestCourse'
 import PopularArticle from './Pages/student/PopularArticle'
 import LatestArticle from './Pages/student/LatestArticle'
 import TeachonCodeLearner from './Pages/utils/TeachonCodeLearner'
+import TeacherInformation from './Pages/utils/TeacherInformation'
 
 export default function Router() {
   return useRoutes([
@@ -55,6 +56,7 @@ export default function Router() {
         { path: 'profile', element: <Profile /> },
         { path: 'report', element: <MyCourse /> },
         { path: 'teachOnCodeLearner', element: <TeachonCodeLearner /> },
+        { path: 'teacherInformation', element: <TeacherInformation /> },
       ],
     },
     {

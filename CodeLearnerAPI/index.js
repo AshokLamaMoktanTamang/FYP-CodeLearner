@@ -34,6 +34,7 @@ app.use((req, res, next) => {
 
 // using the json for expres
 app.use(express.json());
+app.use('/cv', express.static('./uploads/CVs'))
 
 // making routes
 const routesSetup = require("./routes/index");

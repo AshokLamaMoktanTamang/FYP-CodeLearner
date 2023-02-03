@@ -1,12 +1,15 @@
 // importing dependencies
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
+import { useDispatch } from 'react-redux'
 
 // importing components
 import Page from '../../components/page'
 import AlertMessage from '../../components/alertMessage'
-import { Link } from 'react-router-dom'
+import Loading from '../../components/loading'
+import { Link, useNavigate } from 'react-router-dom'
+import { addTeacherInfo, fetchTeacherInfo } from '../../slice/teacherSlice'
 
 // styled component
 const Wrapper = styled.section`
@@ -73,6 +76,11 @@ const Wrapper = styled.section`
         padding: 0.7rem 0.35rem;
         border-radius: 0.15rem;
         border: 0.1rem solid var(--dark-border-color);
+      }
+
+      textarea{
+        line-height: 1.7;
+        padding: 0.5rem;
       }
     }
 
@@ -245,14 +253,31 @@ export default function TeachonCodeLearner() {
   const [open, setopen] = useState(false)
   const [message, setmessage] = useState(null)
   const [status, setstatus] = useState(null)
+  const [showLoading, setshowLoading] = useState(false)
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    setshowLoading(true)
+    dispatch(fetchTeacherInfo())
+      .unwrap()
+      .then(() => {
+        navigate('/app/teacherInformation')
+      })
+
+    setshowLoading(false)
+  }, [dispatch, navigate])
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
+    setshowLoading(true)
     if (!acceptTerms) {
       setstatus('error')
       setmessage('The condition must be accepted before form submitted.')
       setopen(true)
+      setshowLoading(false)
       return
     }
 
@@ -260,6 +285,7 @@ export default function TeachonCodeLearner() {
       setstatus('error')
       setmessage('Please fill all the field')
       setopen(true)
+      setshowLoading(false)
       return
     }
 
@@ -267,17 +293,41 @@ export default function TeachonCodeLearner() {
       setstatus('error')
       setmessage('CV must be in PDF format')
       setopen(true)
+      setshowLoading(false)
       return
     }
+
+    const teacherData = new FormData()
+    teacherData.append('teachingType', teachingType)
+    teacherData.append('profession', profession)
+    teacherData.append('aboutSelf', aboutSelf)
+    teacherData.append('CV', CV)
+
+    dispatch(addTeacherInfo(teacherData))
+      .unwrap()
+      .then(() => {
+        setstatus('sucess')
+        setmessage('Information uploaded sucessfully.')
+        setopen(true)
+        setshowLoading(false)
+        navigate('/app/teacherInformation')
+      })
+      .catch(() => {
+        setstatus('error')
+        setmessage('Failed to add information.')
+        setopen(true)
+        setshowLoading(false)
+      })
   }
 
   return (
     <Page title="Teach On CodeLearner">
       <Wrapper>
         <AlertMessage display={open} setdisplay={setopen} message={message} status={status} />
+        {showLoading && <Loading />}
 
         <h1>Teach On CodeLearner</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
           <label>
             <span>Select CV</span>
             <div className={`fileLabel ${!CV && 'upload'}`}>
@@ -336,7 +386,13 @@ export default function TeachonCodeLearner() {
 
           <label>
             <span>About Yourself</span>
-            <textarea cols="30" rows="10" placeholder="About Yourself" onChange={(e) => setaboutSelf(e.target.value)} />
+            <textarea
+              cols="30"
+              rows="10"
+              placeholder="About Yourself"
+              minLength={20}
+              onChange={(e) => setaboutSelf(e.target.value)}
+            />
           </label>
 
           <label className="ifcpph">

@@ -1,6 +1,5 @@
 // initializing the user model
-const User = require("../models/userModel"),
-  userService = require("../services/userService");
+const userService = require("../services/userService");
 
 // for adding user
 const addUser = async (req, res) => {
