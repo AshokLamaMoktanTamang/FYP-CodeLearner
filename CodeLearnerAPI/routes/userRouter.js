@@ -2,21 +2,10 @@
 const express = require("express");
 const Router = express.Router();
 const validateRequestBody = require("../middleware/validateRequestBody");
-const {
-  userValidation,
-  updateUserDetailValidation,
-  updateUserPasswordValidation,
-} = require("../requestValidations/userValidation");
+const { userValidation } = require("../requestValidations/userValidation");
 
 // importing the controllers
-const {
-  addUser,
-  fetchUser,
-  updateUserDetail,
-  updateUserPassword,
-  deleteUserPermanently,
-  deleteUserTemporarily,
-} = require("../controllers/userController");
+const { addUser, fetchUser } = require("../controllers/userController");
 
 // importing middleware for validating header token
 const verifyUserToken = require("../middleware/verifyUserToken");

@@ -1,7 +1,9 @@
 // importing dependencies
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { fetchUser } from '../slice/userSlice'
 import Logo from './logo'
 
 // importing components
@@ -88,12 +90,20 @@ const FooterWrapper = styled.footer`
 `
 
 export default function Footer() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUser())
+  }, [dispatch])
+  
+  const user = useSelector((state) => state.user.user)
+
   return (
     <FooterWrapper>
       <div>
         <section>
           <h2>About Us</h2>
-          {localStorage.getItem('token') && <Link to={'/app/teachOnCodeLearner'}>Teach on CodeLearner</Link>}
+          {localStorage.getItem('token') && user && !user.data.isTeacher && <Link to={'/app/teachOnCodeLearner'}>Teach on CodeLearner</Link>}
           <Link to={'/about'}>About CodeLearner</Link>
           <Link to={'/contact'}>Contact Us</Link>
         </section>
