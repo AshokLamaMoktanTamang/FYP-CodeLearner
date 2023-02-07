@@ -66,7 +66,7 @@ const Message = styled.section`
   }
 `
 
-const AlertMessage = ({ display, setdisplay, status, message }) => {
+const AlertMessage = ({ display, setdisplay, status, message, theme }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setdisplay(false)
@@ -79,7 +79,7 @@ const AlertMessage = ({ display, setdisplay, status, message }) => {
 
   return (
     display && (
-      <Message>
+      <Message className={theme}>
         <i className={status}>
           {status === 'sucess' ? (
             <Icon icon="icon-park-outline:link-cloud-sucess" />

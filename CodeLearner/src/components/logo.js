@@ -23,7 +23,7 @@ const LogoWrapper = styled(Link)`
     line-height: 1.5;
     font-size: 1.125rem;
     font-family: Public Sans, sans-serif;
-    padding: 0 0.5rem;
+    padding-left: 0.5rem;
     letter-spacing: 1px;
   }
 

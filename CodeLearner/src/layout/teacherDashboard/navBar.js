@@ -20,6 +20,7 @@ const Nav = styled.header`
   justify-content: space-between;
   height: 64px;
   border-bottom: 1px solid var(--teacher-dark-border);
+  z-index: 10;
 
   & > button {
     cursor: pointer;
@@ -57,7 +58,6 @@ const menu = [
 
 export default function NavBar(props) {
   const user = useSelector((state) => state.user.user)
-  console.log(user)
 
   return (
     <Nav>
