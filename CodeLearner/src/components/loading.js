@@ -14,6 +14,7 @@ const Loader = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 
   & > svg {
     font-size: 3rem;

@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const httpService = axios.create({
   baseURL: `${process.env.REACT_APP_SERVER_BASE_URL}/api`,
-  timeout: 10000,
+  timeout: 100000,
 })
 
 httpService.interceptors.request.use(

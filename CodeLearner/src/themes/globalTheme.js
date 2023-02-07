@@ -26,9 +26,12 @@ const globalStyle = createGlobalStyle`
 		--background-black: #161b22;
 		--teacher-dark-border: #30363d;
 		--teacher-background: #0d1117;
+		--teacher-content-background: #45484e75;
 		--teacher-white: #d2dce7;
 		--hover-purple: #3f71ff;
 		--dark-scroll-bar: #052424b0;
+		--teacher-text-gold: #ffa13a;
+		--teacher-hover-white: rgb(255 255 255 / 32%);
 	}
 
 	*{
@@ -59,6 +62,13 @@ const globalStyle = createGlobalStyle`
 
 	.react-multiple-carousel__arrow--right{
 		z-index: 9;
+	}
+
+	.darkAlert {
+		background-color: var(--teacher-content-background);
+		backdrop-filter: blur(20px);
+		box-shadow: none;
+		border: 1px solid var(--teacher-dark-border);
 	}
 `
 export default globalStyle

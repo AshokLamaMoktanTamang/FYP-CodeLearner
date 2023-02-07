@@ -53,6 +53,7 @@ const TeacherDashboard = styled.section`
         transition: 0.15s ease-in-out;
         left: -70px;
         width: 70px;
+        z-index: 11;
 
         & > section {
           height: 100vh;

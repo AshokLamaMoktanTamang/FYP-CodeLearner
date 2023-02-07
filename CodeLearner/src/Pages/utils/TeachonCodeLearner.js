@@ -78,7 +78,7 @@ const Wrapper = styled.section`
         border: 0.1rem solid var(--dark-border-color);
       }
 
-      textarea{
+      textarea {
         line-height: 1.7;
         padding: 0.5rem;
       }
@@ -289,6 +289,14 @@ export default function TeachonCodeLearner() {
       return
     }
 
+    if (CV.size > 5 * 1024 * 1024) {
+      setstatus('error')
+      setmessage('CV can only be upto 5MB')
+      setopen(true)
+      setshowLoading(false)
+      return
+    }
+
     if (CV.type !== 'application/pdf') {
       setstatus('error')
       setmessage('CV must be in PDF format')
@@ -312,9 +320,13 @@ export default function TeachonCodeLearner() {
         setshowLoading(false)
         navigate('/app/teacherInformation')
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err)
         setstatus('error')
         setmessage('Failed to add information.')
+        if (err.status) {
+          setmessage('Poor Internet or Too Many Request')
+        }
         setopen(true)
         setshowLoading(false)
       })

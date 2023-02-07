@@ -9,28 +9,38 @@ import TeacherLayout from './layout/teacherDashboard'
 import ExtraLayout from './layout/extra'
 
 // page contents
+// student
 import Home from './Pages/student/Home'
 import CourseDetail from './Pages/student/CourseDetail'
-import Login from './Pages/registration/Login'
-import SignUp from './Pages/registration/Signup'
 import MyCourse from './Pages/student/MyCourse'
-import Page404 from './Pages/static/Page404'
 import Article from './Pages/student/Articles'
 import Search from './Pages/student/Search'
-import Profile from './Pages/student/Profile'
-import TeacherDashboard from './Pages/teacher/TeacherDashboard'
-import Contact from './Pages/utils/Contact'
-import About from './Pages/static/About'
-import PrivacyPoliicy from './Pages/static/PrivacyPoliicy'
-import TermsAndCondition from './Pages/static/TermsAndCondition'
-import Faq from './Pages/utils/Faq'
-import Career from './Pages/utils/Career'
-import DetailCareer from './Pages/utils/DetailCareer'
 import TopRatedCourse from './Pages/student/TopRatedCourse'
 import BestSellerCourse from './Pages/student/BestSellerCourse'
 import LatestCourse from './Pages/student/LatestCourse'
 import PopularArticle from './Pages/student/PopularArticle'
 import LatestArticle from './Pages/student/LatestArticle'
+import Profile from './Pages/student/Profile'
+
+// teacher
+import TeacherDashboard from './Pages/teacher/TeacherDashboard'
+import TeacherCourse from './Pages/teacher/TeacherCourse'
+import DetailedCourse from './Pages/teacher/DetailedCourse'
+import UpdateCourse from './Pages/teacher/UpdateCourse'
+
+// registration and static pages
+import Login from './Pages/registration/Login'
+import SignUp from './Pages/registration/Signup'
+import Page404 from './Pages/static/Page404'
+import About from './Pages/static/About'
+import PrivacyPoliicy from './Pages/static/PrivacyPoliicy'
+import TermsAndCondition from './Pages/static/TermsAndCondition'
+
+// utilities
+import Contact from './Pages/utils/Contact'
+import Faq from './Pages/utils/Faq'
+import Career from './Pages/utils/Career'
+import DetailCareer from './Pages/utils/DetailCareer'
 import TeachonCodeLearner from './Pages/utils/TeachonCodeLearner'
 import TeacherInformation from './Pages/utils/TeacherInformation'
 
@@ -64,10 +74,11 @@ export default function Router() {
       element: <TeacherLayout />,
       children: [
         { path: '', element: <TeacherDashboard /> },
-        { path: 'myCourse', element: <TeacherDashboard /> },
+        { path: 'myCourse', element: <TeacherCourse /> },
         { path: 'setting', element: <TeacherDashboard /> },
-        { path: 'tests', element: <TeacherDashboard /> },
+        { path: 'myCourse/:courseId', element: <DetailedCourse /> },
         { path: 'profile', element: <TeacherDashboard /> },
+        { path: 'updateCourse/:courseId', element: <UpdateCourse /> },
       ],
     },
     {
