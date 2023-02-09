@@ -20,7 +20,6 @@ import BestSellerCourse from './Pages/student/BestSellerCourse'
 import LatestCourse from './Pages/student/LatestCourse'
 import PopularArticle from './Pages/student/PopularArticle'
 import LatestArticle from './Pages/student/LatestArticle'
-import Profile from './Pages/student/Profile'
 
 // teacher
 import TeacherDashboard from './Pages/teacher/TeacherDashboard'
@@ -43,6 +42,8 @@ import Career from './Pages/utils/Career'
 import DetailCareer from './Pages/utils/DetailCareer'
 import TeachonCodeLearner from './Pages/utils/TeachonCodeLearner'
 import TeacherInformation from './Pages/utils/TeacherInformation'
+import Setting from './Pages/utils/Setting'
+import Profile from './Pages/utils/Profile'
 
 export default function Router() {
   return useRoutes([
@@ -62,8 +63,8 @@ export default function Router() {
         { path: 'course/:courseId/similar', element: <CourseDetail /> },
         { path: 'course/:courseId/:userId', element: <CourseDetail /> },
         { path: 'myCourse', element: <MyCourse /> },
-        { path: 'setting', element: <MyCourse /> },
-        { path: 'profile', element: <Profile /> },
+        { path: 'setting', element: <Setting theme="Light" /> },
+        { path: 'profile', element: <Profile theme="Light" /> },
         { path: 'report', element: <MyCourse /> },
         { path: 'teachOnCodeLearner', element: <TeachonCodeLearner /> },
         { path: 'teacherInformation', element: <TeacherInformation /> },
@@ -75,9 +76,9 @@ export default function Router() {
       children: [
         { path: '', element: <TeacherDashboard /> },
         { path: 'myCourse', element: <TeacherCourse /> },
-        { path: 'setting', element: <TeacherDashboard /> },
+        { path: 'setting', element: <Setting /> },
         { path: 'myCourse/:courseId', element: <DetailedCourse /> },
-        { path: 'profile', element: <TeacherDashboard /> },
+        { path: 'profile', element: <Profile /> },
         { path: 'updateCourse/:courseId', element: <UpdateCourse /> },
       ],
     },
