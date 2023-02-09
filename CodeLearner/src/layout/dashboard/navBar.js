@@ -60,7 +60,6 @@ const menu = [
 
 export default function NavBar() {
   const user = useSelector((state) => state.user.user)
-
   return (
     <Header>
       <div className="hw48"></div>
