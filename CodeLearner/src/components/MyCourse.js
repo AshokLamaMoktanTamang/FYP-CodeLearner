@@ -16,7 +16,7 @@ const Wrapper = styled.section`
   border: 2px solid transparent;
   overflow: hidden;
   border-radius: 0.25rem;
-  width: fit-content;
+  max-width: 900px;
 
   :hover {
     border-color: var(--teacher-white);
@@ -35,10 +35,10 @@ const Course = styled(Link)`
   display: grid;
   align-items: flex-start;
   grid-template-columns: 50% 50%;
-  max-width: 900px;
   background-color: var(--teacher-content-background);
   text-decoration: none;
   color: var(--teacher-white);
+  width: 100%;
 
   & > div {
     width: 100%;

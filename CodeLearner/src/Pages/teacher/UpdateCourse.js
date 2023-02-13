@@ -297,7 +297,7 @@ export default function UpdateCourse() {
           </form>
 
           <div>
-            <VideoPlayer />
+            <VideoPlayer video={'http://localhost:5000/course/YouTube4.mp4'} />
           </div>
         </div>
       </Wrapper>
