@@ -2,6 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
+import { Link } from 'react-router-dom'
 
 // importing components
 import BarChart from '../../components/barChart'
@@ -26,7 +27,7 @@ const Dashboard = styled.section`
       grid-auto-flow: column;
       grid-gap: 0.7rem;
 
-      & > button{
+      & > button, & > a{
         height: 3rem;
         width: 3rem;
         background-color: var(--background-black);
@@ -35,6 +36,9 @@ const Dashboard = styled.section`
         outline: none;
         cursor: pointer;
         border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         :hover{
           & > svg{
@@ -90,9 +94,9 @@ export default function TeacherDashboard() {
           <h2>Welcome! {user}</h2>
 
           <div>
-            <button>
+            <Link to={'addCourse'}>
               <Icon icon="material-symbols:library-add-outline-rounded" />
-            </button>
+            </Link>
             <button>
               <Icon icon="zondicons:notification" />
             </button>

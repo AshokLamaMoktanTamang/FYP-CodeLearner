@@ -26,6 +26,7 @@ import TeacherDashboard from './Pages/teacher/TeacherDashboard'
 import TeacherCourse from './Pages/teacher/TeacherCourse'
 import DetailedCourse from './Pages/teacher/DetailedCourse'
 import UpdateCourse from './Pages/teacher/UpdateCourse'
+import AddCourse from './Pages/teacher/AddCourse'
 
 // registration and static pages
 import Login from './Pages/registration/Login'
@@ -79,6 +80,7 @@ export default function Router() {
         { path: 'setting', element: <Setting /> },
         { path: 'myCourse/:courseId', element: <DetailedCourse /> },
         { path: 'profile', element: <Profile /> },
+        { path: 'addCourse', element: <AddCourse /> },
         { path: 'updateCourse/:courseId', element: <UpdateCourse /> },
       ],
     },

@@ -243,6 +243,9 @@ export default function Setting({ theme }) {
     navigate('/registration')
   }
 
+  // input states
+  const [profileImg, setprofileImg] = useState(null)
+
   // drop down states
   const [profileDropdown, setprofileDropdown] = useState(false)
   const [accountDropdown, setaccountDropdown] = useState(false)
@@ -271,10 +274,14 @@ export default function Setting({ theme }) {
               <div>
                 <label>
                   <section>
-                    {/* <img src={TestImage} alt="Profile Image" /> */}
-                    <Icon icon="carbon:user-avatar-filled" />
+                    {profileImg ? (
+                      <img src={window.URL.createObjectURL(profileImg)} alt="Preview" />
+                    ) : (
+                      <Icon icon="carbon:user-avatar-filled" />
+                      // <img src={TestImage} alt="Profile Image" />
+                    )}
                   </section>
-                  <input type="file" hidden />
+                  <input type="file" onChange={(e) => setprofileImg(e.target.files[0])} hidden />
                 </label>
                 <label>
                   <span>First Name</span>

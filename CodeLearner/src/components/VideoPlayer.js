@@ -2,9 +2,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-// importing the default components
-import Thumbnail from '../Images/registration.jpg'
-
 // styled components
 const Wrapper = styled.section`
   position: relative;
@@ -32,8 +29,4 @@ export default function VideoPlayer(props) {
       <video src={props.video} poster={props.thumbnail} controls />
     </Wrapper>
   )
-}
-
-VideoPlayer.defaultProps = {
-  thumbnail: Thumbnail,
 }
