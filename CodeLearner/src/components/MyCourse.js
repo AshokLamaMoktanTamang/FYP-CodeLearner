@@ -9,6 +9,10 @@ import CourseImage from '../Images/registration.jpg'
 import RatingCounter from './ratingCounter'
 import { Link } from 'react-router-dom'
 import ConfirmDialog from './ConfirmDialog'
+import Loading from './loading'
+import AlertMessage from './alertMessage'
+import { useDispatch } from 'react-redux'
+import { DeleteCourse, fetchCoursesByToken } from '../slice/courseSlice'
 
 // styled components
 const Wrapper = styled.section`
@@ -128,7 +132,7 @@ const Option = styled.section`
   position: absolute;
   top: 0.3rem;
   right: 0.3rem;
-  z-index: 10;
+  z-index: 9;
 
   & > button {
     border-radius: 50%;
@@ -195,16 +199,43 @@ export default function MyCourse(props) {
   const [showOption, setshowOption] = useState(false)
   const [showConfirmDialog, setshowConfirmDialog] = useState(false)
 
+  // for alerts and loading
+  const [open, setopen] = useState(false)
+  const [message, setmessage] = useState(null)
+  const [showLoading, setshowLoading] = useState(false)
+
   const HandleOption = () => {
     showOption ? setshowOption(false) : setshowOption(true)
   }
 
+  // redux
+  const dispatch = useDispatch()
+
   const HandleDelete = () => {
-    console.log('Delete')
+    setshowConfirmDialog(false)
+    setshowLoading(true)
+    dispatch(DeleteCourse(props.courseId))
+      .unwrap()
+      .then(() => {
+        dispatch(fetchCoursesByToken())
+          .unwrap()
+          .catch(() => {
+            setmessage('Failed to fetch course')
+            setshowLoading(false)
+            setopen(true)
+          })
+      })
+      .catch(() => {
+        setmessage('Failed to delete course')
+        setshowLoading(false)
+        setopen(true)
+      })
   }
 
   return (
     <Wrapper>
+      {showLoading && <Loading />}
+      <AlertMessage display={open} setdisplay={setopen} message={message} status={'error'} />
       <Course to={`/app/teacher/myCourse/${props.courseId}`}>
         <div>
           <img src={props.courseImage} alt={props.courseName} />

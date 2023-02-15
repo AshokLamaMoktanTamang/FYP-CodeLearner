@@ -35,7 +35,62 @@ const fetchUser = async (req, res) => {
   }
 };
 
+// update user profile
+const updateUserProfile = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const { firstName, lastName, currentPassword } = req.body;
+
+    const user = await userService.updateUserProfile(
+      id,
+      firstName,
+      lastName,
+      currentPassword
+    );
+
+    if (!user) {
+      return res.status(401).send({
+        msg: "Failed to update user!",
+        error: "Internal Server Error",
+      });
+    }
+
+    return res
+      .status(200)
+      .send({ msg: `User profile updated sucessfully`, user });
+  } catch (error) {
+    return res.status(500).send({ msg: "Internal Server Error!", error });
+  }
+};
+
+// update user profile
+const updateUserPassword = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const { password, currentPassword } = req.body;
+
+    const user = await userService.updateUserPassword(
+      id,
+      password,
+      currentPassword
+    );
+
+    if (!user) {
+      return res.status(401).send({
+        msg: "Failed to update password!",
+        error: "Internal Server Error",
+      });
+    }
+
+    return res.status(200).send({ msg: `Password updated sucessfully`, user });
+  } catch (error) {
+    return res.status(500).send({ msg: "Internal Server Error!", error });
+  }
+};
+
 module.exports = {
   addUser,
   fetchUser,
+  updateUserProfile,
+  updateUserPassword,
 };

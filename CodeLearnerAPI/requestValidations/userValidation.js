@@ -10,10 +10,16 @@ const userValidation = joi.object({
 const updateUserDetailValidation = joi.object({
   firstName: joi.string().required().min(3).max(50),
   lastName: joi.string().required().min(3).max(50),
+  currentPassword: joi.string().required().min(8),
 });
 
 const updateUserPasswordValidation = joi.object({
+  currentPassword: joi.string().required().min(8),
   password: joi.string().required().min(8).alphanum(),
 });
 
-module.exports = {userValidation, updateUserDetailValidation, updateUserPasswordValidation};
+module.exports = {
+  userValidation,
+  updateUserDetailValidation,
+  updateUserPasswordValidation,
+};
