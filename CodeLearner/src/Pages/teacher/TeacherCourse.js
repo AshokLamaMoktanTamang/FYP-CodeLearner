@@ -61,6 +61,51 @@ const Wrapper = styled.section`
   }
 `
 
+const NoCourse = styled.section`
+  height: calc(100vh - 8.78rem);
+  min-height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  & > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--teacher-content-background);
+    width: 100%;
+    height: 100%;
+    max-width: 300px;
+    max-height: 170px;
+    padding: 1rem;
+    border-radius: 0.15rem;
+
+    & > p {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--dark-border-color);
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    & > a {
+      background-color: transparent;
+      text-decoration: none;
+      color: var(--dark-border-color);
+      padding: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+      display: block;
+
+      :hover {
+        color: var(--teacher-white);
+      }
+    }
+  }
+`
+
 export default function TeacherCourse() {
   // for alerts and loading
   const [open, setopen] = useState(false)
@@ -98,8 +143,7 @@ export default function TeacherCourse() {
         </section>
 
         <div>
-          {courses &&
-            courses.length > 0 &&
+          {courses && courses.length > 0 ? (
             courses.map((course) => {
               return (
                 <MyCourse
@@ -113,7 +157,15 @@ export default function TeacherCourse() {
                   key={course._id}
                 />
               )
-            })}
+            })
+          ) : (
+            <NoCourse>
+              <div>
+                <p>No course Available</p>
+                <Link to={'../addCourse'}>Add Course</Link>
+              </div>
+            </NoCourse>
+          )}
         </div>
       </Wrapper>
     </Page>

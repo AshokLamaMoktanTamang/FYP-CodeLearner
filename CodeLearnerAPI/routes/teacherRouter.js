@@ -12,13 +12,13 @@ const {
 
 // importing middleware for validating header token and file upload
 const verifyUserToken = require("../middleware/verifyUserToken"),
-  fileUpload = require("../middleware/fileUpload");
+  { upload } = require("../middleware/fileUpload");
 
 // making the end points for user
 Router.post(
   "/info",
   verifyUserToken,
-  fileUpload.single("CV"),
+  upload.single("CV"),
   validateRequestBody(teacherInfoValidation),
   addTeacherInfo
 );

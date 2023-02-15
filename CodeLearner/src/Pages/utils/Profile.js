@@ -2,6 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
+import { useSelector } from 'react-redux'
 
 // importing the react components
 import Page from '../../components/page'
@@ -54,10 +55,16 @@ const ProfileWrapper = styled.section`
   }
 
   .Light {
+    background-color: transparent;
+
     & > p {
       & > span {
         color: var(--text-black);
       }
+    }
+
+    & > svg {
+      color: #aab8c9;
     }
   }
 
@@ -77,38 +84,39 @@ const ProfileWrapper = styled.section`
 `
 
 export default function Profile({ theme }) {
+  const user = useSelector((state) => state.user.user)
+
   return (
     <Page title="Profile">
       <ProfileWrapper>
         <h2>Profile</h2>
 
-        <section>
-          {/* <img src={TestImage} alt="Profile Image" /> */}
-          <Icon icon="carbon:user-avatar-filled" />
-        </section>
+        {user && (
+          <>
+            <section className={theme}>
+              {user.data.profilePic ? (
+                <img src={user.data.profilePic} alt="Profile" />
+              ) : (
+                <Icon icon="carbon:user-avatar-filled" />
+              )}
+            </section>
 
-        <div className={theme}>
-          <p>
-            <span>First Name</span>
-            John
-          </p>
-          <p>
-            <span>Last Name</span>
-            Doe
-          </p>
-          <p>
-            <span>Email</span>
-            moktashok@gmail.com
-          </p>
-          <p>
-            <span>Saved Course</span>
-            14
-          </p>
-          <p>
-            <span>Teacher Account</span>
-            Not Verified
-          </p>
-        </div>
+            <div className={theme}>
+              <p>
+                <span>First Name</span>
+                {user.data.firstName}
+              </p>
+              <p>
+                <span>Last Name</span>
+                {user.data.lastName}
+              </p>
+              <p>
+                <span>Email</span>
+                {user.data.email}
+              </p>
+            </div>
+          </>
+        )}
 
         <Link to={'../setting'}>Update Profile</Link>
       </ProfileWrapper>

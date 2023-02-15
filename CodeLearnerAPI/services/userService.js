@@ -68,6 +68,61 @@ const fetchUserById = async (id) => {
   return user;
 };
 
-const fetchAllUser = (async = async () => {});
+const updateUserProfile = async (id, firstName, lastName, currentPassword) => {
+  const exist = await User.findById(id).select("+password");
 
-module.exports = { addUser, fetchUserById };
+  if (!exist) {
+    throw "User doesn't exist";
+  }
+
+  const checkPassword = await bcrypt.compare(currentPassword, exist.password);
+
+  if (!checkPassword) {
+    throw "Invalid Current Password";
+  }
+
+  const user = await User.findByIdAndUpdate(id, {
+    firstName,
+    lastName,
+  });
+
+  if (!user) {
+    throw "Failed to update user";
+  }
+
+  return user;
+};
+
+const updateUserPassword = async (id, password, currentPassword) => {
+  const exist = await User.findById(id).select("+password");
+
+  if (!exist) {
+    throw "User doesn't exist";
+  }
+
+  const checkPassword = await bcrypt.compare(currentPassword, exist.password);
+
+  if (!checkPassword) {
+    throw "Invalid Current Password";
+  }
+
+  const salt = await bcrypt.genSalt(10),
+    newPassword = await bcrypt.hash(password, salt);
+
+  const user = await User.findByIdAndUpdate(id, {
+    password: newPassword,
+  });
+
+  if (!user) {
+    throw "Failed to update password";
+  }
+
+  return user;
+};
+
+module.exports = {
+  addUser,
+  fetchUserById,
+  updateUserProfile,
+  updateUserPassword,
+};

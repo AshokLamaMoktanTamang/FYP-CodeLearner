@@ -24,6 +24,18 @@ export const fetchCourseById = createAsyncThunk('fetch/course/id', async (course
   return data
 })
 
+export const updateCourseById = createAsyncThunk('update/course', async ({ courseId, courseData }) => {
+  const { data } = await httpService.put(`/course/v1/${courseId}`, courseData)
+
+  return data
+})
+
+export const DeleteCourse = createAsyncThunk('delete/:courseId', async (courseId) => {
+  const { data } = await httpService.delete(`/course/v1/${courseId}`)
+
+  return data
+})
+
 export const courseSlice = createSlice({
   name: 'Course',
   initialState,

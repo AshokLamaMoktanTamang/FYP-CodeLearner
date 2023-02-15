@@ -1,9 +1,10 @@
 // importing dependencies
-import React from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import Comment from '../../components/Comment'
 import { Icon } from '@iconify/react'
+import { useDispatch, useSelector } from 'react-redux'
 
 // importing components
 import Page from '../../components/page'
@@ -12,6 +13,9 @@ import VideoPlayer from '../../components/VideoPlayer'
 import { Link } from 'react-router-dom'
 import ConfirmDialog from '../../components/ConfirmDialog'
 import { useState } from 'react'
+import { DeleteCourse, fetchCourseById } from '../../slice/courseSlice'
+import Loading from '../../components/loading'
+import AlertMessage from '../../components/alertMessage'
 
 // styled components
 const Wrapper = styled.section`
@@ -219,14 +223,49 @@ const Wrapper = styled.section`
 
 export default function DetailedCourse() {
   const { courseId } = useParams()
+
+  // for alerts and loading
   const [showConfirmDialog, setshowConfirmDialog] = useState(false)
+  const [open, setopen] = useState(false)
+  const [message, setmessage] = useState(null)
+  const [showLoading, setshowLoading] = useState(false)
+
+  // redux and navigate
+  const navigate = useNavigate()
+  const user = useSelector((state) => state.user.user)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    setshowLoading(true)
+    dispatch(fetchCourseById(courseId))
+    setshowLoading(false)
+  }, [dispatch, courseId])
+
+  const course = useSelector((state) => state.course.course)
+
+  useEffect(() => {
+    return () => {
+      if (course && user && course.course.teacherId !== user.data._id) {
+        navigate('/app/teacher/myCourse')
+      }
+    }
+  }, [course, user, navigate])
 
   const HandleDelete = () => {
-    console.log('delete')
+    setshowLoading(true)
+    dispatch(DeleteCourse(courseId))
+      .unwrap()
+      .then(() => {
+        navigate('/app/teacher/myCourse')
+      })
+      .catch(() => {
+        setmessage('Failed to delete course')
+        setshowLoading(false)
+        setopen(true)
+      })
   }
 
   return (
-    <Page title="Course Name">
+    <Page title={course ? course.course.courseName : 'Unknown'}>
       <Wrapper>
         {showConfirmDialog && (
           <ConfirmDialog
@@ -238,60 +277,62 @@ export default function DetailedCourse() {
             cancel={() => setshowConfirmDialog(false)}
           />
         )}
-        <div>
-          <h1>Detailed Description - Full Python Course</h1>
+        {showLoading && <Loading />}
+        <AlertMessage display={open} setdisplay={setopen} message={message} status={'error'} />
 
+        {course && course.course && (
           <div>
-            <VideoPlayer video={'http://localhost:5000/course/YouTube4.mp4'} />
-          </div>
+            <h1>Detailed Description - {course.course.courseName}</h1>
 
-          <div className="button-container">
-            <button onClick={() => setshowConfirmDialog(true)}>
-              <Icon icon="ic:baseline-delete" />
-              Delete
-            </button>
-            <Link to={`/app/teacher/updateCourse/${courseId}`}>
-              <Icon icon="mdi:pencil" />
-              Edit
-            </Link>
-          </div>
+            <div>
+              <VideoPlayer video={course.course.courseFile} thumbnail={course.course.thumbnail} />
+            </div>
 
-          <section>
-            <p>
-              <span>Course Name</span>
-              Full Python Course
-            </p>
-            <p>
-              <span>Total Student</span>
-              100
-            </p>
-            <p>
-              <span>Status</span>
-              <span>
-                <Icon icon="mdi:account-pending" /> Pending
-              </span>
-            </p>
+            <div className="button-container">
+              <button
+                onClick={() => {
+                  setshowConfirmDialog(true)
+                }}
+              >
+                <Icon icon="ic:baseline-delete" />
+                Delete
+              </button>
+              <Link to={`/app/teacher/updateCourse/${courseId}`}>
+                <Icon icon="mdi:pencil" />
+                Edit
+              </Link>
+            </div>
+
             <section>
-              <span>Rating</span>
+              <p>
+                <span>Course Name</span>
+                {course.course.courseName}
+              </p>
+              <p>
+                <span>Total Student</span>
+                100
+              </p>
+              <p>
+                <span>Status</span>
+                <span>
+                  <Icon icon="mdi:account-pending" /> {course.course.status}
+                </span>
+              </p>
+              <section>
+                <span>Rating</span>
+                <div>
+                  <span>3.1</span>
+                  <RatingCounter rating={3.1} />
+                  <p>(15)</p>
+                </div>
+              </section>
               <div>
-                <span>3.1</span>
-                <RatingCounter rating={3.1} />
-                <p>(15)</p>
+                <span>Course Description</span>
+                <p>{course.course.courseDescription}</p>
               </div>
             </section>
-            <div>
-              <span>Course Description</span>
-              <p>
-                Click on create credentials again and select create OAuth client id. Select type of application to web
-                application. Fill in your app name and add in redirect URL tab. Note: dont add / in the end of the above
-                URL. and click on create. You will get a client id and client secret. In oauthplayground select drive
-                and click on first URL. Click on settings icon from top right corner and check “User your own OAuth
-                credentials” and fill in your client id and client secret from before. Once you click on Authorize APIs
-                itll authorize your google account and generate Access token and Refresh token.
-              </p>
-            </div>
-          </section>
-        </div>
+          </div>
+        )}
 
         <section className="comment-section">
           <h1>Comment - 7</h1>

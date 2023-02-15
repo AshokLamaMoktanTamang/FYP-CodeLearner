@@ -26,7 +26,19 @@ const Wrapper = styled.section`
 export default function VideoPlayer(props) {
   return (
     <Wrapper>
-      <video src={props.video} poster={props.thumbnail} controls />
+      <video
+        src={
+          props.video && props.type === 'blob'
+            ? props.video
+            : `${process.env.REACT_APP_SERVER_BASE_URL}/course/${props.video}`
+        }
+        poster={
+          props.thumbnail && props.type === 'blob'
+            ? props.thumbnail
+            : `${process.env.REACT_APP_SERVER_BASE_URL}/thumbnail/${props.thumbnail}`
+        }
+        controls
+      />
     </Wrapper>
   )
 }

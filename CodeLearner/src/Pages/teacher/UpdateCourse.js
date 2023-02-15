@@ -1,15 +1,16 @@
 // importing the dependencies
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Page from '../../components/page'
 import { Icon } from '@iconify/react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
 
 // importing the components
 import VideoPlayer from '../../components/VideoPlayer'
 import AlertMessage from '../../components/alertMessage'
-
-// importing the test image
-import TestImage from '../../Images/registration.jpg'
+import { fetchCourseById, updateCourseById } from '../../slice/courseSlice'
+import Loading from '../../components/loading'
 
 // styled components
 const Wrapper = styled.section`
@@ -175,6 +176,9 @@ const Wrapper = styled.section`
 `
 
 export default function UpdateCourse() {
+  // parameters
+  const { courseId } = useParams()
+
   // form datas
   const [thumbnail, setthumbnail] = useState(null)
   const [coursename, setcoursename] = useState('')
@@ -190,14 +194,121 @@ export default function UpdateCourse() {
     'How Computers Work',
   ])
 
+  // redux and user checking
+  const navigate = useNavigate()
+  const user = useSelector((state) => state.user.user)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    setshowLoading(true)
+    dispatch(fetchCourseById(courseId))
+    setshowLoading(false)
+  }, [dispatch, courseId])
+
+  const course = useSelector((state) => state.course.course)
+
+  useEffect(() => {
+    return () => {
+      if (course && user && course.course.teacherId !== user.data._id) {
+        navigate('/app/teacher/myCourse')
+      }
+    }
+  }, [course, user, navigate])
+
+  // assigning the default values
+  const [thumbType, setthumbType] = useState(null)
+  useEffect(() => {
+    return () => {
+      if (course) {
+        setcoursename(course.course.courseName)
+        setdescription(course.course.courseDescription)
+        setprice(course.course.price)
+        setlearningList(course.course.learningOutcome)
+        setthumbnail(course.course.thumbnail)
+      }
+    }
+  }, [course])
+
   // alert message and loading states
   const [open, setopen] = useState(false)
   const [message, setmessage] = useState(null)
   const [status, setstatus] = useState(null)
+  const [showLoading, setshowLoading] = useState(false)
 
   const HandleUpdate = (e) => {
     e.preventDefault()
-    console.log(thumbnail, coursename, description, price, learnItem)
+
+    setshowLoading(true)
+    setstatus('error')
+    if (
+      thumbnail === null ||
+      coursename === null ||
+      description === null ||
+      price === null ||
+      learningList.length < 1 ||
+      coursename.trim().length < 1 ||
+      description.trim().length < 1 ||
+      price < 1
+    ) {
+      setmessage('Please provide all data!')
+      setshowLoading(false)
+      setopen(true)
+      return
+    }
+
+    if (coursename.trim().length < 3) {
+      setmessage('Course name must be atleast 3 characters long!')
+      setshowLoading(false)
+      setopen(true)
+      return
+    }
+
+    if (coursename.trim().length > 200) {
+      setmessage('Course Name too Long!')
+      setshowLoading(false)
+      setopen(true)
+      return
+    }
+
+    if (description.trim().length < 3) {
+      setmessage('Description must be atleast 3 characters long!')
+      setshowLoading(false)
+      setopen(true)
+      return
+    }
+
+    if (thumbnail.size > 5 * 1024 * 1024) {
+      setmessage('Thumbnail cannot be more than 5MB!')
+      setshowLoading(false)
+      setopen(true)
+      return
+    }
+
+    const courseData = new FormData()
+    courseData.append('thumbnail', thumbnail)
+    courseData.append('courseDescription', description)
+    courseData.append('courseName', coursename)
+    courseData.append('price', price)
+    for (let i = 0; i < learningList.length; i++) {
+      courseData.append(`learningOutcome[${i}]`, learningList[i])
+    }
+
+    dispatch(updateCourseById({ courseId, courseData }))
+      .unwrap()
+      .then(() => {
+        setstatus('sucess')
+        setmessage('Course updated sucessfully.')
+        setopen(true)
+        setshowLoading(false)
+        navigate('../myCourse')
+      })
+      .catch((err) => {
+        setmessage('Failed to update course.')
+        if (err.status) {
+          setmessage('Poor Internet or Too Many Request')
+        }
+        setopen(true)
+        setshowLoading(false)
+      })
   }
 
   const HandleAddLearningList = () => {
@@ -218,6 +329,7 @@ export default function UpdateCourse() {
 
   return (
     <Page title="Edit Course">
+      {showLoading && <Loading />}
       <AlertMessage display={open} setdisplay={setopen} message={message} status={status} theme="darkAlert" />
       <Wrapper>
         <h1>Update Course details</h1>
@@ -225,11 +337,34 @@ export default function UpdateCourse() {
         <div>
           <form onSubmit={(e) => e.preventDefault()}>
             <label>
-              <input type="file" hidden onChange={(e) => setthumbnail(e.target.files[0])} />
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={(e) => {
+                  if (e.target.files[0] && e.target.files[0].type.split('/')[0] !== 'image') {
+                    setmessage('Only image file accepted!')
+                    setstatus('error')
+                    setopen(true)
+                    return
+                  }
+                  if (e.target.files[0]) {
+                    setthumbType('blob')
+                    setthumbnail(e.target.files[0])
+                  }
+                }}
+              />
               <span>Thumbnail</span>
               <div>
                 <section>
-                  <img src={TestImage} alt="Thumbnail" />
+                  <img
+                    src={
+                      thumbType === 'blob'
+                        ? window.URL.createObjectURL(thumbnail)
+                        : `${process.env.REACT_APP_SERVER_BASE_URL}/thumbnail/${thumbnail}`
+                    }
+                    alt="Thumbnail"
+                  />
                 </section>
               </div>
             </label>
@@ -296,9 +431,7 @@ export default function UpdateCourse() {
             </div>
           </form>
 
-          <div>
-            <VideoPlayer video={'http://localhost:5000/course/YouTube4.mp4'} />
-          </div>
+          <div>{course && <VideoPlayer video={course.course.courseFile} thumbnail={course.course.thumbnail} />}</div>
         </div>
       </Wrapper>
     </Page>
