@@ -73,13 +73,17 @@ const Wrapper = styled.section`
         outline: none;
         background-color: var(--pdf-red);
         color: white;
-        margin-right: 1rem;
       }
 
       & > a {
         background-color: #fff;
         color: var(--text-black);
         text-decoration: none;
+        margin: 0 1rem;
+
+        :last-child{
+          margin: 0;
+        }
       }
     }
 
@@ -297,6 +301,10 @@ export default function DetailedCourse() {
                 <Icon icon="ic:baseline-delete" />
                 Delete
               </button>
+              <Link to={`/app/teacher/testPaper/${courseId}`}>
+                <Icon icon="file-icons:test-js" />
+                Test Paper
+              </Link>
               <Link to={`/app/teacher/updateCourse/${courseId}`}>
                 <Icon icon="mdi:pencil" />
                 Edit

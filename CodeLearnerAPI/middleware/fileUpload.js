@@ -18,11 +18,20 @@ const drive = google.drive({
 // initializing the multer for cv upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/CVs");
+    if (file.fieldname === "CV") {
+      cb(null, "uploads/CVs");
+    }
+    if (file.fieldname === "profile") {
+      cb(null, "uploads/Profiles");
+    }
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    req.body.CV = uniqueSuffix + "-" + file.originalname;
+    if (file.fieldname === "CV") {
+      req.body.CV = uniqueSuffix + "-" + file.originalname;
+    } else if (file.fieldname === "profile") {
+      req.body.profilePic = uniqueSuffix + "-" + file.originalname;
+    }
     cb(null, uniqueSuffix + "-" + file.originalname);
   },
 });
@@ -47,19 +56,6 @@ const courseStorage = multer.diskStorage({
   },
 });
 
-// const upload = multer({
-//   storage: GoogleDriveStorage({
-//     drive: drive,
-//     parents: "1rde0KeLAam4JBOlZUBwE-Fwi7bf4sZsl",
-//     filename: (req, file, cb) => {
-//       console.log(file.originalname, req.body);
-//       const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-//       req.body.fileName = uniqueSuffix + "-" + file.originalname;
-//       cb(null, uniqueSuffix + "-" + file.originalname);
-//     },
-//   }),
-// });
-
 const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
   storage,
@@ -74,10 +70,7 @@ const courseUpload = multer({
       return cb(new Error("File too large"));
     }
 
-    if (
-      file.mimetype.slice("/")[0] == "image" &&
-      file.size > 5 * 1024 * 1024
-    ) {
+    if (file.mimetype.slice("/")[0] == "image" && file.size > 5 * 1024 * 1024) {
       return cb(new Error("File too large"));
     }
 
