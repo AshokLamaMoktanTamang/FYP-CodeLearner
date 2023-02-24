@@ -37,6 +37,7 @@ app.use(express.json());
 app.use('/cv', express.static('./uploads/CVs'))
 app.use('/course', express.static('./uploads/Courses'))
 app.use('/thumbnail', express.static('./uploads/Thumbnails'))
+app.use('/profile', express.static('./uploads/Profiles'))
 
 // making routes
 const routesSetup = require("./routes/index");

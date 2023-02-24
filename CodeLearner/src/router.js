@@ -27,6 +27,7 @@ import TeacherCourse from './Pages/teacher/TeacherCourse'
 import DetailedCourse from './Pages/teacher/DetailedCourse'
 import UpdateCourse from './Pages/teacher/UpdateCourse'
 import AddCourse from './Pages/teacher/AddCourse'
+import TestPaper from './Pages/teacher/TestPaper'
 
 // registration and static pages
 import Login from './Pages/registration/Login'
@@ -45,6 +46,7 @@ import TeachonCodeLearner from './Pages/utils/TeachonCodeLearner'
 import TeacherInformation from './Pages/utils/TeacherInformation'
 import Setting from './Pages/utils/Setting'
 import Profile from './Pages/utils/Profile'
+import TestPaperDetail from './Pages/teacher/TestPaperDetail'
 
 export default function Router() {
   return useRoutes([
@@ -82,6 +84,8 @@ export default function Router() {
         { path: 'profile', element: <Profile /> },
         { path: 'addCourse', element: <AddCourse /> },
         { path: 'updateCourse/:courseId', element: <UpdateCourse /> },
+        { path: 'testPaper/:courseId', element: <TestPaper /> },
+        { path: 'testPaper/detail/:courseId', element: <TestPaperDetail /> },
       ],
     },
     {

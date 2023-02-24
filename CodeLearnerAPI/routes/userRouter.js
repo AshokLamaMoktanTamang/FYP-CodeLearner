@@ -18,6 +18,7 @@ const {
 
 // importing middleware for validating header token
 const verifyUserToken = require("../middleware/verifyUserToken");
+const { upload } = require("../middleware/fileUpload");
 
 // making the end points for user
 Router.get("/", verifyUserToken, fetchUser);
@@ -25,6 +26,7 @@ Router.post("/", validateRequestBody(userValidation), addUser);
 Router.put(
   "/profile",
   verifyUserToken,
+  upload.single("profile"),
   validateRequestBody(updateUserDetailValidation),
   updateUserProfile
 );

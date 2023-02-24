@@ -11,6 +11,21 @@ export const fetchUser = createAsyncThunk('user', async () => {
   return data
 })
 
+export const updateUserProfile = createAsyncThunk('user/update/profile', async (userData) => {
+  const { data } = await httpService.put('/user/v1/profile', userData)
+
+  return data
+})
+
+export const updateUserPassword = createAsyncThunk('user/update/password', async ({ currentPassword, password }) => {
+  const { data } = await httpService.put('/user/v1/password', {
+    currentPassword,
+    password,
+  })
+
+  return data
+})
+
 export const userSlice = createSlice({
   name: 'User',
   initialState,

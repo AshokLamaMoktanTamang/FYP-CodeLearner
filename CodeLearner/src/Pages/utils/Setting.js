@@ -1,14 +1,15 @@
 // importinig dependencies
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
+import { useDispatch, useSelector } from 'react-redux'
 
 // importing components
 import Page from '../../components/page'
 import { useNavigate } from 'react-router-dom'
-
-// importing testing component
-// import TestImage from '../../Images/registration.jpg'
+import AlertMessage from '../../components/alertMessage'
+import Loading from '../../components/loading'
+import { fetchUser, updateUserPassword, updateUserProfile } from '../../slice/userSlice'
 
 // styled components
 const Wrapper = styled.section`
@@ -80,7 +81,7 @@ const Wrapper = styled.section`
         }
       }
 
-      & > div{
+      & > form, & > div{
         display: grid;
         grid-gap: 1.9rem;
         padding: 0.7rem;
@@ -237,21 +238,154 @@ const Wrapper = styled.section`
 export default function Setting({ theme }) {
   const navigate = useNavigate()
 
+  // logout functionality
   const HandleLogout = (e) => {
     e.preventDefault()
     localStorage.removeItem('token')
     navigate('/registration')
   }
 
+  // redux
+  const user = useSelector((state) => state.user.user)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    return () => {
+      if (user) {
+        setfirstName(user.data.firstName)
+        setlastName(user.data.lastName)
+        setprofilePic(user.data.profilePic)
+      }
+    }
+  }, [user])
+
+  // controllers
+  const HandleUpdateProfile = (e) => {
+    e.preventDefault()
+
+    setshowLoading(true)
+    setstatus('error')
+    if (
+      firstName === null ||
+      lastName === null ||
+      currentPassword === null ||
+      firstName.trim().length < 1 ||
+      lastName.trim().length < 1 ||
+      currentPassword.trim().length < 8
+    ) {
+      setmessage('Please provide a valid data!')
+      setopen(true)
+      setshowLoading(false)
+      return
+    }
+
+    if (profileImg && profileImg.size > 5 * 1024 * 1024) {
+      setmessage('Profile image cannot be greater then 5MB!')
+      setopen(true)
+      setshowLoading(false)
+      return
+    }
+
+    const userData = new FormData()
+    userData.append('firstName', firstName)
+    userData.append('lastName', lastName)
+    profileImg && userData.append('profile', profileImg)
+    userData.append('currentPassword', currentPassword)
+    dispatch(updateUserProfile(userData))
+      .unwrap()
+      .then(() => {
+        setstatus('sucess')
+        setmessage('Profile uploaded sucessfully.')
+        setopen(true)
+        dispatch(fetchUser())
+        setcurrentPassword('')
+        setshowLoading(false)
+      })
+      .catch((err) => {
+        setmessage('Failed to update profile.')
+        if (err.status) {
+          setmessage('Poor Internet or Too Many Request')
+        }
+        setopen(true)
+        setshowLoading(false)
+      })
+
+    setshowLoading(false)
+  }
+
+  const HandleUpdatePassword = (e) => {
+    e.preventDefault()
+
+    setshowLoading(true)
+    setstatus('error')
+    if (
+      password === null ||
+      confirmPassword === null ||
+      currentPassword2 === null ||
+      password.trim().length < 8 ||
+      confirmPassword.trim().length < 8 ||
+      currentPassword2.trim().length < 8
+    ) {
+      setmessage('Password must be 8 character long!')
+      setopen(true)
+      setshowLoading(false)
+      return
+    }
+
+    if (password !== confirmPassword) {
+      setmessage('Please verify your password!')
+      setopen(true)
+      setshowLoading(false)
+      return
+    }
+
+    dispatch(updateUserPassword({ currentPassword: currentPassword2, password }))
+      .unwrap()
+      .then(() => {
+        setstatus('sucess')
+        setmessage('Password updated sucessfully.')
+        setopen(true)
+        setcurrentPassword2('')
+        setpassword('')
+        setconfirmPassword('')
+        setshowLoading(false)
+      })
+      .catch((err) => {
+        setmessage('Failed to update password.')
+        if (err.status) {
+          setmessage('Poor Internet or Too Many Request')
+        }
+        setopen(true)
+        setshowLoading(false)
+      })
+
+    setshowLoading(false)
+  }
+
   // input states
   const [profileImg, setprofileImg] = useState(null)
+  const [profilePic, setprofilePic] = useState(null)
+  const [firstName, setfirstName] = useState('')
+  const [lastName, setlastName] = useState('')
+  const [currentPassword, setcurrentPassword] = useState('')
+  const [confirmPassword, setconfirmPassword] = useState(null)
+  const [password, setpassword] = useState(null)
+  const [currentPassword2, setcurrentPassword2] = useState('')
 
   // drop down states
   const [profileDropdown, setprofileDropdown] = useState(false)
   const [accountDropdown, setaccountDropdown] = useState(false)
 
+  // for alerts and loading
+  const [open, setopen] = useState(false)
+  const [message, setmessage] = useState(null)
+  const [status, setstatus] = useState(null)
+  const [showLoading, setshowLoading] = useState(false)
+
   return (
     <Page title="Setting">
+      <AlertMessage display={open} setdisplay={setopen} message={message} status={status} theme="darkAlert" />
+      {showLoading && <Loading />}
       <Wrapper>
         <section className={theme}>
           <button onClick={HandleLogout}>Logout</button>
@@ -271,32 +405,62 @@ export default function Setting({ theme }) {
               </div>
             </section>
             {profileDropdown && (
-              <div>
+              <form onSubmit={HandleUpdateProfile} encType="multipart/form-data">
                 <label>
                   <section>
                     {profileImg ? (
                       <img src={window.URL.createObjectURL(profileImg)} alt="Preview" />
+                    ) : profilePic ? (
+                      <img src={`${process.env.REACT_APP_SERVER_BASE_URL}/profile/${profilePic}`} alt="Profile" />
                     ) : (
                       <Icon icon="carbon:user-avatar-filled" />
-                      // <img src={TestImage} alt="Profile Image" />
                     )}
                   </section>
-                  <input type="file" onChange={(e) => setprofileImg(e.target.files[0])} hidden />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="profilePic"
+                    onChange={(e) => {
+                      if (e.target.files[0] && e.target.files[0].type.split('/')[0] !== 'image') {
+                        setmessage('Only image file accepted!')
+                        setstatus('error')
+                        setopen(true)
+                        return
+                      }
+                      setprofileImg(e.target.files[0])
+                    }}
+                    hidden
+                  />
                 </label>
                 <label>
                   <span>First Name</span>
-                  <input type="text" placeholder="First Name" />
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    value={firstName}
+                    onChange={(e) => setfirstName(e.target.value)}
+                  />
                 </label>
                 <label>
                   <span>Last Name</span>
-                  <input type="text" placeholder="Last Name" />
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={lastName}
+                    onChange={(e) => setlastName(e.target.value)}
+                  />
                 </label>
                 <label>
                   <span>Current Password</span>
-                  <input type="password" placeholder="Current Password" />
+                  <input
+                    type="password"
+                    placeholder="Current Password"
+                    value={currentPassword}
+                    onChange={(e) => setcurrentPassword(e.target.value)}
+                  />
                 </label>
                 <button>Update</button>
-              </div>
+              </form>
             )}
           </div>
 
@@ -317,19 +481,34 @@ export default function Setting({ theme }) {
               <div>
                 <label className="lkpc">
                   <span>New Password</span>
-                  <input type="password" placeholder="New Password" />
+                  <input
+                    type="password"
+                    placeholder="New Password"
+                    value={password}
+                    onChange={(e) => setpassword(e.target.value)}
+                  />
                 </label>
                 <label>
                   <span>Confirm Password</span>
-                  <input type="password" placeholder="Confirm Password" />
+                  <input
+                    type="password"
+                    placeholder="Confirm Password"
+                    value={confirmPassword}
+                    onChange={(e) => setconfirmPassword(e.target.value)}
+                  />
                 </label>
                 <label>
                   <span>Current Password</span>
-                  <input type="password" placeholder="Current Password" />
+                  <input
+                    type="password"
+                    placeholder="Current Password"
+                    value={currentPassword2}
+                    onChange={(e) => setcurrentPassword2(e.target.value)}
+                  />
                 </label>
 
                 <section>
-                  <button>Change Password</button>
+                  <button onClick={HandleUpdatePassword}>Change Password</button>
                   <button>Delete Account</button>
                 </section>
               </div>

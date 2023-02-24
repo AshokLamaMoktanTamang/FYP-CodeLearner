@@ -95,7 +95,7 @@ export default function Profile({ theme }) {
           <>
             <section className={theme}>
               {user.data.profilePic ? (
-                <img src={user.data.profilePic} alt="Profile" />
+                <img src={`${process.env.REACT_APP_SERVER_BASE_URL}/profile/${user.data.profilePic}`} alt="Profile" />
               ) : (
                 <Icon icon="carbon:user-avatar-filled" />
               )}

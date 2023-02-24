@@ -39,13 +39,14 @@ const fetchUser = async (req, res) => {
 const updateUserProfile = async (req, res) => {
   try {
     const { id } = req.user;
-    const { firstName, lastName, currentPassword } = req.body;
+    const { firstName, lastName, currentPassword, profilePic } = req.body;
 
     const user = await userService.updateUserProfile(
       id,
       firstName,
       lastName,
-      currentPassword
+      currentPassword,
+      profilePic
     );
 
     if (!user) {

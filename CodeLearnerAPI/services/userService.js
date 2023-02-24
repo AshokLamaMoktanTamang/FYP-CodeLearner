@@ -68,7 +68,13 @@ const fetchUserById = async (id) => {
   return user;
 };
 
-const updateUserProfile = async (id, firstName, lastName, currentPassword) => {
+const updateUserProfile = async (
+  id,
+  firstName,
+  lastName,
+  currentPassword,
+  profilePic
+) => {
   const exist = await User.findById(id).select("+password");
 
   if (!exist) {
@@ -84,6 +90,7 @@ const updateUserProfile = async (id, firstName, lastName, currentPassword) => {
   const user = await User.findByIdAndUpdate(id, {
     firstName,
     lastName,
+    profilePic,
   });
 
   if (!user) {
