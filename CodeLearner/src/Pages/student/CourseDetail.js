@@ -1,19 +1,21 @@
 // importing dependencies
-import React, { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import RatingCounter from '../../components/ratingCounter'
 import { Icon } from '@iconify/react'
+import { useDispatch, useSelector } from 'react-redux'
 
 // importing the react components
 import Page from '../../components/page'
 import { responsive } from '../../services/responsive'
 
 // testing components
-import Thumbnail from '../../Images/registration.jpg'
-import CourseImage from '../../Images/registration.jpg'
 import CourseItem from '../../components/courseItem'
 import Carousel from 'react-multi-carousel'
+import { fetchCourseById, fetchCoursesByUser } from '../../slice/courseSlice'
+import AlertMessage from '../../components/alertMessage'
+import Loading from '../../components/loading'
 
 // styled components
 const CourseWrapper = styled.section`
@@ -30,7 +32,7 @@ const CourseWrapper = styled.section`
 
   & > .course-brief {
     margin-right: 1rem;
-    align-items: center;
+    align-items: flex-start;
     max-width: 1000px;
     overflow: hidden;
     display: grid;
@@ -234,6 +236,16 @@ const CourseWrapper = styled.section`
     }
   }
 
+  .no-course {
+    font-weight: bold;
+    color: var(--text-light-black);
+    padding: 2rem;
+    background: var(--btn-hover-color);
+    text-align: center;
+    border: 1px dashed var(--dark-border-color);
+    border-radius: 0.25rem;
+  }
+
   @media (max-width: 600px) {
     & > .course-brief {
       grid-template-columns: none;
@@ -256,88 +268,132 @@ export default function CourseDetail() {
     saved ? setsaved(false) : setsaved(true)
   }
 
+  // for alerts and loading
+  const [open, setopen] = useState(false)
+  const [message, setmessage] = useState(null)
+  const [showLoading, setshowLoading] = useState(false)
+
+  // redux
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    return () => {
+      setshowLoading(true)
+      dispatch(fetchCourseById(courseId))
+        .unwrap()
+        .catch(() => {
+          navigate('/app')
+        })
+      setshowLoading(false)
+    }
+  }, [dispatch, courseId, navigate])
+
+  const course = useSelector((state) => state.course.course)
+
+  useEffect(() => {
+    setshowLoading(true)
+
+    if (course && course.course) {
+      dispatch(fetchCoursesByUser({ id: course.course.teacherId._id }))
+        .unwrap()
+        .then(() => {
+          setshowLoading(false)
+        })
+        .catch(() => {
+          setmessage('Unable to fetch courses.')
+          setshowLoading(false)
+          setopen(true)
+        })
+    }
+  }, [dispatch, course])
+
+  const courses = useSelector((state) => state.course.courses.course)
+
   return (
     <Page title={courseId}>
+      {showLoading && <Loading />}
+      <AlertMessage display={open} setdisplay={setopen} message={message} status={'error'} />
+
       <CourseWrapper>
         {/* making the four sections for the course brief, more from the user and suggestion */}
-        <h2>Pre-Programming: Everything you need to know before you code</h2>
+        <h2>{course && course.course && course.course.courseName}</h2>
 
-        <div className="course-brief">
-          <section>
-            <img src={Thumbnail} alt="course name" />
-          </section>
-
-          <div className="brief">
-            <h2>Pre-Programming: Everything you need to know before you code</h2>
-            <div className="rating">
-              <span>3.7</span>
-              <RatingCounter rating={3.7} />
-              <span>(100)</span>
-            </div>
-            <p>Increase your chance of success learning to code and communicating with other developers</p>
-            <span>Creator - Ashok Lama</span>
-            <span>Last Updated - 13 December 2022</span>
-            <h3>$ 13.00</h3>
-
+        {course && course.course && (
+          <div className="course-brief">
             <section>
-              <button>
-                <i>
-                  <Icon icon="ph:shopping-bag-open-bold" />
-                </i>
-                Buy
-              </button>
-              <button onClick={handleSave}>
-                {saved ? (
-                  <>
-                    <i>
-                      <Icon icon="material-symbols:bookmark" />
-                    </i>
-                    Saved
-                  </>
-                ) : (
-                  <>
-                    <i>
-                      <Icon icon="ic:round-bookmark-border" />
-                    </i>
-                    Save
-                  </>
-                )}
-              </button>
+              <img
+                src={`${process.env.REACT_APP_SERVER_BASE_URL}/thumbnail/${course.course.thumbnail}`}
+                alt="course name"
+              />
             </section>
+
+            <div className="brief">
+              <h2>{course.course.courseName}</h2>
+              <div className="rating">
+                <span>3.7</span>
+                <RatingCounter rating={3.7} />
+                <span>(100)</span>
+              </div>
+              <p>{course.course.courseDescription}</p>
+              <span>Creator - {`${course.course.teacherId.firstName} ${course.course.teacherId.lastName}`}</span>
+              <span>Last Updated - {Date(course.course.updatedAt)}</span>
+              <h3>$ {course.course.price}</h3>
+
+              <section>
+                <button>
+                  <i>
+                    <Icon icon="ph:shopping-bag-open-bold" />
+                  </i>
+                  Buy
+                </button>
+                <button onClick={handleSave}>
+                  {saved ? (
+                    <>
+                      <i>
+                        <Icon icon="material-symbols:bookmark" />
+                      </i>
+                      Saved
+                    </>
+                  ) : (
+                    <>
+                      <i>
+                        <Icon icon="ic:round-bookmark-border" />
+                      </i>
+                      Save
+                    </>
+                  )}
+                </button>
+              </section>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="what-learn">
           <h2>What you will learn?</h2>
 
           <ul>
-            <li>
-              <Icon icon="material-symbols:double-arrow-rounded" />
-              Better understand the fundamentals of how programming works
-            </li>
-            <li>
-              <Icon icon="material-symbols:double-arrow-rounded" />
-              Choose what programming language and path they want to pursue in their career
-            </li>
-            <li>
-              <Icon icon="material-symbols:double-arrow-rounded" />
-              Understand the fundamentals of how computers work and how that relates to modern web technology
-            </li>
-            <li>
-              <Icon icon="material-symbols:double-arrow-rounded" />
-              Understand and apply the 8 basic concepts of programming
-            </li>
-            <li>
-              <Icon icon="material-symbols:double-arrow-rounded" />
-              Evaluate, install, and modify any content management system
-            </li>
+            {course &&
+              course.course &&
+              course.course.learningOutcome.length > 0 &&
+              course.course.learningOutcome.map((outcome, index) => {
+                return (
+                  <li key={index}>
+                    <Icon icon="material-symbols:double-arrow-rounded" />
+                    {outcome}
+                  </li>
+                )
+              })}
           </ul>
         </div>
 
         <div className="more-from-user">
           <section>
-            <h2>More from Ashok Lama</h2>
-            <Link to={'userId'}>
+            <h2>
+              More from{' '}
+              {course && course.course && `${course.course.teacherId.firstName} ${course.course.teacherId.lastName}`}
+            </h2>
+            <Link to={course && course.course && course.course.teacherId._id}>
               See All <Icon icon="material-symbols:arrow-right-alt-rounded" />
             </Link>
           </section>
@@ -351,80 +407,28 @@ export default function CourseDetail() {
             partialVisible={false}
             minimumTouchDrag={20}
           >
-            <CourseItem
-              courseId={13}
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={4.1}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseId={12}
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={4.1}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseId={12}
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={4.1}
-              totalStudent={100}
-              price={16.99}
-            />
-          </Carousel>
-        </div>
+            {courses && courses.length > 1 ? (
+              courses.map((course, index) => {
+                if (course._id === courseId) {
+                  return false
+                }
 
-        <div className="suggestion">
-          <section>
-            <h2>Similar Content</h2>
-            <Link to={'similar'}>
-              See All <Icon icon="material-symbols:arrow-right-alt-rounded" />
-            </Link>
-          </section>
-
-          <Carousel
-            containerClass="carousel-container"
-            responsive={responsive}
-            swipeable={true}
-            draggable={true}
-            itemClass="carouselItem"
-            partialVisible={false}
-            minimumTouchDrag={20}
-          >
-            <CourseItem
-              courseId={12}
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={4.1}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseId={12}
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={4.1}
-              totalStudent={100}
-              price={16.99}
-            />
-            <CourseItem
-              courseId={12}
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={4.1}
-              totalStudent={100}
-              price={16.99}
-            />
+                return (
+                  <CourseItem
+                    courseId={course._id}
+                    courseImage={`${process.env.REACT_APP_SERVER_BASE_URL}/thumbnail/${course.thumbnail}`}
+                    courseName={course.courseName}
+                    authorName={`${course.teacherId.firstName} ${course.teacherId.lastName}`}
+                    price={course.price}
+                    key={index}
+                    rating={3.7}
+                    totalStudent={100}
+                  />
+                )
+              })
+            ) : (
+              <div className="no-course">No course Available</div>
+            )}
           </Carousel>
         </div>
       </CourseWrapper>

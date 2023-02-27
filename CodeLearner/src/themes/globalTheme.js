@@ -39,6 +39,7 @@ const globalStyle = createGlobalStyle`
 		padding: 0;
 		box-sizing: border-box;
 		text-transform: capitalize;
+		scroll-behavior: smooth;
 	}
 	
 	.none{
@@ -69,6 +70,10 @@ const globalStyle = createGlobalStyle`
 		backdrop-filter: blur(20px);
 		box-shadow: none;
 		border: 1px solid var(--teacher-dark-border);
+	}
+
+	input, textarea{
+		text-transform: initial;
 	}
 `
 export default globalStyle

@@ -1,18 +1,22 @@
 // importing the react and external libraries
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 // importing the react components
 import Page from '../../components/page'
 import CourseItem from '../../components/courseItem'
 import { responsive } from '../../services/responsive'
 import { Icon } from '@iconify/react'
+import AlertMessage from '../../components/alertMessage'
+import Loading from '../../components/loading'
+import { fetchTenCourse } from '../../slice/courseSlice'
 
 // testing component
 import CourseImage from '../../Images/registration.jpg'
-import { Link } from 'react-router-dom'
 
 // styled components
 const ContentWrapper = styled.section`
@@ -84,13 +88,42 @@ const ContentWrapper = styled.section`
 `
 
 export default function Home() {
+  // for alerts and loading
+  const [open, setopen] = useState(false)
+  const [message, setmessage] = useState(null)
+  const [showLoading, setshowLoading] = useState(false)
+
+  // redux
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    return () => {
+      setshowLoading(true)
+      dispatch(fetchTenCourse())
+        .unwrap()
+        .catch((err) => {
+          setmessage('Failed to fetch course.')
+          if (err.status) {
+            setmessage('Poor Internet or Too Many Request')
+          }
+          setopen(true)
+          setshowLoading(false)
+        })
+      setshowLoading(false)
+    }
+  }, [dispatch])
+
+  const latestCourses = useSelector((state) => state.course.tenCourse)
+
   return (
     <Page title="Home">
+      <AlertMessage display={open} setdisplay={setopen} message={message} status={'error'} />
+      {showLoading && <Loading />}
       <ContentWrapper>
         <div className="category">
           <section>
-            <h2 className="category-heading">Top Rated</h2>
-            <Link to={'top-rated?page=1'}>
+            <h2 className="category-heading">Latest</h2>
+            <Link to={'latest?page=1'}>
               See All <Icon icon="material-symbols:arrow-right-alt-rounded" />
             </Link>
           </section>
@@ -104,15 +137,24 @@ export default function Home() {
             partialVisible={false}
             minimumTouchDrag={20}
           >
-            <CourseItem
-              courseId={12}
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={4.1}
-              totalStudent={100}
-              price={16.99}
-            />
+            {latestCourses && latestCourses.length > 0 ? (
+              latestCourses.map((course, index) => {
+                return (
+                  <CourseItem
+                    courseId={course._id}
+                    courseImage={`${process.env.REACT_APP_SERVER_BASE_URL}/thumbnail/${course.thumbnail}`}
+                    courseName={course.courseName}
+                    authorName={`${course.teacherId.firstName} ${course.teacherId.lastName}`}
+                    price={course.price}
+                    key={index}
+                    rating={3.7}
+                    totalStudent={100}
+                  />
+                )
+              })
+            ) : (
+              <div>No course Available</div>
+            )}
           </Carousel>
         </div>
 
@@ -147,8 +189,8 @@ export default function Home() {
 
         <div className="category">
           <section>
-            <h2 className="category-heading">Latest</h2>
-            <Link to={'latest?page=1'}>
+            <h2 className="category-heading">Top Rated</h2>
+            <Link to={'top-rated?page=1'}>
               See All <Icon icon="material-symbols:arrow-right-alt-rounded" />
             </Link>
           </section>
@@ -167,7 +209,7 @@ export default function Home() {
               courseImage={CourseImage}
               courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
               authorName="Ashok Lama, The Codex"
-              rating={3.7}
+              rating={4.1}
               totalStudent={100}
               price={16.99}
             />

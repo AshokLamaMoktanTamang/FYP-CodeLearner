@@ -248,7 +248,7 @@ export default function DetailedCourse() {
 
   useEffect(() => {
     return () => {
-      if (course && user && course.course.teacherId !== user.data._id) {
+      if (course && user && course.course.teacherId._id !== user.data._id) {
         navigate('/app/teacher/myCourse')
       }
     }
