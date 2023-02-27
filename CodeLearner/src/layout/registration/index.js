@@ -218,7 +218,6 @@ export default function Registration() {
 
   useEffect(() => {
     if (token) {
-      console.log(token)
       token.type === 'student' ? navigate('/app') : navigate('/app/teacher')
     } else {
       setregistered(false)
