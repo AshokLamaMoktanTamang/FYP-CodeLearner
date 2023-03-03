@@ -7,6 +7,7 @@ import RegistrationLayout from './layout/registration'
 import ErrorLayout from './layout/error'
 import TeacherLayout from './layout/teacherDashboard'
 import ExtraLayout from './layout/extra'
+import AdminLayout from './layout/admin'
 
 // page contents
 // student
@@ -28,6 +29,14 @@ import DetailedCourse from './Pages/teacher/DetailedCourse'
 import UpdateCourse from './Pages/teacher/UpdateCourse'
 import AddCourse from './Pages/teacher/AddCourse'
 import TestPaper from './Pages/teacher/TestPaper'
+
+// admin
+import AdminHome from './Pages/admin/Home'
+import AdminTeacher from './Pages/admin/Teacher'
+import AdminInterview from './Pages/admin/Interview'
+import AdminCourse from './Pages/admin/Course'
+import AdminLogin from './Pages/admin/Login'
+import AdminUpdate from './Pages/admin/Update'
 
 // registration and static pages
 import Login from './Pages/registration/Login'
@@ -87,6 +96,24 @@ export default function Router() {
         { path: 'testPaper/:courseId', element: <TestPaper /> },
         { path: 'testPaper/detail/:courseId', element: <TestPaperDetail /> },
       ],
+    },
+    {
+      path: '/app/admin',
+      element: <AdminLayout />,
+      children: [
+        { path: '', element: <AdminHome /> },
+        { path: 'teacher', element: <AdminTeacher /> },
+        { path: 'course', element: <AdminCourse /> },
+        { path: 'interview', element: <AdminInterview /> },
+      ],
+    },
+    {
+      path: '/app/admin/login',
+      element: <AdminLogin />,
+    },
+    {
+      path: '/app/admin/update',
+      element: <AdminUpdate />,
     },
     {
       path: '/registration',

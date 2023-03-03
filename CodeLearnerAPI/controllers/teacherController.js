@@ -39,7 +39,6 @@ const fetchTeacherInfo = async (req, res) => {
     if (!info) {
       return res.status(400).json({
         msg: "Failed to fetch information",
-        info,
       });
     }
 
@@ -52,4 +51,23 @@ const fetchTeacherInfo = async (req, res) => {
   }
 };
 
-module.exports = { addTeacherInfo, fetchTeacherInfo };
+const fetchAllTeacherInfo = async (req, res) => {
+  try {
+    const infos = await teacherService.fetchAllInfo();
+
+    if (!infos) {
+      return res.status(400).json({
+        msg: "Failed to fetch information",
+      });
+    }
+
+    return res.status(200).send(infos);
+  } catch (error) {
+    return res.status(500).json({
+      msg: "Failed to fetch information",
+      error,
+    });
+  }
+}
+
+module.exports = { addTeacherInfo, fetchTeacherInfo, fetchAllTeacherInfo };

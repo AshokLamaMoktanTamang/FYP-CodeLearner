@@ -1,4 +1,4 @@
-const cousreService = require("../services/courseService");
+const courseService = require("../services/courseService");
 
 const addCourse = async (req, res) => {
   try {
@@ -11,7 +11,7 @@ const addCourse = async (req, res) => {
         thumbnail,
         price,
       } = req.body,
-      course = await cousreService.addCourse(
+      course = await courseService.addCourse(
         id,
         courseName,
         courseDescription,
@@ -44,7 +44,7 @@ const fetchCourseById = async (req, res) => {
   try {
     const { courseId } = req.params;
 
-    const course = await cousreService.fetchCourseById(courseId);
+    const course = await courseService.fetchCourseById(courseId);
 
     if (!course) {
       return res.status(500).json({
@@ -69,7 +69,7 @@ const fetchCourseByUser = async (req, res) => {
   try {
     const { teacherId } = req.params;
 
-    const course = await cousreService.fetchCourseByUser(teacherId);
+    const course = await courseService.fetchCourseByUser(teacherId);
 
     if (!course) {
       return res.status(500).json({
@@ -94,7 +94,7 @@ const fetchCourseByToken = async (req, res) => {
   try {
     const { id } = req.user;
 
-    const course = await cousreService.fetchCourseByUser(id);
+    const course = await courseService.fetchCourseByUser(id);
 
     if (!course) {
       return res.status(500).json({
@@ -115,12 +115,35 @@ const fetchCourseByToken = async (req, res) => {
   }
 };
 
+const fetchTenCourse = async (req, res) => {
+  try {
+    const courses = await courseService.fetchTenCourse();
+
+    if (!courses) {
+      return res.status(500).json({
+        msg: "Failed to fetch course",
+        error: "Internal Server error",
+      });
+    }
+
+    return res.status(200).json({
+      msg: "Cousre fetched sucessfully",
+      courses,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      msg: "Failed to fetch courses",
+      error,
+    });
+  }
+};
+
 const updateCourse = async (req, res) => {
   try {
     const { id } = req.user;
     const { courseId } = req.params;
 
-    const course = await cousreService.updateCourse(courseId, id, req.body);
+    const course = await courseService.updateCourse(courseId, id, req.body);
 
     if (!course) {
       return res.status(500).json({
@@ -146,7 +169,7 @@ const deleteCourse = async (req, res) => {
     const { id } = req.user;
     const { courseId } = req.params;
 
-    const course = await cousreService.deleteCourse(id, courseId);
+    const course = await courseService.deleteCourse(id, courseId);
 
     if (!course) {
       console.log(course);
@@ -167,11 +190,38 @@ const deleteCourse = async (req, res) => {
   }
 };
 
+const searchCourse = async (req, res) => {
+  try {
+    const { searchQuery } = req.params;
+
+    const course = await courseService.searchCourse(searchQuery);
+
+    if (!course) {
+      return res.status(500).json({
+        msg: "Failed to fetch course",
+        error: "Internal Server error",
+      });
+    }
+
+    return res.status(200).json({
+      msg: "Cousre fetched sucessfully",
+      course,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      msg: "Failed to fetch course",
+      error,
+    });
+  }
+} 
+
 module.exports = {
   addCourse,
   fetchCourseById,
   fetchCourseByUser,
   fetchCourseByToken,
+  fetchTenCourse,
   updateCourse,
   deleteCourse,
+  searchCourse
 };

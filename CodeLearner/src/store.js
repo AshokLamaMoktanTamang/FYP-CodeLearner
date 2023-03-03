@@ -3,6 +3,7 @@ import userReducer from './slice/userSlice'
 import teacherReducer from './slice/teacherSlice'
 import courseReducer from './slice/courseSlice'
 import testPaperReducer from './slice/testPaperSlice'
+import adminReducer from './slice/adminSlice'
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     teacher: teacherReducer,
     course: courseReducer,
     testPaper: testPaperReducer,
+    admin: adminReducer,
   },
 })
