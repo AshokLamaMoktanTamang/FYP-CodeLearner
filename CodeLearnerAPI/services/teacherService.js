@@ -39,4 +39,16 @@ const fetchInfo = async (userId) => {
   return info;
 };
 
-module.exports = { addInfo, fetchInfo };
+const fetchAllInfo = async () => {
+  const infos = await teacherInfoModel
+    .find()
+    .populate("userId", "id firstName lastName email");
+
+  if (!infos) {
+    throw "Information not Found";
+  }
+
+  return infos;
+};
+
+module.exports = { addInfo, fetchInfo, fetchAllInfo };

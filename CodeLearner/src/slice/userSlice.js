@@ -26,6 +26,12 @@ export const updateUserPassword = createAsyncThunk('user/update/password', async
   return data
 })
 
+export const seedAdmin = createAsyncThunk('user/seedAdmin', async () => {
+  const { data } = await httpService.post('auth/v1/seed')
+
+  return data
+})
+
 export const userSlice = createSlice({
   name: 'User',
   initialState,

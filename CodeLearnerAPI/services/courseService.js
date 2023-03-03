@@ -29,7 +29,9 @@ const addCourse = async (
 };
 
 const fetchCourseById = async (id) => {
-  const course = await courseModel.findById(id);
+  const course = await courseModel
+    .findById(id)
+    .populate("teacherId", "id firstName lastName email");
 
   if (!course) {
     throw "Course not found";
@@ -38,10 +40,33 @@ const fetchCourseById = async (id) => {
   return course;
 };
 
+const fetchTenCourse = async () => {
+  const courses = await courseModel
+    .find({
+      status: "approved",
+    })
+    .limit(10)
+    .populate("teacherId", "id firstName lastName email")
+    .sort({
+      createdAt: -1,
+    });
+
+  if (!courses) {
+    throw "Courses not found";
+  }
+
+  return courses;
+};
+
 const fetchCourseByUser = async (id) => {
-  const course = await courseModel.find({
-    teacherId: id,
-  });
+  const course = await courseModel
+    .find({
+      teacherId: id,
+    })
+    .sort({
+      createdAt: -1,
+    })
+    .populate("teacherId", "id firstName lastName email");
 
   if (!course) {
     throw "Course not found";
@@ -99,10 +124,33 @@ const deleteCourse = async (teacherId, id) => {
   return "Course deleted sucessfully";
 };
 
+const searchCourse = async (searchQuery) => {
+  const regex = new RegExp(searchQuery.toLowerCase(), "i");
+
+  const courses = await courseModel
+    .find({
+      courseName: {
+        $regex: regex,
+      },
+      courseDescription: {
+        $regex: regex,
+      },
+    })
+    .populate("teacherId", "id firstName lastName email");
+
+  if (!courses) {
+    throw "Courses not found";
+  }
+
+  return courses;
+};
+
 module.exports = {
   addCourse,
   fetchCourseById,
   fetchCourseByUser,
+  fetchTenCourse,
   updateCourse,
   deleteCourse,
+  searchCourse,
 };

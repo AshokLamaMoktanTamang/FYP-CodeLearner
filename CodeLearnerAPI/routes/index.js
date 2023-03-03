@@ -3,7 +3,8 @@ const userRouter = require("./userRouter"),
   teacherRouter = require("./teacherRouter"),
   auth = require("./auth"),
   course = require("./courseRouter"),
-  testPaper = require("./testPaperRouter");
+  testPaper = require("./testPaperRouter"),
+  adminRouter = require("./adminRoute")
 
 // initializing the router setup
 const routesSetup = (app) => {
@@ -12,6 +13,7 @@ const routesSetup = (app) => {
   app.use("/api/auth/v1", auth);
   app.use("/api/course/v1", course);
   app.use("/api/testPaper/v1", testPaper);
+  app.use("/api/admin/v1", adminRouter);
 };
 
 module.exports = routesSetup;
