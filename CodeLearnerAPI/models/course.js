@@ -38,6 +38,21 @@ const CourseSchema = new Schema(
       required: true,
       default: 0,
     },
+    avgRating: {
+      type: Number,
+      default: 0,
+    },
+    ratings: [
+      {
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+        rating: {
+          type: Number,
+        },
+      },
+    ],
     isDeleted: {
       type: Boolean,
       required: true,

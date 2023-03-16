@@ -48,7 +48,7 @@ const Wrapper = styled.section`
       margin-bottom: 0;
     }
 
-    & > p, & > pre {
+    & > p {
       font-size: 0.87rem;
       color: var(--text-light-black);
       line-height: 1.5;
@@ -142,7 +142,7 @@ export default function TeacherInformation() {
 
             <div>
               <h3>About yourself</h3>
-              <pre>{information.aboutSelf}</pre>
+              <p>{information.aboutSelf}</p>
             </div>
 
             <div>
@@ -162,7 +162,6 @@ export default function TeacherInformation() {
         {showModal && (
           <PdfModal>
             <section onClick={() => setshowModal(false)}></section>
-            <button></button>
             <div>
               <PdfViewer CV={userCV} />
             </div>

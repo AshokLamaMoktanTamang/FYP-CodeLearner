@@ -8,7 +8,10 @@ const express = require("express"),
 const {
   addTeacherInfo,
   fetchTeacherInfo,
-  fetchAllTeacherInfo
+  fetchTeacherInfoById,
+  fetchAllTeacherInfo,
+  rejectRequest,
+  assignInterview
 } = require("../controllers/teacherController");
 
 // importing middleware for validating header token and file upload
@@ -24,6 +27,9 @@ Router.post(
   addTeacherInfo
 );
 Router.get("/info", verifyUserToken, fetchTeacherInfo);
+Router.get("/info/user/:id", verifyUserToken, fetchTeacherInfoById);
 Router.get("/info/all", verifyUserToken, fetchAllTeacherInfo);
+Router.post("/info/reject/:userId", verifyUserToken, rejectRequest);
+Router.post("/info/approve/:userId", verifyUserToken, assignInterview);
 
 module.exports = Router;

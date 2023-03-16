@@ -33,6 +33,7 @@ import TestPaper from './Pages/teacher/TestPaper'
 // admin
 import AdminHome from './Pages/admin/Home'
 import AdminTeacher from './Pages/admin/Teacher'
+import AdminTeacherDetail from './Pages/admin/DetailedTeacher'
 import AdminInterview from './Pages/admin/Interview'
 import AdminCourse from './Pages/admin/Course'
 import AdminLogin from './Pages/admin/Login'
@@ -103,6 +104,7 @@ export default function Router() {
       children: [
         { path: '', element: <AdminHome /> },
         { path: 'teacher', element: <AdminTeacher /> },
+        { path: 'teacher/:id', element: <AdminTeacherDetail /> },
         { path: 'course', element: <AdminCourse /> },
         { path: 'interview', element: <AdminInterview /> },
       ],

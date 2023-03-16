@@ -206,7 +206,7 @@ const Wrapper = styled.section`
         }
       }
 
-      & > div{
+      & > div, & > form{
         border-color: var(--light-border-color);
 
         & > label{
