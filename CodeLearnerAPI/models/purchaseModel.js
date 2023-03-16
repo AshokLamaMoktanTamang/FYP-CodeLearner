@@ -1,25 +1,26 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const RatingSchema = new Schema(
+const purchaseSchema = new Schema(
   {
-    userId: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
-    courseId: {
+    course: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "Course",
     },
-    rating: {
-      type: Number,
+    isactive: {
+      type: Boolean,
       required: true,
+      default: true,
     },
   },
   { timestamps: true }
 );
 
-const RatingModel = mongoose.model("Rating", RatingSchema);
-module.exports = RatingModel;
+const purchaseModel = mongoose.model("Purchase", purchaseSchema);
+module.exports = purchaseModel;

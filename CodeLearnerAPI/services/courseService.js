@@ -1,6 +1,7 @@
 // importing models and packages
 const courseModel = require("../models/course"),
-  fs = require("fs");
+  purchaseModel = require("../models/purchaseModel");
+fs = require("fs");
 
 const addCourse = async (
   teacherId,
@@ -145,6 +146,107 @@ const searchCourse = async (searchQuery) => {
   return courses;
 };
 
+const purchaseCourse = async (user, course) => {
+  const exist = await courseModel.findById(course);
+
+  if (!exist) {
+    throw "Course not found";
+  }
+
+  const alreadyPurchase = await purchaseModel.findOne({
+    user,
+    course,
+  });
+
+  if (alreadyPurchase) {
+    throw "Course already purchased";
+  }
+
+  const purchase = await purchaseModel.create({
+    user,
+    course,
+  });
+
+  if (!course) {
+    throw "Failed to purchase course";
+  }
+
+  return purchase;
+};
+
+const fetchUserPurchasedCourse = async (user) => {
+  const courses = await purchaseModel
+    .find({
+      user,
+    })
+    .populate({
+      path: "course",
+      select: "id courseName courseDescription thumbnail price teacherId",
+      populate: { path: "teacherId", select: "firstName lastName" },
+    });
+
+  if (!courses) {
+    throw "Failed to fetch course";
+  }
+
+  return courses;
+};
+
+const fetchCoursePurchasedUser = async (course) => {
+  const exist = await courseModel.findById(course);
+
+  if (!exist) {
+    throw "Course not found";
+  }
+
+  const courses = await purchaseModel
+    .find({
+      course,
+    })
+    .populate("user", "firstName lastName profilePic");
+
+  if (!courses) {
+    throw "Failed to fetch users";
+  }
+
+  return courses;
+};
+
+const rateCourse = async (course, user, rating) => {
+  const exist = await courseModel.findById(course);
+
+  if (!exist) {
+    throw "Course not found";
+  }
+
+  const alreadyRated = exist.ratings.find(
+    (userRating) => userRating.user.toString() === user
+  );
+
+  if (alreadyRated) {
+    let avg = 0;
+    alreadyRated.rating = rating;
+    exist.ratings.map((rate) => {
+      avg += rate.rating;
+    });
+    exist.avgRating = avg / exist.ratings.length;
+    exist.save();
+    return exist;
+  }
+
+  exist.ratings.push({ user, rating });
+  exist.ratings.map((rate) => {
+    exist.avgRating = rate.rating;
+  });
+  exist.save();
+
+  if (!exist) {
+    throw "Failed to rate the course";
+  }
+
+  return exist;
+};
+
 module.exports = {
   addCourse,
   fetchCourseById,
@@ -153,4 +255,8 @@ module.exports = {
   updateCourse,
   deleteCourse,
   searchCourse,
+  purchaseCourse,
+  fetchUserPurchasedCourse,
+  fetchCoursePurchasedUser,
+  rateCourse,
 };

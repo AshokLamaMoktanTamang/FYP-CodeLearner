@@ -13,7 +13,11 @@ const {
   fetchTenCourse,
   updateCourse,
   deleteCourse,
-  searchCourse
+  searchCourse,
+  purchaseCourse,
+  fetchUserPurchasedCourse,
+  fetchCoursePurchasedUser,
+  rateCourse,
 } = require("../controllers/courseController");
 
 // importing middleware for validating header token and file upload
@@ -51,5 +55,13 @@ Router.put(
 );
 Router.delete("/:courseId", verifyUserToken, deleteCourse);
 Router.get("/search/:searchQuery", verifyUserToken, searchCourse);
+Router.post("/purchase/:courseId", verifyUserToken, purchaseCourse);
+Router.get("/get/purchase", verifyUserToken, fetchUserPurchasedCourse);
+Router.get(
+  "/user/purchase/:courseId",
+  verifyUserToken,
+  fetchCoursePurchasedUser
+);
+Router.post("/rate/:courseId", verifyUserToken, rateCourse);
 
 module.exports = Router;
