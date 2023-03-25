@@ -9,6 +9,7 @@ const {
   addCourse,
   fetchCourseById,
   fetchCourseByUser,
+  fetchApprovedCourseByUser,
   fetchCourseByToken,
   fetchTenCourse,
   updateCourse,
@@ -18,6 +19,10 @@ const {
   fetchUserPurchasedCourse,
   fetchCoursePurchasedUser,
   rateCourse,
+  fetchPendingCourse,
+  approveCourse,
+  rejectCourse,
+  checkPurchased
 } = require("../controllers/courseController");
 
 // importing middleware for validating header token and file upload
@@ -41,6 +46,7 @@ Router.post(
 );
 Router.get("/:courseId", verifyUserToken, fetchCourseById);
 Router.get("/user/:teacherId", verifyUserToken, fetchCourseByUser);
+Router.get("/user/approved/:teacherId", verifyUserToken, fetchApprovedCourseByUser);
 Router.get("/", verifyUserToken, fetchCourseByToken);
 Router.get("/latest/10", verifyUserToken, fetchTenCourse);
 Router.put(
@@ -63,5 +69,9 @@ Router.get(
   fetchCoursePurchasedUser
 );
 Router.post("/rate/:courseId", verifyUserToken, rateCourse);
+Router.get("/pending/all", verifyUserToken, fetchPendingCourse);
+Router.post("/approve/:courseId", verifyUserToken, approveCourse);
+Router.post("/reject/:courseId", verifyUserToken, rejectCourse);
+Router.post("/checkPurchase/:courseId", verifyUserToken, checkPurchased);
 
 module.exports = Router;

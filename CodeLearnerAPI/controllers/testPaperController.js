@@ -85,4 +85,51 @@ const deleteTestpaper = async (req, res) => {
   }
 };
 
-module.exports = { addTestPaper, fetchTestPaper, deleteTestpaper };
+const testPaperExistence = async (req, res) => {
+  try {
+    const { courseId } = req.params,
+      { id } = req.user;
+    
+    if(!id) {
+      return res.status(401).send(false);
+    }
+    
+    const testPaper = await testPaperService.testPaperExistence(courseId);
+    
+    if(!testPaper){
+      return res.status(401).send(false);
+    }
+    
+    return res.status(200).send(true);
+  } catch (error) {
+    return res.status(500).send(false);
+  }
+}
+
+const fetchTestPaperForStudent = async (req, res) => {
+  try {
+    const { courseId } = req.params,
+      { id } = req.user;
+
+    const testPaper = await testPaperService.fetchTestPaperForStudent(courseId);
+
+    if (!testPaper) {
+      return res.status(500).json({
+        msg: "Failed to fetch test paper",
+        error: "Internal Server error",
+      });
+    }
+
+    return res.status(200).json({
+      msg: "Testpaper fetched sucessfully",
+      testPaper,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      msg: "Failed to fetch test paper",
+      error,
+    });
+  }
+}
+
+module.exports = { addTestPaper, fetchTestPaper, deleteTestpaper, testPaperExistence, fetchTestPaperForStudent };

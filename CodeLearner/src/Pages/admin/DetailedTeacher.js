@@ -6,7 +6,7 @@ import { Icon } from '@iconify/react'
 
 // importing components
 import Page from '../../components/page'
-import { fetchTeacherInfoById, rejectApplication } from '../../slice/teacherSlice'
+import { approveTeacher, fetchTeacherInfoById, rejectApplication } from '../../slice/teacherSlice'
 import AlertMessage from '../../components/alertMessage'
 import Loading from '../../components/loading'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -198,6 +198,7 @@ export default function DetailedTeacher() {
   }
 
   const [rejectMessage, setrejectMessage] = useState('')
+  const [interviewTime, setInterviewTime] = useState('')
 
   const HandleRejectApplication = () => {
     setshowLoadng(true)
@@ -219,6 +220,35 @@ export default function DetailedTeacher() {
         setshowLoadng(false)
         setopen(true)
       })
+  }
+
+  const HandleAssign = (e) => {
+    e.preventDefault();
+
+    setshowLoadng(true)
+    if (interviewTime === '') {
+      setstatus('error')
+      setmessage('Enter the interview time')
+      setshowLoadng(false)
+      setopen(true)
+    }
+
+    const today = new Date();
+    if (new Date(today) >= new Date(interviewTime)) {
+      setstatus('error')
+      setmessage('Enter the valid interview time')
+      setshowLoadng(false)
+      setopen(true)
+    }
+
+    dispatch(approveTeacher({ id, interviewTime })).unwrap().then(() => {
+      navigate('/app/admin/interview')
+    }).catch(() => {
+      setstatus('error')
+      setmessage('Failed to approve application')
+      setshowLoadng(false)
+      setopen(true)
+    })
   }
 
   return (
@@ -280,11 +310,11 @@ export default function DetailedTeacher() {
           ) : (
             <div>
               <p>Choose a date for interview!</p>
-              <input type="datetime-local" />
+              <input type="datetime-local" value={interviewTime} onChange={(e) => setInterviewTime(e.target.value)} />
 
               <section>
                 <button onClick={() => setshowActionModal(false)}>Cancel</button>
-                <button>Assign</button>
+                <button onClick={HandleAssign}>Assign</button>
               </section>
             </div>
           )}

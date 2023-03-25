@@ -1,13 +1,16 @@
 // importing the react and external libraries
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import EnrolledCourse from '../../components/EnrolledCourse'
+import { useDispatch, useSelector } from 'react-redux'
 
 // importing the react components
 import Page from '../../components/page'
 
 // importing the testing components
-import courseImage from '../../Images/registration.jpg'
+import { fetchMyCourse } from '../../slice/courseSlice'
+import AlertMessage from '../../components/alertMessage'
+import Loading from '../../components/loading'
 
 // styled components
 const ContentWrapper = styled.section`
@@ -39,28 +42,56 @@ const ContentWrapper = styled.section`
 `
 
 export default function MyCourse() {
+  // for alerts and loading
+  const [open, setopen] = useState(false)
+  const [message, setmessage] = useState(null)
+  const [showLoading, setshowLoading] = useState(false)
+  const [status, setstatus] = useState('error');
+
+  // const redux
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    (() => {
+      setshowLoading(true)
+      dispatch(fetchMyCourse()).unwrap().then(() => {
+        setshowLoading(false)
+      }).catch(() => {
+        setshowLoading(false)
+        setmessage("Failed to fetch courses");
+        setstatus('error')
+        setopen(true)
+      })
+    })()
+  }, [dispatch]);
+
+  const courses = useSelector(state => state.course.courses)
+
   return (
     <Page title="My Course">
+      {showLoading && <Loading />}
+      <AlertMessage display={open} setdisplay={setopen} message={message} status={status} />
+
       <ContentWrapper>
         <h2>My course</h2>
 
         <div>
-          <EnrolledCourse
-            courseName={
-              'Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!'
-            }
-            authorName={'Ashok Lama'}
-            courseImage={courseImage}
-            courseId={'11'}
-          />
-          <EnrolledCourse
-            courseName={
-              'Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!'
-            }
-            authorName={'Ashok Lama'}
-            courseImage={courseImage}
-            courseId={'11'}
-          />
+          {courses &&
+            courses.length > 0 ?
+            courses.map(((course, index) => {
+              return (
+                <EnrolledCourse
+                  courseName={course.course.courseName}
+                  authorName={`${course.course.teacherId.firstName} ${course.course.teacherId.lastName}`}
+                  courseImage={course.course.thumbnail}
+                  courseId={course.course._id}
+                  key={index}
+                />
+              )
+            }))
+            :
+            <h1>No Course purchased</h1>
+          }
         </div>
       </ContentWrapper>
     </Page>

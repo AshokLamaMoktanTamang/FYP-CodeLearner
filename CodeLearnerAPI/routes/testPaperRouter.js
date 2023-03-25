@@ -9,6 +9,8 @@ const {
   addTestPaper,
   fetchTestPaper,
   deleteTestpaper,
+  testPaperExistence,
+  fetchTestPaperForStudent
 } = require("../controllers/testPaperController");
 
 // importing middleware for validating header token and file upload
@@ -23,5 +25,7 @@ Router.post(
 );
 Router.get("/:courseId", verifyUserToken, fetchTestPaper);
 Router.delete("/:courseId", verifyUserToken, deleteTestpaper);
+Router.get("/exist/:courseId", verifyUserToken, testPaperExistence);
+Router.get("/student/:courseId", verifyUserToken, fetchTestPaperForStudent);
 
 module.exports = Router;

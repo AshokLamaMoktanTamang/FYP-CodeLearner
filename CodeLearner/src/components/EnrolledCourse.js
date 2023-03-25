@@ -1,11 +1,13 @@
 // importig the dependencies
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
 
 // importing the components
+import { testPaperExistence } from '../slice/testPaperSlice'
 
 // testing component
 import courseImage from '../Images/registration.jpg'
@@ -76,7 +78,8 @@ const MyCourse = styled.section`
       align-items: center;
       flex-wrap: wrap;
 
-      & > button {
+      & > a{
+        text-decoration: none;
         font-size: 0.835rem;
         background-color: var(--text-blue);
         border: none;
@@ -116,30 +119,48 @@ const MyCourse = styled.section`
 `
 
 export default function EnrolledCourse(props) {
+  // states
+  const [testPaperExist, settestPaperExist] = useState(false);
+
+  // redux and navigate
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(testPaperExistence(props.courseId)).unwrap().then((data) => {
+      console.log(data);
+      settestPaperExist(true)
+    }).catch(() => {
+      settestPaperExist(false)
+    })
+  }, [dispatch, props.courseId])
+
+
   return (
     <MyCourse>
       <section>
-        <img src={props.courseImage} alt={props.courseName} />
+        <img src={`${process.env.REACT_APP_SERVER_BASE_URL}/thumbnail/${props.courseImage}`} alt={props.courseName} />
       </section>
 
       <div>
         <div>
-          <Link to={`/app/course/${props.courseId}`}>{props.courseName}</Link>
+          <Link to={`/app/myCourse/${props.courseId}`}>{props.courseName}</Link>
 
           <span>{props.authorName}</span>
         </div>
 
         <section>
-          <button>
+          <Link to={`/app/myCourse/${props.courseId}`}>
             <Icon icon="ic:round-play-arrow" />
             Start
-          </button>
-          <button>
-            <Icon icon="healthicons:i-exam-multiple-choice" /> Test
-          </button>
-          <button>
+          </Link>
+          {
+            testPaperExist &&
+            <Link to={`/app/course/testPaper/${props.courseId}`}>
+              <Icon icon="healthicons:i-exam-multiple-choice" /> Test
+            </Link>
+          }
+          <Link>
             <Icon icon="fluent:live-20-filled" /> Live
-          </button>
+          </Link>
         </section>
       </div>
     </MyCourse>

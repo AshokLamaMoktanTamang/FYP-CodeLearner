@@ -89,7 +89,7 @@ export default function CourseItem(props) {
         <div className="rank-container">
           <span className="rank">{props.rating}</span>
           <RatingCounter rating={props.rating} />
-          <p>({props.totalStudent})</p>
+          <p>({props.totalRating})</p>
         </div>
         <h2>${props.price}</h2>
       </div>

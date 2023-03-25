@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import RatingCounter from '../../components/ratingCounter'
 import { Icon } from '@iconify/react'
 import { useDispatch, useSelector } from 'react-redux'
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 // importing the react components
 import Page from '../../components/page'
@@ -13,7 +14,7 @@ import { responsive } from '../../services/responsive'
 // testing components
 import CourseItem from '../../components/courseItem'
 import Carousel from 'react-multi-carousel'
-import { fetchCourseById, fetchCoursesByUser } from '../../slice/courseSlice'
+import { checkPurchased, fetchApprovedCourseByUser, fetchCourseById, purchaseCourse } from '../../slice/courseSlice'
 import AlertMessage from '../../components/alertMessage'
 import Loading from '../../components/loading'
 
@@ -260,6 +261,30 @@ const CourseWrapper = styled.section`
   }
 `
 
+const PurchaseModal = styled.section`
+  & > section{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000077;
+    backdrop-filter: blur(3px);
+  }
+
+  & > div{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    max-width: 500px;
+    width: 90%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background-white);
+    padding: 1rem;
+    border-radius: .25rem;
+  }
+`
+
 export default function CourseDetail() {
   const { courseId } = useParams()
   const [saved, setsaved] = useState(false)
@@ -272,10 +297,17 @@ export default function CourseDetail() {
   const [open, setopen] = useState(false)
   const [message, setmessage] = useState(null)
   const [showLoading, setshowLoading] = useState(false)
+  const [status, setstatus] = useState('error');
 
   // redux
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    dispatch(checkPurchased({ courseId })).unwrap().then(() => {
+      navigate(`/app/myCourse/${courseId}`)
+    })
+  });
 
   useEffect(() => {
     return () => {
@@ -295,7 +327,7 @@ export default function CourseDetail() {
     setshowLoading(true)
 
     if (course && course.course) {
-      dispatch(fetchCoursesByUser({ id: course.course.teacherId._id }))
+      dispatch(fetchApprovedCourseByUser({ id: course.course.teacherId._id }))
         .unwrap()
         .then(() => {
           setshowLoading(false)
@@ -310,10 +342,47 @@ export default function CourseDetail() {
 
   const courses = useSelector((state) => state.course.courses.course)
 
+  // payment controller
+  const [showPaymentModal, setshowPaymentModal] = useState(false);
+
+  const createOrder = (data, actions) => {
+    return actions.order.create({
+      purchase_units: [
+        {
+          description: course.course.courseName,
+          amount: {
+            currency_code: "USD",
+            value: course.course.price,
+          },
+        },
+      ],
+    }).then((orderID) => {
+      return orderID;
+    });
+  };
+
+  const onApprove = (data, actions) => {
+    return actions.order.capture().then(function () {
+      dispatch(purchaseCourse({ courseId })).unwrap().then(() => {
+        navigate('/app/myCourse')
+      }).catch(() => {
+        setmessage("Failed to purchase course contact the admin.");
+        setstatus('eror');
+        setopen(true);
+      })
+    });
+  };
+
+  const onError = () => {
+    setmessage("An Error occured with your payment ");
+    setstatus('error')
+    setopen(true)
+  };
+
   return (
-    <Page title={courseId}>
+    <Page title={course && course.course ? course.course.courseName : 'Unknown'}>
       {showLoading && <Loading />}
-      <AlertMessage display={open} setdisplay={setopen} message={message} status={'error'} />
+      <AlertMessage display={open} setdisplay={setopen} message={message} status={status} />
 
       <CourseWrapper>
         {/* making the four sections for the course brief, more from the user and suggestion */}
@@ -331,9 +400,9 @@ export default function CourseDetail() {
             <div className="brief">
               <h2>{course.course.courseName}</h2>
               <div className="rating">
-                <span>3.7</span>
-                <RatingCounter rating={3.7} />
-                <span>(100)</span>
+                <span>{course.course.avgRating}</span>
+                <RatingCounter rating={course.course.avgRating} />
+                <span>{course.course.ratings.length}</span>
               </div>
               <p>{course.course.courseDescription}</p>
               <span>Creator - {`${course.course.teacherId.firstName} ${course.course.teacherId.lastName}`}</span>
@@ -341,7 +410,7 @@ export default function CourseDetail() {
               <h3>$ {course.course.price}</h3>
 
               <section>
-                <button>
+                <button onClick={() => setshowPaymentModal(true)}>
                   <i>
                     <Icon icon="ph:shopping-bag-open-bold" />
                   </i>
@@ -393,9 +462,12 @@ export default function CourseDetail() {
               More from{' '}
               {course && course.course && `${course.course.teacherId.firstName} ${course.course.teacherId.lastName}`}
             </h2>
-            <Link to={course && course.course && course.course.teacherId._id}>
-              See All <Icon icon="material-symbols:arrow-right-alt-rounded" />
-            </Link>
+
+            {courses && courses.length > 1 &&
+              <Link to={course && course.course && course.course.teacherId._id}>
+                See All <Icon icon="material-symbols:arrow-right-alt-rounded" />
+              </Link>
+            }
           </section>
 
           <Carousel
@@ -432,6 +504,27 @@ export default function CourseDetail() {
           </Carousel>
         </div>
       </CourseWrapper>
-    </Page>
+
+      <PayPalScriptProvider options={{ "client-id": process.env.REACT_APP_PAYPAL_CLIENT }}>
+        {
+          showPaymentModal &&
+          <PurchaseModal>
+            <section onClick={() => setshowPaymentModal(false)}></section>
+
+            {
+              course && course.course &&
+              <div>
+                <PayPalButtons
+                  style={{ layout: "vertical" }}
+                  createOrder={createOrder}
+                  onApprove={onApprove}
+                  onError={onError}
+                />
+              </div>
+            }
+          </PurchaseModal>
+        }
+      </PayPalScriptProvider>
+    </Page >
   )
 }

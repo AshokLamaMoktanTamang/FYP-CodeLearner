@@ -39,6 +39,14 @@ export const rejectApplication = createAsyncThunk('teacher/info/reject', async (
   return data
 })
 
+export const approveTeacher = createAsyncThunk('teacher/info/approve', async ({ id, interviewTime }) => {
+  const { data } = await httpService.post(`/teacher/v1/info/approve/${id}`, {
+    interviewTime
+  })
+
+  return data
+})
+
 export const teacherSlice = createSlice({
   name: 'Teacher',
   initialState,

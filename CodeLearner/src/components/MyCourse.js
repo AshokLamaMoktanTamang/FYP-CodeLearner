@@ -246,7 +246,7 @@ export default function MyCourse(props) {
           <div>
             <span>{props.rating}</span>
             <RatingCounter rating={props.rating} />
-            <p>({props.totalStudent})</p>
+            <p>({props.totalRating})</p>
           </div>
           <h2>${props.price}</h2>
         </section>

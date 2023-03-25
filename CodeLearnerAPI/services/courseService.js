@@ -1,7 +1,7 @@
 // importing models and packages
 const courseModel = require("../models/course"),
-  purchaseModel = require("../models/purchaseModel");
-fs = require("fs");
+  purchaseModel = require("../models/purchaseModel"),
+  fs = require("fs");
 
 const addCourse = async (
   teacherId,
@@ -63,6 +63,24 @@ const fetchCourseByUser = async (id) => {
   const course = await courseModel
     .find({
       teacherId: id,
+    })
+    .sort({
+      createdAt: -1,
+    })
+    .populate("teacherId", "id firstName lastName email");
+
+  if (!course) {
+    throw "Course not found";
+  }
+
+  return course;
+};
+
+const fetchApprovedCourseByUser = async (id) => {
+  const course = await courseModel
+    .find({
+      teacherId: id,
+      status: "approved"
     })
     .sort({
       createdAt: -1,
@@ -247,10 +265,80 @@ const rateCourse = async (course, user, rating) => {
   return exist;
 };
 
+const fetchPendingCourse = async () => {
+  const courses = await courseModel
+    .find({
+      status: "pending",
+    })
+    .populate("teacherId", "firstName lastName email");
+
+  if (!courses) {
+    throw "Courses not found";
+  }
+
+  return courses;
+}
+
+const approveCourse = async (courseId) => {
+  const exist = await courseModel.findById(courseId);
+
+  if (!exist) {
+    throw "Course not found";
+  }
+
+  const course = await courseModel.findByIdAndUpdate(courseId, {
+    status: "approved"
+  }).populate("teacherId", "email firstName lastName")
+
+  if (!course) {
+    throw "Course not approved";
+  }
+
+  return course
+}
+
+const rejectCourse = async (courseId) => {
+  const exist = await courseModel.findById(courseId);
+
+  if (!exist) {
+    throw "Course not found";
+  }
+
+  const course = await courseModel.findByIdAndUpdate(courseId, {
+    status: "rejected"
+  }).populate("teacherId", "email firstName lastName")
+
+  if (!course) {
+    throw "Course not rejected";
+  }
+
+  return course
+}
+
+const checkPurchased = async (user, course) => {
+  const exist = await courseModel.findById(course);
+
+  if (!exist) {
+    throw "Course not found";
+  }
+
+  const alreadyPurchase = await purchaseModel.findOne({
+    user,
+    course,
+  });
+
+  if (!alreadyPurchase) {
+    throw "Course not purchased";
+  }
+
+  return alreadyPurchase
+}
+
 module.exports = {
   addCourse,
   fetchCourseById,
   fetchCourseByUser,
+  fetchApprovedCourseByUser,
   fetchTenCourse,
   updateCourse,
   deleteCourse,
@@ -259,4 +347,8 @@ module.exports = {
   fetchUserPurchasedCourse,
   fetchCoursePurchasedUser,
   rateCourse,
+  fetchPendingCourse,
+  approveCourse,
+  rejectCourse,
+  checkPurchased
 };

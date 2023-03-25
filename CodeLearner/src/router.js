@@ -21,6 +21,8 @@ import BestSellerCourse from './Pages/student/BestSellerCourse'
 import LatestCourse from './Pages/student/LatestCourse'
 import PopularArticle from './Pages/student/PopularArticle'
 import LatestArticle from './Pages/student/LatestArticle'
+import StartCourse from './Pages/student/StartCourse'
+import TakeTest from './Pages/student/TakeTest'
 
 // teacher
 import TeacherDashboard from './Pages/teacher/TeacherDashboard'
@@ -38,6 +40,7 @@ import AdminInterview from './Pages/admin/Interview'
 import AdminCourse from './Pages/admin/Course'
 import AdminLogin from './Pages/admin/Login'
 import AdminUpdate from './Pages/admin/Update'
+import AdminDetailCourse from './Pages/admin/AdminDetailCourse'
 
 // registration and static pages
 import Login from './Pages/registration/Login'
@@ -74,8 +77,10 @@ export default function Router() {
         { path: 'article/latest', element: <LatestArticle /> },
         { path: 'course/:courseId', element: <CourseDetail /> },
         { path: 'course/:courseId/similar', element: <CourseDetail /> },
+        { path: 'course/testPaper/:courseId', element: <TakeTest /> },
         { path: 'course/:courseId/:userId', element: <CourseDetail /> },
         { path: 'myCourse', element: <MyCourse /> },
+        { path: 'myCourse/:courseId', element: <StartCourse /> },
         { path: 'setting', element: <Setting theme="Light" /> },
         { path: 'profile', element: <Profile theme="Light" /> },
         { path: 'report', element: <MyCourse /> },
@@ -107,6 +112,7 @@ export default function Router() {
         { path: 'teacher/:id', element: <AdminTeacherDetail /> },
         { path: 'course', element: <AdminCourse /> },
         { path: 'interview', element: <AdminInterview /> },
+        { path: 'course/:courseId', element: <AdminDetailCourse /> },
       ],
     },
     {

@@ -150,8 +150,8 @@ export default function TeacherCourse() {
                   courseImage={`${process.env.REACT_APP_SERVER_BASE_URL}/thumbnail/${course.thumbnail}`}
                   courseName={course.courseName}
                   description={course.courseDescription}
-                  // rating={3.7}
-                  // totalStudent={100}
+                  rating={course.avgRating}
+                  totalRating={course.ratings.length}
                   price={course.price}
                   courseId={course._id}
                   key={course._id}

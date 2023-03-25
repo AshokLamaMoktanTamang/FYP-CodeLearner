@@ -24,9 +24,21 @@ export const fetchTestPaper = createAsyncThunk('fetch/testPaper', async (courseI
   return data
 })
 
+export const fetchTestPaperForStudent = createAsyncThunk('fetch/testPaper/student', async (courseId) => {
+  const { data } = await httpService.get(`/testPaper/v1/student/${courseId}`)
+
+  return data
+})
+
 export const deleteTestPaper = createAsyncThunk('delete/testPaper', async (courseId) => {
   const { data } = await httpService.delete(`/testPaper/v1/${courseId}`)
 
+  return data
+})
+
+export const testPaperExistence = createAsyncThunk('exist/testpaper', async (courseId) => {
+  const { data } = await httpService.get(`/testPaper/v1/exist/${courseId}`)
+  
   return data
 })
 
@@ -36,6 +48,9 @@ export const testPaperSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchTestPaper.fulfilled, (state, action) => {
+      state.testPaper = action.payload
+    })
+    builder.addCase(fetchTestPaperForStudent.fulfilled, (state, action) => {
       state.testPaper = action.payload
     })
   },

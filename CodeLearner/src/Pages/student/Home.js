@@ -85,6 +85,15 @@ const ContentWrapper = styled.section`
       padding-right: 1rem;
     }
   }
+
+  .no-course{
+    background-color: var(--hover-white);
+    padding: 3rem 1rem;
+    text-align: center;
+    font-weight: bold;
+    color: var(--text-black);
+    border: 1px dashed var(--light-border-color);
+  }
 `
 
 export default function Home() {
@@ -147,13 +156,13 @@ export default function Home() {
                     authorName={`${course.teacherId.firstName} ${course.teacherId.lastName}`}
                     price={course.price}
                     key={index}
-                    rating={3.7}
-                    totalStudent={100}
+                    rating={course.avgRating}
+                    totalRating={course.ratings.length}
                   />
                 )
               })
             ) : (
-              <div>No course Available</div>
+              <div className='no-course'>No course Available</div>
             )}
           </Carousel>
         </div>

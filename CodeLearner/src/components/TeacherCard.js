@@ -11,7 +11,7 @@ const Card = styled.section`
   border: 0.13rem solid var(--light-border-color);
   border-radius: 0.35rem;
   overflow: hidden;
-  max-width: 100%;
+  max-width: 650px;
 
   & > a {
     width: 100%;

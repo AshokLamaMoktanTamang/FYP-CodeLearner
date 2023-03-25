@@ -6,6 +6,13 @@ const addComment = async (req, res) => {
       { comment } = req.body,
       { courseId } = req.params;
 
+    if(!id){
+      return res.status(500).json({
+        msg: "Failed to add comment",
+        error: "Internal Server error",
+      });
+    }
+
     const userComment = await commentService.addComment(courseId, id, comment);
 
     if (!userComment) {

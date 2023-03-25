@@ -8,6 +8,7 @@ const globalStyle = createGlobalStyle`
 		--text-black: #212B36;
 		--text-light-black: #637381;
 		--text-blue: #2065D1;
+		--opacity-text-blue: #2065d12b;
 		--rating-gold: #ffa534;
 		--text-gold: #a66412;
 		--hover-404-blue: #14438d;
@@ -21,6 +22,9 @@ const globalStyle = createGlobalStyle`
 		--hover-background-blue: rgba(32, 101, 209, 0.08);
 		--transparent-background: rgba(249, 250, 251, 0.72);
 		--pdf-red: #f40f02;
+		--opacity-pdf-red: #f40f0217;
+		--sucess-green: #28a745;
+		--opacity-sucess-green: #28a74545;
 
 		// teacher color
 		--background-black: #161b22;

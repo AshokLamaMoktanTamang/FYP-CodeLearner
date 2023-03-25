@@ -56,17 +56,17 @@ const Wrapper = styled.div`
 
 export default function Comment(props) {
   return (
-    <Wrapper>
+    <Wrapper className={props.theme}>
       <section>
         <div>
-          {props.profilePic ? <img src={props.profilePic} alt="profile" /> : <Icon icon="carbon:user-avatar-filled" />}
+          {props.profilePic ? <img src={`${process.env.REACT_APP_SERVER_BASE_URL}/profile/${props.profilePic}`} alt="profile" /> : <Icon icon="carbon:user-avatar-filled" />}
         </div>
         <p>{props.userName}</p>
       </section>
 
       <p>
         {props.message}
-        <span>{props.uploadDate} ago</span>
+        <span>{props.uploadDate === 0 ? 'Today' : `${props.uploadDate} day ago`}</span>
       </p>
     </Wrapper>
   )

@@ -82,8 +82,46 @@ const deleteTestPaper = async (courseId, id) => {
   return testPaper;
 };
 
+const testPaperExistence =  async (courseId) => {
+  const existence = await CourseModel.findById(courseId);
+
+  if (!existence) {
+    throw "Course not found";
+  }
+
+  const testPaper = await TestPaperModel.findOne({
+    courseId,
+  });
+
+  if (!testPaper) {
+    throw "Testpaper not found";
+  }
+
+  return true
+}
+
+const fetchTestPaperForStudent = async (courseId) => {
+  const existence = await CourseModel.findById(courseId);
+
+  if (!existence) {
+    throw "Course not found";
+  }
+
+  const testPaper = await TestPaperModel.findOne({
+    courseId,
+  }).populate('courseId', 'courseName');
+
+  if (!testPaper) {
+    throw "Testpaper not found";
+  }
+
+  return testPaper;
+};
+
 module.exports = {
   addTestPaper,
   fetchTestPaper,
   deleteTestPaper,
+  testPaperExistence,
+  fetchTestPaperForStudent
 };

@@ -18,7 +18,7 @@ const addComment = async (course, user, comment) => {
     throw "Failed to add comment";
   }
 
-  return userComment;
+  return userComment.populate("user", "profilePic firstName lastName");
 };
 
 const fetchComment = async (course) => {
@@ -30,7 +30,9 @@ const fetchComment = async (course) => {
 
   const userComment = await commentModel.find({
     course,
-  }).populate("user", "profilePic firstName lastName");
+  }).populate("user", "profilePic firstName lastName").sort({
+    createdAt: -1,
+  });;
 
   if (!userComment) {
     throw "Failed to fetch comment";

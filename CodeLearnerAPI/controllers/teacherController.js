@@ -1,5 +1,6 @@
 const teacherService = require("../services/teacherService"),
   messageTemplate = require("../utils/messageTemplate"),
+  approveMessageTemplate = require("../utils/approvedTemplate"),
   nodemailer = require("../utils/email");
 
 const addTeacherInfo = async (req, res) => {
@@ -144,17 +145,17 @@ const assignInterview = async (req, res) => {
     }
 
     const approve = await teacherService.approveRequest(userId, interviewTime);
-    
+
     if (!approve) {
       return res.status(400).json({
         msg: "Failed to assign interview",
       });
     }
-    
+
     await nodemailer(
       approve.userId.email,
       "Teacher Application Approved",
-      messageTemplate(approve.userId.firstName, approve.userId.lastName, interviewTime)
+      approveMessageTemplate(approve.userId.firstName, approve.userId.lastName, new Date(interviewTime))
     ).catch((error) => {
       return res.status(500).send({ error });
     });

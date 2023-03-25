@@ -173,7 +173,7 @@ export default function TestPaperDetail() {
       )}
 
       <Wrapper>
-        <h1>Test Paper > {course && course.course.courseName}</h1>
+        <h1>Test Paper {'>'} {course && course.course.courseName}</h1>
 
         <p>{course && course.course.courseDescription}</p>
 
