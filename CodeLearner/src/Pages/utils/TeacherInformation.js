@@ -139,7 +139,10 @@ export default function TeacherInformation() {
             <p>
               Status <span><Icon icon="ic:baseline-pending-actions" /> {information.status}</span>
             </p>
-
+            {/* {
+              information.status === "Interview Assigned" && 
+              <button onClick={() => window.open(`//${process.env.REACT_APP_LIVE_SERVER_URL}/${id}?id=${adminId}`)}>Take Interview</button>
+            } */}
             <div>
               <h3>About yourself</h3>
               <p>{information.aboutSelf}</p>

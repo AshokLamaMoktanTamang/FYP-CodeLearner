@@ -13,7 +13,7 @@ import { responsive } from '../../services/responsive'
 import { Icon } from '@iconify/react'
 import AlertMessage from '../../components/alertMessage'
 import Loading from '../../components/loading'
-import { fetchTenCourse } from '../../slice/courseSlice'
+import { fetchBestSellerCourse, fetchTenCourse } from '../../slice/courseSlice'
 
 // testing component
 import CourseImage from '../../Images/registration.jpg'
@@ -118,17 +118,69 @@ export default function Home() {
           setopen(true)
           setshowLoading(false)
         })
+      dispatch(fetchBestSellerCourse())
+        .unwrap()
+        .catch((err) => {
+          setmessage('Failed to fetch course.')
+          if (err.status) {
+            setmessage('Poor Internet or Too Many Request')
+          }
+          setopen(true)
+          setshowLoading(false)
+        })
       setshowLoading(false)
     }
   }, [dispatch])
 
   const latestCourses = useSelector((state) => state.course.tenCourse)
+  const bestSellerCourse = useSelector((state) => state.course.bestSellerCourse)
 
   return (
     <Page title="Home">
       <AlertMessage display={open} setdisplay={setopen} message={message} status={'error'} />
       {showLoading && <Loading />}
       <ContentWrapper>
+        <div className="category">
+          <section>
+            <h2 className="category-heading">Best Seller</h2>
+          </section>
+          <Carousel
+            containerClass="carousel-container"
+            responsive={responsive}
+            swipeable={true}
+            draggable={true}
+            itemClass="carouselItem"
+            partialVisible={false}
+            minimumTouchDrag={20}
+          >
+            {bestSellerCourse && bestSellerCourse.length > 0 ? (
+              bestSellerCourse.map((course, index) => {
+                let bestCourse = course.course[0]
+                let author = course.teacher[0]
+
+                if (bestCourse && author)
+                  return (
+                    <CourseItem
+                      courseId={course._id}
+                      courseName={bestCourse.courseName}
+                      courseImage={`${process.env.REACT_APP_SERVER_BASE_URL}/thumbnail/${bestCourse.thumbnail}`}
+                      authorName={`${author.firstName} ${author.lastName}`}
+                      price={bestCourse.price}
+                      key={index}
+                      rating={Math.round(bestCourse.avgRating * 10) / 10}
+                      totalRating={bestCourse.ratings.length}
+                      student = {course.sellCount}
+                    />
+                  )
+
+                return null
+              })
+            ) : (
+              <div className='no-course'>No course Available</div>
+            )}
+          </Carousel>
+        </div>
+
         <div className="category">
           <section>
             <h2 className="category-heading">Latest</h2>
@@ -156,7 +208,7 @@ export default function Home() {
                     authorName={`${course.teacherId.firstName} ${course.teacherId.lastName}`}
                     price={course.price}
                     key={index}
-                    rating={course.avgRating}
+                    rating={Math.round(course.avgRating * 10) / 10}
                     totalRating={course.ratings.length}
                   />
                 )
@@ -164,35 +216,6 @@ export default function Home() {
             ) : (
               <div className='no-course'>No course Available</div>
             )}
-          </Carousel>
-        </div>
-
-        <div className="category">
-          <section>
-            <h2 className="category-heading">Best Seller</h2>
-            <Link to={'best-seller?page=1'}>
-              See All <Icon icon="material-symbols:arrow-right-alt-rounded" />
-            </Link>
-          </section>
-
-          <Carousel
-            containerClass="carousel-container"
-            responsive={responsive}
-            swipeable={true}
-            draggable={true}
-            itemClass="carouselItem"
-            partialVisible={false}
-            minimumTouchDrag={20}
-          >
-            <CourseItem
-              courseId={12}
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={3.7}
-              totalStudent={100}
-              price={16.99}
-            />
           </Carousel>
         </div>
 

@@ -68,6 +68,17 @@ const rejectRequest = async (userId) => {
     .findByIdAndDelete(existence._id)
     .populate("userId", "id firstName lastName email");
 
+  if(info.status == "Interview Assigned"){
+    const interview = await interviewModel.findOneAndDelete({
+      user: userId
+    })
+  
+    if(!interview){
+      throw "failed to delete interview"
+    }
+  }
+
+
   fs.unlink(`./uploads/CVs/${existence.CV}`, (err) => {
     if (err) console.log(err);
   });
@@ -91,8 +102,7 @@ const approveRequest = async (userId, datetime) => {
   const info = await teacherInfoModel
     .findByIdAndUpdate(existence._id, {
       status: "Interview Assigned",
-    })
-    .populate("userId", "id firstName lastName email");
+    });
 
   if (!info) {
     throw "Failed to approve information";
@@ -110,7 +120,7 @@ const approveRequest = async (userId, datetime) => {
     throw "Failed to assign interview";
   }
 
-  return info;
+  return (await interview.populate("user", "firstName lastName email"));
 };
 
 module.exports = {

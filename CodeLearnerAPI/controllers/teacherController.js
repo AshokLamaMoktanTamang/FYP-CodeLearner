@@ -153,9 +153,9 @@ const assignInterview = async (req, res) => {
     }
 
     await nodemailer(
-      approve.userId.email,
+      approve.user.email,
       "Teacher Application Approved",
-      approveMessageTemplate(approve.userId.firstName, approve.userId.lastName, new Date(interviewTime))
+      approveMessageTemplate(approve.user.firstName, approve.user.lastName, new Date(interviewTime), approve._id, approve.user._id)
     ).catch((error) => {
       return res.status(500).send({ error });
     });
