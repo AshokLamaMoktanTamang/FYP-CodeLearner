@@ -22,7 +22,8 @@ const {
   fetchPendingCourse,
   approveCourse,
   rejectCourse,
-  checkPurchased
+  checkPurchased,
+  bestSellerCourse
 } = require("../controllers/courseController");
 
 // importing middleware for validating header token and file upload
@@ -61,6 +62,7 @@ Router.put(
 );
 Router.delete("/:courseId", verifyUserToken, deleteCourse);
 Router.get("/search/:searchQuery", verifyUserToken, searchCourse);
+Router.get("/course/bestseller", verifyUserToken, bestSellerCourse);
 Router.post("/purchase/:courseId", verifyUserToken, purchaseCourse);
 Router.get("/get/purchase", verifyUserToken, fetchUserPurchasedCourse);
 Router.get(

@@ -71,7 +71,7 @@ export default function Article() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    ;(() => {
+    ; (() => {
       setshowLoading(true)
       dispatch(searchCourse(query))
         .unwrap()
@@ -108,7 +108,7 @@ export default function Article() {
                   price={course.price}
                   key={index}
                   totalStudent={100}
-                  rating={1.8}
+                  rating={Math.round(course.avgRating * 10) / 10}
                 />
               )
             })

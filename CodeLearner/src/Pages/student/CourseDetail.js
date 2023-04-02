@@ -83,6 +83,7 @@ const CourseWrapper = styled.section`
           font-size: 0.835rem;
           color: var(--text-light-black);
           font-weight: bold;
+          margin-right: .5rem;
         }
       }
 
@@ -400,7 +401,7 @@ export default function CourseDetail() {
             <div className="brief">
               <h2>{course.course.courseName}</h2>
               <div className="rating">
-                <span>{course.course.avgRating}</span>
+                <span>{Math.round(course.course.avgRating * 10)/10}</span>
                 <RatingCounter rating={course.course.avgRating} />
                 <span>{course.course.ratings.length}</span>
               </div>

@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom'
 import ConfirmDialog from '../../components/ConfirmDialog'
 import { useState } from 'react'
 import { DeleteCourse, fetchCourseById } from '../../slice/courseSlice'
+import { addComments, fetchComments } from '../../slice/commentSlice'
 import Loading from '../../components/loading'
 import AlertMessage from '../../components/alertMessage'
 
@@ -184,7 +185,7 @@ const Wrapper = styled.section`
           outline: none;
         }
 
-        & > textarea {
+        & > input {
           width: 100%;
           width: -webkit-fill-available;
           width: -moz-available;
@@ -192,6 +193,7 @@ const Wrapper = styled.section`
           color: var(--text-black);
           font-family: inherit;
           resize: none;
+          outline: none;
         }
 
         & > button {
@@ -210,6 +212,27 @@ const Wrapper = styled.section`
       margin-top: 1rem;
       display: grid;
       grid-gap: 1rem;
+    }
+
+    & > section{
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-top: 3rem;
+      border-radius: .25rem;
+      
+      & > p{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: .875rem;
+        
+        & > svg{
+          margin-right: 1rem;
+          font-size: 1.5rem;
+        }
+      }
     }
   }
 
@@ -241,6 +264,7 @@ export default function DetailedCourse() {
   useEffect(() => {
     setshowLoading(true)
     dispatch(fetchCourseById(courseId))
+    dispatch(fetchComments({ courseId }))
     setshowLoading(false)
   }, [dispatch, courseId])
 
@@ -267,6 +291,32 @@ export default function DetailedCourse() {
         setopen(true)
       })
   }
+
+  // comment
+  const [commentInput, setcommentInput] = useState('');
+  const [sendingComment, setsendingComment] = useState(false);
+
+  const HandleAddComment = (e) => {
+    e.preventDefault();
+
+    if (commentInput.trim().length < 1) {
+      return
+    }
+
+    setsendingComment(true)
+    dispatch(addComments({ courseId, comment: commentInput })).unwrap().then(() => {
+      setcommentInput('')
+      setsendingComment(false)
+      return
+    }).catch(() => {
+      setmessage("Failed to add comment")
+      setopen(true)
+      setsendingComment(false)
+      return
+    })
+  }
+
+  const comment = useSelector((state) => state.comment.comments)
 
   return (
     <Page title={course ? course.course.courseName : 'Unknown'}>
@@ -329,9 +379,9 @@ export default function DetailedCourse() {
               <section>
                 <span>Rating</span>
                 <div>
-                  <span>3.1</span>
-                  <RatingCounter rating={3.1} />
-                  <p>(15)</p>
+                  <span>{course.course.avgRating}</span>
+                  <RatingCounter rating={course.course.avgRating} />
+                  <p>({course.course.ratings.length})</p>
                 </div>
               </section>
               <div>
@@ -343,35 +393,53 @@ export default function DetailedCourse() {
         )}
 
         <section className="comment-section">
-          <h1>Comment - 7</h1>
+          <h1>{comment && comment.length > 0 ? `Comment - ${comment.length}` : `No Comment`}</h1>
 
-          <form>
+          <form onSubmit={HandleAddComment}>
             <div>
-              {/* <img src={TestImage} alt="profile" /> */}
-              <Icon icon="carbon:user-avatar-filled" />
+              {
+                user && user.data.profilePic ?
+                  <img src={`${process.env.REACT_APP_SERVER_BASE_URL}/profile/${user.data.profilePic}`} alt="profile" /> :
+                  <Icon icon="carbon:user-avatar-filled" />
+              }
             </div>
 
             <section>
-              <textarea placeholder="Comment your thought" rows={1} />
-              {/* <textarea cols="30" rows="10"></textarea> */}
+              <input placeholder="Comment your thought" type='text' value={commentInput} onChange={(e) => setcommentInput(e.target.value)} />
               <button>
-                <Icon icon="zondicons:send" />
+                {
+                  sendingComment ?
+                    <Icon icon="eos-icons:loading" />
+                    :
+                    <Icon icon="zondicons:send" />
+                }
               </button>
             </section>
           </form>
 
-          <div>
-            <Comment
-              message="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa "
-              userName="San Diego"
-              uploadDate={'1 Day'}
-            />
-            <Comment
-              message="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa "
-              userName="San Diego"
-              uploadDate={'1 Day'}
-            />
-          </div>
+          {
+            comment && comment.length > 0 ?
+              <div>
+                {
+                  comment.map((data, index) => {
+                    return <Comment
+                      key={index}
+                      message={data.comment}
+                      userName={data.user.firstName + ' ' + data.user.lastName}
+                      profilePic={data.user.profilePic}
+                      uploadDate={(new Date().getDate() - new Date(data.createdAt).getDate())}
+                    />
+                  })
+                }
+              </div> :
+
+              <section>
+                <p>
+                  <Icon icon="fluent-emoji-high-contrast:magnifying-glass-tilted-left" />
+                  No comments
+                </p>
+              </section>
+          }
         </section>
       </Wrapper>
     </Page>

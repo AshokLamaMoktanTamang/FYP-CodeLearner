@@ -12,7 +12,30 @@ import Page from '../../components/page'
 import { fetchInterviews } from '../../slice/interviewSlice'
 
 // styled components
-const Wrapper = styled.section``
+const Wrapper = styled.section`
+  & > div{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+    grid-gap: 1.7rem 1rem;
+    margin-top: 1rem;
+
+    & > p {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--text-light-black);
+
+      & > svg{
+        font-size: 3rem;
+        margin-bottom: .5rem;
+      }
+    }
+  }
+`
 
 export default function Interview() {
   // initializing the states for input fields,loading and alerts
@@ -40,6 +63,8 @@ export default function Interview() {
   }, [dispatch])
 
   const interviews = useSelector((state) => state.interview.interviews.interviews)
+  const admin = useSelector((state) => state.admin.admin.data)
+  console.log(interviews);
 
   return (
     <Page title="Admin Interview">
@@ -49,7 +74,7 @@ export default function Interview() {
         <h1>Interviews</h1>
 
         <div>
-          {interviews && interviews.length > 0 ? (
+          {admin && interviews && interviews.length > 0 ? (
             interviews.map((interview, index) => {
               return (
                 <InterviewCard
@@ -60,6 +85,8 @@ export default function Interview() {
                   interviewTime={interview.interviewTime}
                   id={interview._id}
                   key={index}
+                  adminId={admin._id}
+                  userId={interview.user._id}
                 />
               )
             })

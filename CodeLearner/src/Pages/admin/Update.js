@@ -90,7 +90,6 @@ export default function Update() {
 
     setshowLoadng(true)
     if (newPassword !== confirmPassword) {
-      console.log(newPassword, confirmPassword)
       setmessage('Please confirm your message')
       setshowLoadng(false)
       setopen(true)

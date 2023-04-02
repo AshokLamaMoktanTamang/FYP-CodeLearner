@@ -1,5 +1,5 @@
-const emailVerificationTemplate = (firstName, lastName, interviewTime) => {
-    return `<div
+const emailVerificationTemplate = (firstName, lastName, interviewTime, interviewLink, userId) => {
+  return `<div
         style="
           max-width: 500px;
           display: block;
@@ -36,6 +36,20 @@ const emailVerificationTemplate = (firstName, lastName, interviewTime) => {
               Your appplication for your teaching in codelearner has been reviewed by the code learner and for the further investivagation a final interview will be scheduled to you. The scheduled date for the interview is placed below:
           </p>
           <p>${interviewTime}</p>
+          <p>You can join the interview using the following button</p>
+          <br>
+          <a style="
+          display: block;
+          margin: auto;
+          width: fit-content;
+          text-decoration: none;
+          color: white;
+          background-color: royalblue;
+          padding: 0.5rem 0.7rem;
+          border-radius: 0.35rem;
+          font-size: 0.87rem;
+          font-weight: bold;
+        " href="${process.env.LIVE_SERVER_BASE_URL}/${interviewLink}?id=${userId}">Join Meeting</a>
         </div>
         
         <div
@@ -92,7 +106,6 @@ const emailVerificationTemplate = (firstName, lastName, interviewTime) => {
           >
         </div>
         </div>`;
-  };
-  
-  module.exports = emailVerificationTemplate;
-  
+};
+
+module.exports = emailVerificationTemplate;

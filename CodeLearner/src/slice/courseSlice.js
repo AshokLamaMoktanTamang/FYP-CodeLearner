@@ -1,8 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import httpService from '../services/httpService'
+import adminhttpService from '../services/adminHttpService'
 
 const initialState = {
   courses: [],
+  purchasedCourses: [],
+  bestSellerCourse: [],
   course: null,
   tenCourse: [],
 }
@@ -62,7 +65,7 @@ export const searchCourse = createAsyncThunk('search', async (query) => {
 })
 
 export const fetchPendingCourse = createAsyncThunk('course/pending', async (query) => {
-  const { data } = await httpService.get(`/course/v1/pending/all`)
+  const { data } = await adminhttpService.get(`/course/v1/pending/all`)
 
   return data
 })
@@ -99,6 +102,20 @@ export const fetchMyCourse = createAsyncThunk('/course/fetch/purchase', async ()
   return data
 })
 
+export const rateCourse = createAsyncThunk('/course/rate', async ({ courseId, rating }) => {
+  const { data } = await httpService.post(`course/v1/rate/${courseId}`, {
+    rating
+  })
+
+  return data
+})
+
+export const fetchBestSellerCourse = createAsyncThunk('/course/bestseller', async () => {
+  const { data } = await httpService.get(`course/v1/course/bestseller`)
+
+  return data
+})
+
 export const courseSlice = createSlice({
   name: 'Course',
   initialState,
@@ -126,7 +143,10 @@ export const courseSlice = createSlice({
       state.courses = action.payload.course
     })
     builder.addCase(fetchMyCourse.fulfilled, (state, action) => {
-      state.courses = action.payload.courses
+      state.purchasedCourses = action.payload.courses
+    })
+    builder.addCase(fetchBestSellerCourse.fulfilled, (state, action) => {
+      state.bestSellerCourse = action.payload.courses
     })
   },
 })

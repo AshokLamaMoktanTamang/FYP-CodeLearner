@@ -39,6 +39,14 @@ const ContentWrapper = styled.section`
     display: grid;
     grid-gap: 1rem;
   }
+
+  .no-purchase{
+    display: block;
+    font-size: 1rem;
+    color: gray;
+    margin: auto;
+    margin-top: 3rem;
+  }
 `
 
 export default function MyCourse() {
@@ -65,7 +73,7 @@ export default function MyCourse() {
     })()
   }, [dispatch]);
 
-  const courses = useSelector(state => state.course.courses)
+  const courses = useSelector(state => state.course.purchasedCourses)
 
   return (
     <Page title="My Course">
@@ -78,19 +86,24 @@ export default function MyCourse() {
         <div>
           {courses &&
             courses.length > 0 ?
-            courses.map(((course, index) => {
-              return (
-                <EnrolledCourse
-                  courseName={course.course.courseName}
-                  authorName={`${course.course.teacherId.firstName} ${course.course.teacherId.lastName}`}
-                  courseImage={course.course.thumbnail}
-                  courseId={course.course._id}
-                  key={index}
-                />
-              )
+            courses.map(((purchaseCourse, index) => {
+              let course = purchaseCourse.course;
+
+              if (course)
+                return (
+                  <EnrolledCourse
+                    courseName={course.courseName}
+                    authorName={`${course.teacherId.firstName} ${course.teacherId.lastName}`}
+                    courseImage={course.thumbnail}
+                    courseId={course._id}
+                    key={index}
+                  />
+                )
+
+              return null
             }))
             :
-            <h1>No Course purchased</h1>
+            <h1 className='no-purchase'>No Course purchased</h1>
           }
         </div>
       </ContentWrapper>

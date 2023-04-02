@@ -45,8 +45,8 @@ const Wrapper = styled.section`
 
     & > div:nth-child(3) {
       margin: 1rem 0;
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-auto-flow: column;
 
       & > a {
         font-weight: bold;
@@ -58,6 +58,7 @@ const Wrapper = styled.section`
         line-height: 1.5;
         background-color: var(--text-blue);
         color: #fff;
+        justify-self: flex-start;
         text-decoration: none;
 
         :hover {
@@ -67,6 +68,40 @@ const Wrapper = styled.section`
         & > svg {
           font-size: 1rem;
           margin-right: 0.5rem;
+        }
+      }
+
+      & > div{
+        justify-self: flex-end;
+        position: relative;
+
+        & > button{
+          padding: 0.7rem;
+          border-radius: 50%;
+          border: none;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+
+          :hover{
+            filter: brightness(.7);
+          }
+        }
+
+        & > ul{
+          position: absolute;
+          background-color: var(--background-white);
+          border: 1px solid var(--light-border-color);
+          list-style: none;
+          padding: 1rem;
+          display: grid;
+          grid-gap: 1rem;
+          right: 0;
+          top: 50px;
+          box-shadow: 1px 1px 5px #8f8f8f99;
         }
       }
     }
@@ -178,6 +213,7 @@ const Wrapper = styled.section`
           color: var(--text-black);
           font-family: inherit;
           resize: none;
+          outline: none;
         }
 
         & > button {
@@ -215,6 +251,27 @@ const Wrapper = styled.section`
         }
       }
     }
+
+    & > section{
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-top: 3rem;
+      border-radius: .25rem;
+      
+      & > p{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: .875rem;
+        
+        & > svg{
+          margin-right: 1rem;
+          font-size: 1.5rem;
+        }
+      }
+    }
   }
 
   @media (max-width: 1190px) {
@@ -248,7 +305,6 @@ export default function StartCourse() {
     dispatch(fetchCourseById(courseId))
     dispatch(fetchComments({ courseId }))
     dispatch(testPaperExistence(courseId)).unwrap().then((data) => {
-      console.log(data);
       settestPaperExist(true)
     }).catch(() => {
       settestPaperExist(false)
@@ -283,6 +339,13 @@ export default function StartCourse() {
   const user = useSelector((state) => state.user.user)
   const comment = useSelector((state) => state.comment.comments)
 
+  // controllers
+  const [showOption, setshowOption] = useState(false);
+  const HandleOptions = () => {
+    showOption ? setshowOption(false) : setshowOption(true)
+  }
+
+  console.log(showOption);
   return (
     <Page title={course ? course.course.courseName : 'Unknown'}>
       <Wrapper>
@@ -294,10 +357,10 @@ export default function StartCourse() {
             <h1>Detailed Description - {course.course.courseName}</h1>
 
             <div>
-              <VideoPlayer video={course.course.courseFile} thumbnail={course.course.thumbnail} />
+              <VideoPlayer courseId={course.course._id} video={course.course.courseFile} thumbnail={course.course.thumbnail} />
             </div>
 
-            <div className="button-container">
+            <div>
               {
                 testPaperExist &&
                 <Link to={`/app/course/testPaper/${courseId}`}>
@@ -305,6 +368,19 @@ export default function StartCourse() {
                   Test Paper
                 </Link>
               }
+              <div>
+                <button onClick={HandleOptions}><Icon icon="simple-line-icons:options-vertical"/></button>
+
+                {
+                  showOption &&
+                  (
+                    <ul>
+                      <li >Report</li>
+                      <li>Feedback</li>
+                    </ul>
+                  )
+                }
+              </div>
             </div>
 
             <section>
@@ -315,7 +391,7 @@ export default function StartCourse() {
               <section>
                 <span>Rating</span>
                 <div>
-                  <span>{course.course.avgRating}</span>
+                  <span>{Math.round(course.course.avgRating * 10) / 10}</span>
                   <RatingCounter rating={course.course.avgRating} />
                   <p>({course.course.ratings.length})</p>
                 </div>

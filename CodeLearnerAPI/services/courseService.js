@@ -242,20 +242,16 @@ const rateCourse = async (course, user, rating) => {
   );
 
   if (alreadyRated) {
-    let avg = 0;
     alreadyRated.rating = rating;
-    exist.ratings.map((rate) => {
-      avg += rate.rating;
-    });
-    exist.avgRating = avg / exist.ratings.length;
-    exist.save();
-    return exist;
+  } else {
+    exist.ratings.push({ user, rating });
   }
 
-  exist.ratings.push({ user, rating });
+  let avg = 0;
   exist.ratings.map((rate) => {
-    exist.avgRating = rate.rating;
+    avg += rate.rating;
   });
+  exist.avgRating = avg / exist.ratings.length;
   exist.save();
 
   if (!exist) {
@@ -334,6 +330,53 @@ const checkPurchased = async (user, course) => {
   return alreadyPurchase
 }
 
+const bestSellerCourse = async () => {
+  const coursePurchaseCount = await purchaseModel.aggregate([
+    {
+      $group: {
+        _id: '$course',
+        sellCount: { $sum: 1 }
+      },
+    },
+    {
+      $lookup: {
+        from: "courses",
+        localField: "_id",
+        foreignField: "_id",
+        as: "course"
+      }
+    },
+    {
+      $lookup: {
+        from: 'users',
+        localField: "course.teacherId",
+        foreignField: "_id",
+        as: "teacher"
+      }
+    },
+    {
+      "$project": {
+        "_id": 1,
+        "course.courseName": 1,
+        "course.thumbnail": 1,
+        "course.avgRating": 1,
+        "course.ratings": 1,
+        "course.price": 1,
+        "teacher.firstName": 1,
+        "teacher.lastName": 1,
+        "sellCount": 1,
+      }
+    },
+    {
+      $limit: 10
+    }
+  ]).sort(
+    { "sellCount": -1 }
+  )
+
+  return coursePurchaseCount
+}
+
 module.exports = {
   addCourse,
   fetchCourseById,
@@ -350,5 +393,6 @@ module.exports = {
   fetchPendingCourse,
   approveCourse,
   rejectCourse,
-  checkPurchased
+  checkPurchased,
+  bestSellerCourse
 };

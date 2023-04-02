@@ -55,7 +55,8 @@ export default function Course() {
       .then(() => {
         setshowLoadng(false)
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         setstatus('error')
         setmessage('Failed to fetch informations')
         setshowLoadng(false)

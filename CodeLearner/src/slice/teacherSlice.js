@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import httpService from '../services/httpService'
+import adminhttpService from '../services/adminHttpService'
 
 const initialState = {
   teacher: null,
@@ -20,19 +21,19 @@ export const fetchTeacherInfo = createAsyncThunk('teacher/info', async () => {
 })
 
 export const fetchTeacherInfoById = createAsyncThunk('teacher/info/id', async (id) => {
-  const { data } = await httpService.get(`/teacher/v1/info/user/${id}`)
+  const { data } = await adminhttpService.get(`/teacher/v1/info/user/${id}`)
 
   return data
 })
 
 export const fetchAllTeacherInfo = createAsyncThunk('teacher/info/all', async () => {
-  const { data } = await httpService.get('/teacher/v1/info/all')
+  const { data } = await adminhttpService.get('/teacher/v1/info/all')
 
   return data
 })
 
 export const rejectApplication = createAsyncThunk('teacher/info/reject', async ({ id, message }) => {
-  const { data } = await httpService.post(`/teacher/v1/info/reject/${id}`, {
+  const { data } = await adminhttpService.post(`/teacher/v1/info/reject/${id}`, {
     message,
   })
 
@@ -40,7 +41,7 @@ export const rejectApplication = createAsyncThunk('teacher/info/reject', async (
 })
 
 export const approveTeacher = createAsyncThunk('teacher/info/approve', async ({ id, interviewTime }) => {
-  const { data } = await httpService.post(`/teacher/v1/info/approve/${id}`, {
+  const { data } = await adminhttpService.post(`/teacher/v1/info/approve/${id}`, {
     interviewTime
   })
 

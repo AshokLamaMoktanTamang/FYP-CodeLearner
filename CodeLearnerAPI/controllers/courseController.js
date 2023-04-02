@@ -1,19 +1,19 @@
 const courseService = require("../services/courseService"),
   courseApprovedTemplate = require("../utils/courseApprovedTemplate"),
   courseRejectedTemplate = require('../utils/courseRejectedTemplate')
-  nodemailer = require("../utils/email");
+nodemailer = require("../utils/email");
 
 const addCourse = async (req, res) => {
   try {
     const { id } = req.user;
     const {
-        courseName,
-        courseDescription,
-        learningOutcome,
-        courseFile,
-        thumbnail,
-        price,
-      } = req.body,
+      courseName,
+      courseDescription,
+      learningOutcome,
+      courseFile,
+      thumbnail,
+      price,
+    } = req.body,
       course = await courseService.addCourse(
         id,
         courseName,
@@ -351,13 +351,42 @@ const rateCourse = async (req, res) => {
 };
 
 const bestSellerCourse = async (req, res) => {
+  try {
+    const { id } = req.user;
+
+    if (!id) {
+      return res.status(500).json({
+        msg: "Failed to fetch course",
+        error: "Action Prohibited",
+      });
+    }
+
+    const courses = await courseService.bestSellerCourse();
+
+    if (!courses) {
+      return res.status(500).json({
+        msg: "Failed to fetch course",
+        error: "Internal Server error",
+      });
+    }
+
+    return res.status(200).json({
+      msg: "Course fetched sucessfully",
+      courses,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      msg: "Failed to fetch course",
+      error,
+    });
+  }
 }
 
 const fetchPendingCourse = async (req, res) => {
   try {
     const { id } = req.user;
 
-    if(!id){
+    if (!id) {
       return res.status(500).json({
         msg: "Course not fetched",
         error: "action prohibited",
@@ -388,9 +417,9 @@ const fetchPendingCourse = async (req, res) => {
 const approveCourse = async (req, res) => {
   try {
     const { id } = req.user;
-    const {courseId} = req.params
+    const { courseId } = req.params
 
-    if(!id){
+    if (!id) {
       return res.status(500).json({
         msg: "Course not approved",
         error: "action prohibited",
@@ -429,17 +458,17 @@ const approveCourse = async (req, res) => {
 const rejectCourse = async (req, res) => {
   try {
     const { id } = req.user;
-    const {courseId} = req.params;
-    const {message} = req.body;
+    const { courseId } = req.params;
+    const { message } = req.body;
 
-    if(!id){
+    if (!id) {
       return res.status(500).json({
         msg: "Course not rejected",
         error: "action prohibited",
       });
     }
-    
-    if(!message){
+
+    if (!message) {
       return res.status(500).json({
         msg: "Course not rejected",
         error: "Message field required",
@@ -482,12 +511,12 @@ const checkPurchased = async (req, res) => {
       course = await courseService.checkPurchased(id, courseId);
 
     if (!course) {
-      return res.status(500).json({sucess: false})
+      return res.status(500).json({ sucess: false })
     }
 
-    return res.status(200).json({sucess: true});
+    return res.status(200).json({ sucess: true });
   } catch (error) {
-    return res.status(500).json({sucess: false})
+    return res.status(500).json({ sucess: false })
   }
 }
 

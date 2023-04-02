@@ -51,10 +51,19 @@ const Course = styled(Link)`
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
+
+      :first-child{
+        min-height: 60.54px;
+      }
     }
 
     .author {
       margin: 0.5rem 0;
+    }
+
+    .students{
+      display: block;
+      float: right;
     }
 
     p {
@@ -91,6 +100,7 @@ export default function CourseItem(props) {
           <RatingCounter rating={props.rating} />
           <p>({props.totalRating})</p>
         </div>
+        <p className="students">{props.student} Students</p>
         <h2>${props.price}</h2>
       </div>
     </Course>
