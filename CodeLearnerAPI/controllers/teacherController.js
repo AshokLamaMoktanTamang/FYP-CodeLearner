@@ -1,6 +1,7 @@
 const teacherService = require("../services/teacherService"),
   messageTemplate = require("../utils/messageTemplate"),
   approveMessageTemplate = require("../utils/approvedTemplate"),
+  approvedTeacherTemplate = require('../utils/approveMessageTemplate')
   nodemailer = require("../utils/email");
 
 const addTeacherInfo = async (req, res) => {
@@ -169,11 +170,49 @@ const assignInterview = async (req, res) => {
   }
 }
 
+const approveRequest = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const { userId } = req.params;
+
+    if (!id) {
+      return res.status(500).json({
+        msg: "Failed to approve teacher",
+        error: "Action prohibited",
+      });
+    }
+
+    const approve = await teacherService.approveTeacher(userId); 
+
+    if (!approve) {
+      return res.status(400).json({
+        msg: "Failed to approve teacher",
+      });
+    }
+
+    await nodemailer(
+      approve.email,
+      "Teacher Application Approved",
+      approvedTeacherTemplate(approve.firstName, approve.lastName)
+    ).catch((error) => {
+      return res.status(500).send({ error });
+    });
+
+    return res.status(200).send(approve);
+  } catch (error) {
+    return res.status(500).json({
+      msg: "Failed to approve teacher",
+      error,
+    });
+  }
+}
+
 module.exports = {
   addTeacherInfo,
   fetchTeacherInfo,
   fetchAllTeacherInfo,
   fetchTeacherInfoById,
   rejectRequest,
-  assignInterview
+  assignInterview,
+  approveRequest
 };

@@ -48,6 +48,12 @@ export const approveTeacher = createAsyncThunk('teacher/info/approve', async ({ 
   return data
 })
 
+export const approveTeacherRequest = createAsyncThunk('teacher/info/approve/teacher', async ({ id }) => {
+  const { data } = await adminhttpService.post(`/teacher/v1/info/approve/teacher/${id}`)
+
+  return data
+})
+
 export const teacherSlice = createSlice({
   name: 'Teacher',
   initialState,

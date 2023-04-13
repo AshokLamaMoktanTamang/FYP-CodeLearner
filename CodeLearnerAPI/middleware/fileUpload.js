@@ -1,19 +1,4 @@
 const multer = require("multer");
-const { google } = require("googleapis");
-const GoogleDriveStorage = require("multer-google-drive");
-
-const { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, REFRESH_TOKEN } = process.env;
-const oauth2client = new google.auth.OAuth2(
-  CLIENT_ID,
-  CLIENT_SECRET,
-  REDIRECT_URI
-);
-
-oauth2client.setCredentials({ refresh_token: REFRESH_TOKEN });
-const drive = google.drive({
-  version: "v3",
-  auth: oauth2client,
-});
 
 // initializing the multer for cv upload
 const storage = multer.diskStorage({

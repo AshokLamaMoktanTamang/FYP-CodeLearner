@@ -1,5 +1,5 @@
 {
-  "name": "zoom",
+  "name": "liveserver",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +8,6 @@
     "start": "nodemon server.js"
   },
   "author": "",
-  "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.3",
     "ejs": "^3.1.3",

@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 // importing components
-import { rejectApplication } from '../slice/teacherSlice'
+import { approveTeacherRequest, rejectApplication } from '../slice/teacherSlice'
 import AlertMessage from './alertMessage'
 import Loading from './loading'
 
@@ -62,6 +62,31 @@ const Card = styled.section`
         line-height: 1.35;
         padding-bottom: 0.5rem;
         display: block;
+      }
+    }
+
+    & > div{
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 110px;
+      grid-gap: 1rem 1.3rem;
+      padding: .5rem;
+
+      & > button{
+        padding: .7rem 0;
+        border: none;
+        border-radius: .15rem;
+        font-weight: bold;
+        color: var(--background-white);
+        background-color: var(--sucess-green);
+
+        :first-child{
+          background-color: var(--text-blue);
+        }
+        
+        :last-child{
+          background-color: var(--pdf-red);
+        }
       }
     }
   }
@@ -167,6 +192,18 @@ export default function InterviewCard({ profile, fname, lname, id, interviewTime
       })
   }
 
+  const HandleApprove = () => {
+    setshowLoadng(true)
+    dispatch(approveTeacherRequest({ id: userId })).unwrap().then(() => {
+      window.location.reload(true)
+    }).catch(() => {
+      setstatus('error')
+      setmessage('Failed to add teacher')
+      setshowLoadng(false)
+      setopen(true)
+    })
+  }
+
   return (
     <Card>
       <AlertMessage display={open} setdisplay={setopen} message={message} status={status} />
@@ -188,9 +225,11 @@ export default function InterviewCard({ profile, fname, lname, id, interviewTime
         <p>
           <span>Interview Time</span> {interviewTime}
         </p>
-        <button onClick={() => window.open(`//${process.env.REACT_APP_LIVE_SERVER_URL}/${id}?id=${adminId}`)}>Take Interview</button>
-        <button onClick={() => HandleActionModal('assign')}>Approve</button>
-        <button onClick={() => HandleActionModal('reject')}>Reject</button>
+        <div>
+          <button onClick={() => window.open(`//${process.env.REACT_APP_LIVE_SERVER_URL}/${id}?id=${adminId}`)}>Take Interview</button>
+          <button onClick={() => HandleActionModal('assign')}>Approve</button>
+          <button onClick={() => HandleActionModal('reject')}>Reject</button>
+        </div>
       </div>
 
       {showActionModal && (
@@ -212,7 +251,7 @@ export default function InterviewCard({ profile, fname, lname, id, interviewTime
 
               <section>
                 <button onClick={() => setshowActionModal(false)}>Cancel</button>
-                <button>Approve</button>
+                <button onClick={HandleApprove}>Approve</button>
               </section>
             </div>
           )}
