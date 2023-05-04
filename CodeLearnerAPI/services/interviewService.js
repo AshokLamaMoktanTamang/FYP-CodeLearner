@@ -10,4 +10,16 @@ const fetchInterview = async () => {
     return interviews
 }
 
-module.exports = { fetchInterview }
+const fetchInterviewByUser = async (user) => {
+    const interview = await InterviewModel.findOne({
+        user
+    })
+
+    if (!interview) {
+        throw "Failed to fetch interview";
+    }
+
+    return interview
+}
+
+module.exports = { fetchInterview, fetchInterviewByUser }

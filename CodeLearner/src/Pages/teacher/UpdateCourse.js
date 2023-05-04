@@ -207,10 +207,9 @@ export default function UpdateCourse() {
   const course = useSelector((state) => state.course.course)
 
   useEffect(() => {
-    return () => {
-      if (course && user && course.course.teacherId !== user.data._id) {
-        navigate('/app/teacher/myCourse')
-      }
+    if (course && user && course.course.teacherId._id !== user.data._id) {
+      console.log(course , user , course.course.teacherId._id , user.data._id);
+      navigate('/app/teacher/myCourse')
     }
   }, [course, user, navigate])
 

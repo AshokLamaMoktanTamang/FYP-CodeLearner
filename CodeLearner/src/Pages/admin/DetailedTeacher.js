@@ -207,6 +207,7 @@ export default function DetailedTeacher() {
       setmessage('Enter the reject message')
       setshowLoadng(false)
       setopen(true)
+      return
     }
 
     dispatch(rejectApplication({ id, message: rejectMessage }))
@@ -231,6 +232,7 @@ export default function DetailedTeacher() {
       setmessage('Enter the interview time')
       setshowLoadng(false)
       setopen(true)
+      return
     }
 
     const today = new Date();
@@ -239,6 +241,7 @@ export default function DetailedTeacher() {
       setmessage('Enter the valid interview time')
       setshowLoadng(false)
       setopen(true)
+      return
     }
 
     dispatch(approveTeacher({ id, interviewTime })).unwrap().then(() => {

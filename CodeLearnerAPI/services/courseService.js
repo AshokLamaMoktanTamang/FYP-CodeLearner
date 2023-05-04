@@ -1,6 +1,7 @@
 // importing models and packages
 const courseModel = require("../models/course"),
   purchaseModel = require("../models/purchaseModel"),
+  { ObjectId } = require('mongodb'),
   fs = require("fs");
 
 const addCourse = async (
@@ -377,6 +378,72 @@ const bestSellerCourse = async () => {
   return coursePurchaseCount
 }
 
+const topRatedCourse = async () => {
+  const courseRatingCount = await courseModel.find({
+    avgRating: { $gt: 3 },
+    $expr: {
+      $gt: [{ $size: "$ratings" }, 2]
+    }
+  }, {
+    courseName: 1,
+    teacherId: 1,
+    avgRating: 1,
+    TotalRatings: { $size: "$ratings" },
+    thumbnail: 1,
+    price: 1
+  }).populate("teacherId", "firstName lastName").sort(
+    { "avgRating": -1 }
+  )
+
+  return courseRatingCount
+}
+
+const courseGraphData = async (id) => {
+  const courseChartData = await purchaseModel.aggregate([
+    {
+      $group: {
+        _id: '$course',
+        students: { $sum: 1 }
+      },
+    },
+    {
+      $lookup: {
+        from: "courses",
+        localField: "_id",
+        foreignField: "_id",
+        as: "course",
+      }
+    },
+    { $unwind: '$course' },
+    {
+      $match:
+      {
+        "course.teacherId": ObjectId(id)
+      }
+    },
+    {
+      $lookup: {
+        from: 'users',
+        localField: "course.teacherId",
+        foreignField: "_id",
+        as: "teacher"
+      }
+    },
+    { $unwind: '$teacher' },
+    {
+      $project: {
+        "_id": 0,
+        "course": "$course.courseName",
+        "students": 1,
+      }
+    },
+  ]).sort(
+    { "students": -1 }
+  )
+
+  return courseChartData
+}
+
 module.exports = {
   addCourse,
   fetchCourseById,
@@ -394,5 +461,7 @@ module.exports = {
   approveCourse,
   rejectCourse,
   checkPurchased,
-  bestSellerCourse
+  bestSellerCourse,
+  topRatedCourse,
+  courseGraphData
 };

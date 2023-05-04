@@ -1,6 +1,7 @@
 // importing models and packages
 const teacherInfoModel = require("../models/teacherInfo"),
   interviewModel = require("../models/interviewModel"),
+  userModel = require('../models/userModel'),
   fs = require("fs");
 
 const addInfo = async (userId, teachingType, profession, aboutSelf, CV) => {
@@ -68,12 +69,12 @@ const rejectRequest = async (userId) => {
     .findByIdAndDelete(existence._id)
     .populate("userId", "id firstName lastName email");
 
-  if(info.status == "Interview Assigned"){
+  if (info.status == "Interview Assigned") {
     const interview = await interviewModel.findOneAndDelete({
       user: userId
     })
-  
-    if(!interview){
+
+    if (!interview) {
       throw "failed to delete interview"
     }
   }
@@ -123,10 +124,53 @@ const approveRequest = async (userId, datetime) => {
   return (await interview.populate("user", "firstName lastName email"));
 };
 
+const approveTeacher = async (userId) => {
+  const existence = await teacherInfoModel.findOne({
+    userId,
+  });
+
+  if (!existence) {
+    throw "Request doesnt exist";
+  }
+
+  const info = await teacherInfoModel
+    .findByIdAndDelete(existence._id)
+    .populate("userId", "id firstName lastName email");
+
+  if (info.status == "Interview Assigned") {
+    const interview = await interviewModel.findOneAndDelete({
+      user: userId
+    })
+
+    if (!interview) {
+      throw "failed to delete interview"
+    }
+  }
+
+  const teacher = await userModel.findByIdAndUpdate(userId, {
+    isTeacher: true,
+  })
+
+  if (!teacher) {
+    throw "failed to add teacher"
+  }
+
+  fs.unlink(`./uploads/CVs/${existence.CV}`, (err) => {
+    if (err) console.log(err);
+  });
+
+  if (!info) {
+    throw "Failed to update information";
+  }
+
+  return teacher;
+}
+
 module.exports = {
   addInfo,
   fetchInfo,
   fetchAllInfo,
   rejectRequest,
   approveRequest,
+  approveTeacher
 };

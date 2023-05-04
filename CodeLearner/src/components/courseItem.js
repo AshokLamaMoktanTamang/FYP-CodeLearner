@@ -100,7 +100,10 @@ export default function CourseItem(props) {
           <RatingCounter rating={props.rating} />
           <p>({props.totalRating})</p>
         </div>
-        <p className="students">{props.student} Students</p>
+        {
+          props.student &&
+          <p className="students">{props.student} Students</p>
+        }
         <h2>${props.price}</h2>
       </div>
     </Course>

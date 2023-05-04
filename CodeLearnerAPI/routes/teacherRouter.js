@@ -11,7 +11,8 @@ const {
   fetchTeacherInfoById,
   fetchAllTeacherInfo,
   rejectRequest,
-  assignInterview
+  assignInterview,
+  approveRequest
 } = require("../controllers/teacherController");
 
 // importing middleware for validating header token and file upload
@@ -31,5 +32,6 @@ Router.get("/info/user/:id", verifyUserToken, fetchTeacherInfoById);
 Router.get("/info/all", verifyUserToken, fetchAllTeacherInfo);
 Router.post("/info/reject/:userId", verifyUserToken, rejectRequest);
 Router.post("/info/approve/:userId", verifyUserToken, assignInterview);
+Router.post("/info/approve/teacher/:userId", verifyUserToken, approveRequest);
 
 module.exports = Router;

@@ -23,7 +23,9 @@ const {
   approveCourse,
   rejectCourse,
   checkPurchased,
-  bestSellerCourse
+  bestSellerCourse,
+  topRatedCourse,
+  courseGraphData
 } = require("../controllers/courseController");
 
 // importing middleware for validating header token and file upload
@@ -63,6 +65,7 @@ Router.put(
 Router.delete("/:courseId", verifyUserToken, deleteCourse);
 Router.get("/search/:searchQuery", verifyUserToken, searchCourse);
 Router.get("/course/bestseller", verifyUserToken, bestSellerCourse);
+Router.get("/course/topRated", verifyUserToken, topRatedCourse);
 Router.post("/purchase/:courseId", verifyUserToken, purchaseCourse);
 Router.get("/get/purchase", verifyUserToken, fetchUserPurchasedCourse);
 Router.get(
@@ -75,5 +78,6 @@ Router.get("/pending/all", verifyUserToken, fetchPendingCourse);
 Router.post("/approve/:courseId", verifyUserToken, approveCourse);
 Router.post("/reject/:courseId", verifyUserToken, rejectCourse);
 Router.post("/checkPurchase/:courseId", verifyUserToken, checkPurchased);
+Router.get("/course/graph", verifyUserToken, courseGraphData)
 
 module.exports = Router;

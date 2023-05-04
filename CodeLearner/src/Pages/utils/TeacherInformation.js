@@ -10,6 +10,7 @@ import { fetchTeacherInfo } from '../../slice/teacherSlice'
 import { useNavigate } from 'react-router-dom'
 import PdfViewer from './PdfViewer'
 import { Icon } from '@iconify/react';
+import { fetchInterview } from '../../slice/interviewSlice'
 
 // styled component
 const Wrapper = styled.section`
@@ -109,7 +110,10 @@ export default function TeacherInformation() {
     setshowLoading(true)
     dispatch(fetchTeacherInfo())
       .unwrap()
-      .then(() => {
+      .then((data) => {
+        if (data.status === "Interview Assigned") {
+          dispatch(fetchInterview()).unwrap()
+        }
         setshowLoading(false)
       })
       .catch(() => {
@@ -118,6 +122,7 @@ export default function TeacherInformation() {
   }, [dispatch, navigate])
 
   const information = useSelector((state) => state.teacher.teacherInfo)
+  const interview = useSelector((state) => state.interview.interview)
 
   return (
     <Page title="Teacher Information">
@@ -139,10 +144,12 @@ export default function TeacherInformation() {
             <p>
               Status <span><Icon icon="ic:baseline-pending-actions" /> {information.status}</span>
             </p>
-            {/* {
-              information.status === "Interview Assigned" && 
-              <button onClick={() => window.open(`//${process.env.REACT_APP_LIVE_SERVER_URL}/${id}?id=${adminId}`)}>Take Interview</button>
-            } */}
+            <div>
+              {
+                information.status === "Interview Assigned" && interview && interview.interview &&
+                <button onClick={() => window.open(`${process.env.REACT_APP_LIVE_SERVER_URL}/${interview.interview._id}?id=${interview.interview.user}`)}>Take Interview</button>
+              }
+            </div>
             <div>
               <h3>About yourself</h3>
               <p>{information.aboutSelf}</p>

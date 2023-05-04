@@ -332,7 +332,7 @@ export default function DetailedCourse() {
           />
         )}
         {showLoading && <Loading />}
-        <AlertMessage display={open} setdisplay={setopen} message={message} status={'error'} />
+        <AlertMessage display={open} setdisplay={setopen} message={message} status={'error'} theme={'darkAlert'} />
 
         {course && course.course && (
           <div>
