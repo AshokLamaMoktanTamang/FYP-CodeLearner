@@ -6,8 +6,10 @@ const initialState = {
   courses: [],
   purchasedCourses: [],
   bestSellerCourse: [],
+  topRatedCourse: [],
   course: null,
   tenCourse: [],
+  courseChartData: []
 }
 
 export const addCourse = createAsyncThunk('add/course', async (courseData) => {
@@ -116,6 +118,18 @@ export const fetchBestSellerCourse = createAsyncThunk('/course/bestseller', asyn
   return data
 })
 
+export const fetchTopRatedCourse = createAsyncThunk('/course/topRated', async () => {
+  const { data } = await httpService.get(`course/v1/course/topRated`)
+
+  return data
+})
+
+export const fetchCourseBarData = createAsyncThunk('/course/graph', async () => {
+  const { data } = await httpService.get(`course/v1//course/graph`)
+
+  return data
+})
+
 export const courseSlice = createSlice({
   name: 'Course',
   initialState,
@@ -147,6 +161,12 @@ export const courseSlice = createSlice({
     })
     builder.addCase(fetchBestSellerCourse.fulfilled, (state, action) => {
       state.bestSellerCourse = action.payload.courses
+    })
+    builder.addCase(fetchTopRatedCourse.fulfilled, (state, action) => {
+      state.topRatedCourse = action.payload.courses
+    })
+    builder.addCase(fetchCourseBarData.fulfilled, (state, action) => {
+      state.courseChartData = action.payload.courseDatas
     })
   },
 })

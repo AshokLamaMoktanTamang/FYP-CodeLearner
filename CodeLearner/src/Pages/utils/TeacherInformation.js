@@ -147,7 +147,7 @@ export default function TeacherInformation() {
             <div>
               {
                 information.status === "Interview Assigned" && interview && interview.interview &&
-                <button onClick={() => window.open(`//${process.env.REACT_APP_LIVE_SERVER_URL}/${interview.interview._id}?id=${interview.interview.user}`)}>Take Interview</button>
+                <button onClick={() => window.open(`${process.env.REACT_APP_LIVE_SERVER_URL}/${interview.interview._id}?id=${interview.interview.user}`)}>Take Interview</button>
               }
             </div>
             <div>

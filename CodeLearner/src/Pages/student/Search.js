@@ -91,7 +91,7 @@ export default function Article() {
       {showLoading && <Loading />}
 
       <SearchWrapper>
-        <h2 className="search-heading">Search - {query} (6 results)</h2>
+        <h2 className="search-heading">Search - {query} ({courses && courses.length} results)</h2>
 
         <div className="search-results-container">
           {courses && courses.length > 0 ? (

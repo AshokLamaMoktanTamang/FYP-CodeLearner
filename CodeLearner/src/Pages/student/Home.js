@@ -13,10 +13,7 @@ import { responsive } from '../../services/responsive'
 import { Icon } from '@iconify/react'
 import AlertMessage from '../../components/alertMessage'
 import Loading from '../../components/loading'
-import { fetchBestSellerCourse, fetchTenCourse } from '../../slice/courseSlice'
-
-// testing component
-import CourseImage from '../../Images/registration.jpg'
+import { fetchBestSellerCourse, fetchTenCourse, fetchTopRatedCourse } from '../../slice/courseSlice'
 
 // styled components
 const ContentWrapper = styled.section`
@@ -128,12 +125,23 @@ export default function Home() {
           setopen(true)
           setshowLoading(false)
         })
+      dispatch(fetchTopRatedCourse())
+        .unwrap()
+        .catch((err) => {
+          setmessage('Failed to fetch course.')
+          if (err.status) {
+            setmessage('Poor Internet or Too Many Request')
+          }
+          setopen(true)
+          setshowLoading(false)
+        })
       setshowLoading(false)
     }
   }, [dispatch])
 
   const latestCourses = useSelector((state) => state.course.tenCourse)
   const bestSellerCourse = useSelector((state) => state.course.bestSellerCourse)
+  const topRatedCourse = useSelector((state) => state.course.topRatedCourse)
 
   return (
     <Page title="Home">
@@ -169,7 +177,7 @@ export default function Home() {
                       key={index}
                       rating={Math.round(bestCourse.avgRating * 10) / 10}
                       totalRating={bestCourse.ratings.length}
-                      student = {course.sellCount}
+                      student={course.sellCount}
                     />
                   )
 
@@ -236,15 +244,26 @@ export default function Home() {
             partialVisible={false}
             minimumTouchDrag={20}
           >
-            <CourseItem
-              courseId={12}
-              courseImage={CourseImage}
-              courseName="Learn python and how to use it to analyze,visualize and present data. Includes tons of sample code and hours of video!"
-              authorName="Ashok Lama, The Codex"
-              rating={4.1}
-              totalStudent={100}
-              price={16.99}
-            />
+            {
+              topRatedCourse && topRatedCourse.length > 0 ? (
+                topRatedCourse.map((course, index) => {
+                  return (
+                    <CourseItem
+                      courseId={course._id}
+                      courseImage={`${process.env.REACT_APP_SERVER_BASE_URL}/thumbnail/${course.thumbnail}`}
+                      courseName={course.courseName}
+                      authorName={`${course.teacherId.firstName} ${course.teacherId.lastName}`}
+                      price={course.price}
+                      key={index}
+                      rating={Math.round(course.avgRating * 10) / 10}
+                      totalRating={course.TotalRatings}
+                    />
+                  )
+                })
+              ) : (
+                <div className='no-course'>No course Available</div>
+              )
+            }
           </Carousel>
         </div>
       </ContentWrapper>

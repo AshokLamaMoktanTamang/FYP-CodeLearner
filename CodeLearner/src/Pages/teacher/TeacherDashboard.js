@@ -1,5 +1,5 @@
 // importing dependencies
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
 import { Link } from 'react-router-dom'
@@ -7,6 +7,10 @@ import { Link } from 'react-router-dom'
 // importing components
 import BarChart from '../../components/barChart'
 import Page from '../../components/page'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchCourseBarData } from '../../slice/courseSlice'
+import AlertMessage from '../../components/alertMessage'
+import Loading from '../../components/loading'
 
 // styled component
 const Dashboard = styled.section`
@@ -56,42 +60,79 @@ const Dashboard = styled.section`
 
   & > div {
     width: 95vw;
-    max-width: 500px;
+    max-width: 90%;
+    height: auto;
     overflow: hidden;
     color: white;
   }
 `
 
 export default function TeacherDashboard() {
-  const user = 'Ashok Lama'
-  const courseData = [
-    { name: 'Python', students: 400 },
-    { name: 'Java', students: 700 },
-    { name: 'JS', students: 200 },
-    { name: 'React', students: 1000 },
-  ]
+  // for alerts and loading
+  const [open, setopen] = useState(false)
+  const [message, setmessage] = useState(null)
+  const [showLoading, setshowLoading] = useState(false)
+
+  // chart values
+  const [chartHeight, setchartHeight] = useState(0);
+  const courseData = useSelector((state) => state.course.courseChartData);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCourseBarData())
+        .unwrap()
+        .catch((err) => {
+          setmessage('Failed to fetch course.')
+          if (err.status) {
+            setmessage('Poor Internet or Too Many Request')
+          }
+          setopen(true)
+          setshowLoading(false)
+        })
+      setshowLoading(false)
+  }, [dispatch]);
 
   const growthData = {
-    labels: courseData.map((el) => el.name),
+    labels: courseData.map((el) => el.course),
     datasets: [
       {
         label: 'Total Student',
         data: courseData.map((el) => el.students),
         backgroundColor: '#45484e',
         borderWidth: 1,
-        barThickness: 30,
-        maxBarThickness: 30,
+        barThickness: 50,
+        maxBarThickness: 50,
         borderRadius: 5,
-        color: 'green',
       },
     ],
   }
 
+  useEffect(() => {
+    if(courseData && courseData.length > 5){
+      setchartHeight(courseData.length * 70)
+      return
+    }
+    setchartHeight(350)
+  }, [courseData]);
+
+  // user detail
+  const user = useSelector((state) => state.user.user)
+  const [userName, setuserName] = useState('');
+
+  useEffect(() => {
+    if(user && user.data){
+      const name = user.data.firstName + ' ' + user.data.lastName
+      setuserName(name)
+    }
+  }, [user]);
+
   return (
-    <Page title={user}>
+    <Page title={userName}>
+      <AlertMessage display={open} setdisplay={setopen} message={message} status={'error'} />
+      {showLoading && <Loading />}
       <Dashboard>
         <header>
-          <h2>Welcome! {user}</h2>
+          <h2>Welcome {userName}!</h2>
 
           <div>
             <Link to={'addCourse'}>
@@ -103,7 +144,7 @@ export default function TeacherDashboard() {
           </div>
         </header>
 
-        <div>
+        <div style={{height: `${chartHeight}px`}}>
           <BarChart data={growthData} length={courseData.length} />
         </div>
       </Dashboard>

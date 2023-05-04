@@ -226,7 +226,7 @@ export default function InterviewCard({ profile, fname, lname, id, interviewTime
           <span>Interview Time</span> {interviewTime}
         </p>
         <div>
-          <button onClick={() => window.open(`//${process.env.REACT_APP_LIVE_SERVER_URL}/${id}?id=${adminId}`)}>Take Interview</button>
+          <button onClick={() => window.open(`${process.env.REACT_APP_LIVE_SERVER_URL}/${id}?id=${adminId}`)}>Take Interview</button>
           <button onClick={() => HandleActionModal('assign')}>Approve</button>
           <button onClick={() => HandleActionModal('reject')}>Reject</button>
         </div>

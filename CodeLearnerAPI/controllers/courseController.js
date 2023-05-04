@@ -382,6 +382,38 @@ const bestSellerCourse = async (req, res) => {
   }
 }
 
+const topRatedCourse = async (req, res) => {
+  try {
+    const { id } = req.user;
+
+    if (!id) {
+      return res.status(500).json({
+        msg: "Failed to fetch course",
+        error: "Action Prohibited",
+      });
+    }
+
+    const courses = await courseService.topRatedCourse();
+
+    if (!courses) {
+      return res.status(500).json({
+        msg: "Failed to fetch course",
+        error: "Internal Server error",
+      });
+    }
+
+    return res.status(200).json({
+      msg: "Course fetched sucessfully",
+      courses,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      msg: "Failed to fetch course",
+      error,
+    });
+  }
+}
+
 const fetchPendingCourse = async (req, res) => {
   try {
     const { id } = req.user;
@@ -520,6 +552,38 @@ const checkPurchased = async (req, res) => {
   }
 }
 
+const courseGraphData = async (req, res) => {
+  try {
+    const { id } = req.user;
+
+    if (!id) {
+      return res.status(500).json({
+        msg: "Failed to fetch course data",
+        error: "Action Prohibited",
+      });
+    }
+
+    const courseDatas = await courseService.courseGraphData(id);
+
+    if (!courseDatas) {
+      return res.status(500).json({
+        msg: "Failed to fetch course data",
+        error: "Internal Server error",
+      });
+    }
+
+    return res.status(200).json({
+      msg: "Course data fetched sucessfully",
+      courseDatas,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      msg: "Failed to fetch course data",
+      error,
+    });
+  }
+}
+
 module.exports = {
   addCourse,
   fetchCourseById,
@@ -535,8 +599,10 @@ module.exports = {
   fetchCoursePurchasedUser,
   rateCourse,
   bestSellerCourse,
+  topRatedCourse,
   fetchPendingCourse,
   approveCourse,
   rejectCourse,
-  checkPurchased
+  checkPurchased,
+  courseGraphData
 };

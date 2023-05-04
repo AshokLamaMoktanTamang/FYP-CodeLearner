@@ -144,6 +144,7 @@ margin: auto;
 display: block;
 padding: 0 1rem;
 margin-bottom: 1.9rem;
+width: 100%;
 
 & > h2 {
   font-size: 1.25rem;
@@ -188,6 +189,7 @@ margin-bottom: 1.9rem;
   border-radius: 0.25rem;
   border: 2px solid var(--light-border-color);
   margin-top: 1.5rem;
+  width: 100%;
 
   & > span{
     display: block;
